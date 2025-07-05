@@ -2,14 +2,208 @@
 
 import React from 'react';
 import TournamentBracket from '../../components/TournamentBracket';
-import { useTeams } from '../../hooks/useTeams';
-import { createTournamentBracket } from '../../lib/tournamentUtils';
+import { useTournamentBracket } from '../../hooks/useTournamentBracket';
+import Link from 'next/link';
 
 export default function TournamentBracketPage() {
-  const { teams, loading, error } = useTeams();
+  const { bracketState, loading, error } = useTournamentBracket();
   
-  // Transform teams data into bracket format
-  const bracketData = createTournamentBracket(teams);
+  // Transform bracket state into the format expected by TournamentBracket component
+  const transformBracketData = (state: any) => {
+    if (!state) return { upperBracket: [], lowerBracket: [] };
+
+    const upperBracket = [
+      {
+        label: 'Upper Quarterfinals',
+        matches: state.brackets.upper.quarterfinals.map((match: any) => ({
+          id: match.id,
+          title: `${match.team1?.name || 'TBD'} vs ${match.team2?.name || 'TBD'}`,
+          href: `/match/${match.id}`,
+          team1: {
+            id: match.team1?.id?.toString() || 'tbd',
+            name: match.team1?.name || 'TBD',
+            logo: match.team1?.image || 'https://picsum.photos/200/200',
+            score: match.team1Score,
+            isWinner: match.winner === match.team1,
+            isLoser: match.loser === match.team1
+          },
+          team2: {
+            id: match.team2?.id?.toString() || 'tbd',
+            name: match.team2?.name || 'TBD',
+            logo: match.team2?.image || 'https://picsum.photos/200/200',
+            score: match.team2Score,
+            isWinner: match.winner === match.team2,
+            isLoser: match.loser === match.team2
+          },
+          time: match.scheduledTime ? `${new Date(match.scheduledTime).toLocaleString()} (${Intl.DateTimeFormat().resolvedOptions().timeZone})` : (match.status === 'completed' ? 'Completed' : 'TBD'),
+          hasVideo: true
+        }))
+      },
+      {
+        label: 'Upper Semifinals',
+        matches: state.brackets.upper.semifinals.map((match: any) => ({
+          id: match.id,
+          title: `${match.team1?.name || 'TBD'} vs ${match.team2?.name || 'TBD'}`,
+          href: `/match/${match.id}`,
+          team1: {
+            id: match.team1?.id?.toString() || 'tbd',
+            name: match.team1?.name || 'TBD',
+            logo: match.team1?.image || 'https://picsum.photos/200/200',
+            score: match.team1Score,
+            isWinner: match.winner === match.team1,
+            isLoser: match.loser === match.team1
+          },
+          team2: {
+            id: match.team2?.id?.toString() || 'tbd',
+            name: match.team2?.name || 'TBD',
+            logo: match.team2?.image || 'https://picsum.photos/200/200',
+            score: match.team2Score,
+            isWinner: match.winner === match.team2,
+            isLoser: match.loser === match.team2
+          },
+          time: match.scheduledTime ? `${new Date(match.scheduledTime).toLocaleString()} (${Intl.DateTimeFormat().resolvedOptions().timeZone})` : (match.status === 'completed' ? 'Completed' : 'TBD'),
+          hasVideo: true
+        }))
+      },
+      {
+        label: 'Upper Final',
+        matches: state.brackets.upper.final.map((match: any) => ({
+          id: match.id,
+          title: `${match.team1?.name || 'TBD'} vs ${match.team2?.name || 'TBD'}`,
+          href: `/match/${match.id}`,
+          team1: {
+            id: match.team1?.id?.toString() || 'tbd',
+            name: match.team1?.name || 'TBD',
+            logo: match.team1?.image || 'https://picsum.photos/200/200',
+            score: match.team1Score,
+            isWinner: match.winner === match.team1,
+            isLoser: match.loser === match.team1
+          },
+          team2: {
+            id: match.team2?.id?.toString() || 'tbd',
+            name: match.team2?.name || 'TBD',
+            logo: match.team2?.image || 'https://picsum.photos/200/200',
+            score: match.team2Score,
+            isWinner: match.winner === match.team2,
+            isLoser: match.loser === match.team2
+          },
+          time: match.scheduledTime ? `${new Date(match.scheduledTime).toLocaleString()} (${Intl.DateTimeFormat().resolvedOptions().timeZone})` : (match.status === 'completed' ? 'Completed' : 'TBD'),
+          hasVideo: true
+        }))
+      }
+    ];
+
+    const lowerBracket = [
+      {
+        label: 'Lower Round 1',
+        matches: state.brackets.lower.round1.map((match: any) => ({
+          id: match.id,
+          title: `${match.team1?.name || 'TBD'} vs ${match.team2?.name || 'TBD'}`,
+          href: `/match/${match.id}`,
+          team1: {
+            id: match.team1?.id?.toString() || 'tbd',
+            name: match.team1?.name || 'TBD',
+            logo: match.team1?.image || 'https://picsum.photos/200/200',
+            score: match.team1Score,
+            isWinner: match.winner === match.team1,
+            isLoser: match.loser === match.team1
+          },
+          team2: {
+            id: match.team2?.id?.toString() || 'tbd',
+            name: match.team2?.name || 'TBD',
+            logo: match.team2?.image || 'https://picsum.photos/200/200',
+            score: match.team2Score,
+            isWinner: match.winner === match.team2,
+            isLoser: match.loser === match.team2
+          },
+          time: match.scheduledTime ? `${new Date(match.scheduledTime).toLocaleString()} (${Intl.DateTimeFormat().resolvedOptions().timeZone})` : (match.status === 'completed' ? 'Completed' : 'TBD'),
+          hasVideo: true
+        }))
+      },
+      {
+        label: 'Lower Round 2',
+        matches: state.brackets.lower.round2.map((match: any) => ({
+          id: match.id,
+          title: `${match.team1?.name || 'TBD'} vs ${match.team2?.name || 'TBD'}`,
+          href: `/match/${match.id}`,
+          team1: {
+            id: match.team1?.id?.toString() || 'tbd',
+            name: match.team1?.name || 'TBD',
+            logo: match.team1?.image || 'https://picsum.photos/200/200',
+            score: match.team1Score,
+            isWinner: match.winner === match.team1,
+            isLoser: match.loser === match.team1
+          },
+          team2: {
+            id: match.team2?.id?.toString() || 'tbd',
+            name: match.team2?.name || 'TBD',
+            logo: match.team2?.image || 'https://picsum.photos/200/200',
+            score: match.team2Score,
+            isWinner: match.winner === match.team2,
+            isLoser: match.loser === match.team2
+          },
+          time: match.scheduledTime ? `${new Date(match.scheduledTime).toLocaleString()} (${Intl.DateTimeFormat().resolvedOptions().timeZone})` : (match.status === 'completed' ? 'Completed' : 'TBD'),
+          hasVideo: true
+        }))
+      },
+      {
+        label: 'Lower Round 3',
+        matches: state.brackets.lower.round3.map((match: any) => ({
+          id: match.id,
+          title: `${match.team1?.name || 'TBD'} vs ${match.team2?.name || 'TBD'}`,
+          href: `/match/${match.id}`,
+          team1: {
+            id: match.team1?.id?.toString() || 'tbd',
+            name: match.team1?.name || 'TBD',
+            logo: match.team1?.image || 'https://picsum.photos/200/200',
+            score: match.team1Score,
+            isWinner: match.winner === match.team1,
+            isLoser: match.loser === match.team1
+          },
+          team2: {
+            id: match.team2?.id?.toString() || 'tbd',
+            name: match.team2?.name || 'TBD',
+            logo: match.team2?.image || 'https://picsum.photos/200/200',
+            score: match.team2Score,
+            isWinner: match.winner === match.team2,
+            isLoser: match.loser === match.team2
+          },
+          time: match.scheduledTime ? `${new Date(match.scheduledTime).toLocaleString()} (${Intl.DateTimeFormat().resolvedOptions().timeZone})` : (match.status === 'completed' ? 'Completed' : 'TBD'),
+          hasVideo: true
+        }))
+      },
+      {
+        label: 'Lower Final',
+        matches: state.brackets.lower.final.map((match: any) => ({
+          id: match.id,
+          title: `${match.team1?.name || 'TBD'} vs ${match.team2?.name || 'TBD'}`,
+          href: `/match/${match.id}`,
+          team1: {
+            id: match.team1?.id?.toString() || 'tbd',
+            name: match.team1?.name || 'TBD',
+            logo: match.team1?.image || 'https://picsum.photos/200/200',
+            score: match.team1Score,
+            isWinner: match.winner === match.team1,
+            isLoser: match.loser === match.team1
+          },
+          team2: {
+            id: match.team2?.id?.toString() || 'tbd',
+            name: match.team2?.name || 'TBD',
+            logo: match.team2?.image || 'https://picsum.photos/200/200',
+            score: match.team2Score,
+            isWinner: match.winner === match.team2,
+            isLoser: match.loser === match.team2
+          },
+          time: match.scheduledTime ? `${new Date(match.scheduledTime).toLocaleString()} (${Intl.DateTimeFormat().resolvedOptions().timeZone})` : (match.status === 'completed' ? 'Completed' : 'TBD'),
+          hasVideo: true
+        }))
+      }
+    ];
+
+    return { upperBracket, lowerBracket };
+  };
+
+  const bracketData = transformBracketData(bracketState);
 
   if (loading) {
     return (
@@ -37,37 +231,84 @@ export default function TournamentBracketPage() {
           <p className="text-lg text-gray-300">
             Tournament Bracket - Marvel Creator Cup
           </p>
-          <div className="mt-4 text-sm text-gray-400">
-            <p>Teams: {teams.length}</p>
-            <p>Status: Registration Open</p>
-          </div>
+          {bracketState && (
+            <div className="mt-4 text-sm text-gray-400">
+              <p>Status: {bracketState.tournament.status}</p>
+              <p>Format: {bracketState.tournament.format}</p>
+              <p>Last Updated: {new Date(bracketState.lastUpdated).toLocaleString()}</p>
+            </div>
+          )}
+
         </div>
         
-        <TournamentBracket 
-          upperBracket={bracketData.upperBracket}
-          lowerBracket={bracketData.lowerBracket}
-        />
+        {bracketState && bracketState.tournament.status === 'active' ? (
+          <TournamentBracket 
+            upperBracket={bracketData.upperBracket}
+            lowerBracket={bracketData.lowerBracket}
+          />
+        ) : (
+          <div className="text-center py-12">
+                          <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 max-w-2xl mx-auto">
+                <h3 className="text-2xl font-bold text-white mb-4">Tournament Not Started</h3>
+                <p className="text-gray-300 mb-6">
+                  The tournament bracket will appear here once the tournament has been initialized.
+                </p>
+              </div>
+          </div>
+        )}
         
-        <div className="mt-12 text-center">
-          <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-sm p-6 max-w-2xl mx-auto">
-            <h2 className="text-2xl font-bold text-white mb-4">Registered Teams</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {teams.map((team) => (
-                <div key={team.id} className="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg">
+        {/* Grand Final Display */}
+        {bracketState && bracketState.tournament.status === 'active' && bracketState.grandFinal && (
+          <div className="mt-12 text-center">
+            <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-sm p-6 max-w-2xl mx-auto">
+              <h2 className="text-2xl font-bold text-white mb-4">Grand Final</h2>
+              <div className="flex justify-center items-center space-x-8">
+                <div className="text-center">
                   <img 
-                    src={team.image} 
-                    alt={team.name}
-                    className="w-8 h-8 object-cover rounded"
+                    src={bracketState.grandFinal.team1?.image || 'https://picsum.photos/200/200'} 
+                    alt={bracketState.grandFinal.team1?.name || 'TBD'}
+                    className="w-16 h-16 object-cover rounded mx-auto mb-2"
                   />
-                  <div className="flex-1">
-                    <div className="text-sm font-medium text-white">{team.name}</div>
-                    <div className="text-xs text-gray-400">Captain: {team.captain.twitchName}</div>
+                  <div className="text-white font-semibold">
+                    {bracketState.grandFinal.team1?.name || 'TBD'}
+                  </div>
+                  <div className={`text-2xl font-bold ${
+                    bracketState.grandFinal.winner === bracketState.grandFinal.team1 
+                      ? 'text-green-400' 
+                      : 'text-gray-400'
+                  }`}>
+                    {bracketState.grandFinal.team1Score}
                   </div>
                 </div>
-              ))}
+                
+                <div className="text-gray-400 text-xl font-bold">VS</div>
+                
+                <div className="text-center">
+                  <img 
+                    src={bracketState.grandFinal.team2?.image || 'https://picsum.photos/200/200'} 
+                    alt={bracketState.grandFinal.team2?.name || 'TBD'}
+                    className="w-16 h-16 object-cover rounded mx-auto mb-2"
+                  />
+                  <div className="text-white font-semibold">
+                    {bracketState.grandFinal.team2?.name || 'TBD'}
+                  </div>
+                  <div className={`text-2xl font-bold ${
+                    bracketState.grandFinal.winner === bracketState.grandFinal.team2 
+                      ? 'text-green-400' 
+                      : 'text-gray-400'
+                  }`}>
+                    {bracketState.grandFinal.team2Score}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-4 text-sm text-gray-400">
+                <p>Best of {bracketState.grandFinal.bestOf}</p>
+                <p>Status: {bracketState.grandFinal.status === 'completed' ? 'Completed' : 'Pending'}</p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

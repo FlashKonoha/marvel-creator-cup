@@ -1,0 +1,213 @@
+{
+  "tournament": {
+    "id": "marvel-creator-cup-2025",
+    "name": "Marvel Creator Cup 2025",
+    "status": "registration",
+    "startDate": "2025-07-25",
+    "format": "double-elimination",
+    "maxTeams": 8
+  },
+  "brackets": {
+    "upper": {
+      "quarterfinals": [
+        {
+          "id": "uf-qf-1",
+          "team1": null,
+          "team2": null,
+          "team1Score": 0,
+          "team2Score": 0,
+          "winner": null,
+          "loser": null,
+          "status": "pending",
+          "bestOf": 3,
+          "scheduledTime": null,
+          "completedTime": null
+        },
+        {
+          "id": "uf-qf-2",
+          "team1": null,
+          "team2": null,
+          "team1Score": 0,
+          "team2Score": 0,
+          "winner": null,
+          "loser": null,
+          "status": "pending",
+          "bestOf": 3,
+          "scheduledTime": null,
+          "completedTime": null
+        },
+        {
+          "id": "uf-qf-3",
+          "team1": null,
+          "team2": null,
+          "team1Score": 0,
+          "team2Score": 0,
+          "winner": null,
+          "loser": null,
+          "status": "pending",
+          "bestOf": 3,
+          "scheduledTime": null,
+          "completedTime": null
+        },
+        {
+          "id": "uf-qf-4",
+          "team1": null,
+          "team2": null,
+          "team1Score": 0,
+          "team2Score": 0,
+          "winner": null,
+          "loser": null,
+          "status": "pending",
+          "bestOf": 3,
+          "scheduledTime": null,
+          "completedTime": null
+        }
+      ],
+      "semifinals": [
+        {
+          "id": "uf-sf-1",
+          "team1": null,
+          "team2": null,
+          "team1Score": 0,
+          "team2Score": 0,
+          "winner": null,
+          "loser": null,
+          "status": "pending",
+          "bestOf": 3,
+          "scheduledTime": null,
+          "completedTime": null
+        },
+        {
+          "id": "uf-sf-2",
+          "team1": null,
+          "team2": null,
+          "team1Score": 0,
+          "team2Score": 0,
+          "winner": null,
+          "loser": null,
+          "status": "pending",
+          "bestOf": 3,
+          "scheduledTime": null,
+          "completedTime": null
+        }
+      ],
+      "final": [
+        {
+          "id": "uf-final",
+          "team1": null,
+          "team2": null,
+          "team1Score": 0,
+          "team2Score": 0,
+          "winner": null,
+          "loser": null,
+          "status": "pending",
+          "bestOf": 3,
+          "scheduledTime": null,
+          "completedTime": null
+        }
+      ]
+    },
+    "lower": {
+      "round1": [
+        {
+          "id": "lf-r1-1",
+          "team1": null,
+          "team2": null,
+          "team1Score": 0,
+          "team2Score": 0,
+          "winner": null,
+          "loser": null,
+          "status": "pending",
+          "bestOf": 3,
+          "scheduledTime": null,
+          "completedTime": null
+        },
+        {
+          "id": "lf-r1-2",
+          "team1": null,
+          "team2": null,
+          "team1Score": 0,
+          "team2Score": 0,
+          "winner": null,
+          "loser": null,
+          "status": "pending",
+          "bestOf": 3,
+          "scheduledTime": null,
+          "completedTime": null
+        }
+      ],
+      "round2": [
+        {
+          "id": "lf-r2-1",
+          "team1": null,
+          "team2": null,
+          "team1Score": 0,
+          "team2Score": 0,
+          "winner": null,
+          "loser": null,
+          "status": "pending",
+          "bestOf": 3,
+          "scheduledTime": null,
+          "completedTime": null
+        },
+        {
+          "id": "lf-r2-2",
+          "team1": null,
+          "team2": null,
+          "team1Score": 0,
+          "team2Score": 0,
+          "winner": null,
+          "loser": null,
+          "status": "pending",
+          "bestOf": 3,
+          "scheduledTime": null,
+          "completedTime": null
+        }
+      ],
+      "round3": [
+        {
+          "id": "lf-r3-1",
+          "team1": null,
+          "team2": null,
+          "team1Score": 0,
+          "team2Score": 0,
+          "winner": null,
+          "loser": null,
+          "status": "pending",
+          "bestOf": 3,
+          "scheduledTime": null,
+          "completedTime": null
+        }
+      ],
+      "final": [
+        {
+          "id": "lf-final",
+          "team1": null,
+          "team2": null,
+          "team1Score": 0,
+          "team2Score": 0,
+          "winner": null,
+          "loser": null,
+          "status": "pending",
+          "bestOf": 3,
+          "scheduledTime": null,
+          "completedTime": null
+        }
+      ]
+    }
+  },
+  "grandFinal": {
+    "id": "grand-final",
+    "team1": null,
+    "team2": null,
+    "team1Score": 0,
+    "team2Score": 0,
+    "winner": null,
+    "loser": null,
+    "status": "pending",
+    "bestOf": 5,
+    "scheduledTime": null,
+    "completedTime": null
+  },
+  "lastUpdated": "2025-07-05T21:43:47.898Z"
+}
