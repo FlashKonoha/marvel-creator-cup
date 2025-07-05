@@ -1,22 +1,19 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useTournamentBracket } from '../hooks/useTournamentBracket'
+import { useTournamentBracket, TournamentMatch } from '../hooks/useTournamentBracket'
 import { useTeams } from '../hooks/useTeams'
 import Link from 'next/link'
+import Image from 'next/image'
 
-interface AdminTournamentBracketProps {
-  // Add any props if needed
-}
-
-export default function AdminTournamentBracket({}: AdminTournamentBracketProps) {
+export default function AdminTournamentBracket() {
   const { bracketState, loading, error, updating, initializeBracket, updateMatchResult, resetBracket } = useTournamentBracket()
   const { teams } = useTeams()
   
   const [selectedTeams, setSelectedTeams] = useState<number[]>([])
   const [showInitializeModal, setShowInitializeModal] = useState(false)
   const [showMatchModal, setShowMatchModal] = useState(false)
-  const [selectedMatch, setSelectedMatch] = useState<any>(null)
+  const [selectedMatch, setSelectedMatch] = useState<TournamentMatch | null>(null)
   const [matchScore, setMatchScore] = useState({ team1: 0, team2: 0 })
   const [matchTime, setMatchTime] = useState('')
 
@@ -73,7 +70,7 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
     }
   }
 
-  const openMatchModal = (match: any) => {
+  const openMatchModal = (match: TournamentMatch) => {
     setSelectedMatch(match)
     setMatchScore({
       team1: match.team1Score || 0,
@@ -83,7 +80,12 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
     setShowMatchModal(true)
   }
 
-  const renderMatch = (match: any, roundName: string) => (
+  // Add type guard
+  function isTeam(obj: unknown): obj is { name: string; image: string } {
+    return !!obj && typeof obj === 'object' && 'name' in obj && 'image' in obj;
+  }
+
+  const renderMatch = (match: TournamentMatch, roundName: string): React.JSX.Element => (
     <div key={match.id} className="bg-gray-800/50 border border-white/10 rounded-lg p-4 mb-4">
       <div className="flex justify-between items-center mb-2">
         <span className="text-sm font-semibold text-white">{roundName}</span>
@@ -93,13 +95,15 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
       <div className="space-y-3">
         <div className="flex justify-between items-center p-2 rounded bg-gray-700/50">
           <div className="flex items-center space-x-2">
-            <img 
-              src={match.team1?.image || 'https://picsum.photos/200/200'} 
-              alt={match.team1?.name || 'TBD'}
+            <Image 
+              src={isTeam(match.team1) ? match.team1.image : 'https://picsum.photos/200/200'} 
+              alt={isTeam(match.team1) ? match.team1.name : 'TBD'}
+              width={24}
+              height={24}
               className="w-6 h-6 rounded object-cover"
             />
             <span className="text-white font-medium">
-              {match.team1 ? match.team1.name : 'TBD'}
+              {isTeam(match.team1) ? match.team1.name : 'TBD'}
             </span>
           </div>
           <span className={`font-bold text-lg ${match.winner === match.team1 ? 'text-white' : 'text-gray-400'}`}>
@@ -111,13 +115,15 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
         
         <div className="flex justify-between items-center p-2 rounded bg-gray-700/50">
           <div className="flex items-center space-x-2">
-            <img 
-              src={match.team2?.image || 'https://picsum.photos/200/200'} 
-              alt={match.team2?.name || 'TBD'}
+            <Image 
+              src={isTeam(match.team2) ? match.team2.image : 'https://picsum.photos/200/200'} 
+              alt={isTeam(match.team2) ? match.team2.name : 'TBD'}
+              width={24}
+              height={24}
               className="w-6 h-6 rounded object-cover"
             />
             <span className="text-white font-medium">
-              {match.team2 ? match.team2.name : 'TBD'}
+              {isTeam(match.team2) ? match.team2.name : 'TBD'}
             </span>
           </div>
           <span className={`font-bold text-lg ${match.winner === match.team2 ? 'text-white' : 'text-gray-400'}`}>
@@ -136,7 +142,7 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
             {match.status === 'completed' ? 'Completed' : 'Pending'}
           </span>
           
-          {match.team1 && match.team2 && (
+          {isTeam(match.team1) && isTeam(match.team2) && (
             <button
               onClick={() => openMatchModal(match)}
               className={`px-3 py-1 rounded text-sm transition-colors ${
@@ -173,7 +179,7 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
     </div>
   )
 
-  const renderBracketSection = (bracket: any, title: string) => (
+  const renderBracketSection = (bracket: Record<string, TournamentMatch[]>, title: string) => (
     <div className="mb-8">
       <h3 className="text-xl font-bold text-white mb-4">{title}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -183,11 +189,11 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
               {roundName.replace(/([A-Z])/g, ' $1').trim()}
             </h4>
             <div className="space-y-2">
-              {(matches as any[]).map((match, index) => (
+              {(matches as TournamentMatch[]).map((match, index) => (
                 <div key={match.id}>
                   {renderMatch(match, `${roundName} ${index + 1}`)}
                   {/* Add connecting lines for visual flow */}
-                  {index < (matches as any[]).length - 1 && (
+                  {index < (matches as TournamentMatch[]).length - 1 && (
                     <div className="h-4 border-l-2 border-gray-600 ml-4"></div>
                   )}
                 </div>
@@ -337,7 +343,7 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
                         onChange={() => handleTeamSelection(team.id)}
                         className="rounded border-gray-600 bg-gray-700 text-blue-600 focus:ring-blue-500"
                       />
-                      <img src={team.image} alt={team.name} className="w-8 h-8 rounded object-cover" />
+                      <Image src={team.image} alt={team.name} width={32} height={32} className="w-8 h-8 rounded object-cover" />
                       <span className="text-white">{team.name}</span>
                     </label>
                   ))}
@@ -356,13 +362,21 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
                             <div className="text-sm text-gray-400 mb-2">Match {i + 1}</div>
                             <div className="flex items-center justify-between">
                               <div className="flex items-center space-x-2">
-                                <img src={team1?.image} alt={team1?.name} className="w-6 h-6 rounded object-cover" />
-                                <span className="text-white text-sm">{team1?.name || 'TBD'}</span>
+                                {team1 && isTeam(team1) ? (
+                                  <Image src={team1.image} alt={team1.name} width={24} height={24} className="w-6 h-6 rounded object-cover" />
+                                ) : (
+                                  <div className="w-6 h-6 rounded bg-gray-600"></div>
+                                )}
+                                <span className="text-white text-sm">{team1 && isTeam(team1) ? team1.name : 'TBD'}</span>
                               </div>
                               <span className="text-gray-400 text-sm">vs</span>
                               <div className="flex items-center space-x-2">
-                                <span className="text-white text-sm">{team2?.name || 'TBD'}</span>
-                                <img src={team2?.image} alt={team2?.name} className="w-6 h-6 rounded object-cover" />
+                                <span className="text-white text-sm">{team2 && isTeam(team2) ? team2.name : 'TBD'}</span>
+                                {team2 && isTeam(team2) ? (
+                                  <Image src={team2.image} alt={team2.name} width={24} height={24} className="w-6 h-6 rounded object-cover" />
+                                ) : (
+                                  <div className="w-6 h-6 rounded bg-gray-600"></div>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -405,13 +419,13 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
               
               <div className="mb-4">
                 <p className="text-gray-300 mb-4">
-                  {selectedMatch.team1?.name} vs {selectedMatch.team2?.name}
+                  {isTeam(selectedMatch.team1) ? selectedMatch.team1.name : 'TBD'} vs {isTeam(selectedMatch.team2) ? selectedMatch.team2.name : 'TBD'}
                 </p>
                 <p className="text-gray-400 mb-4">Best of {selectedMatch.bestOf}</p>
                 
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-white">{selectedMatch.team1?.name}</span>
+                    <span className="text-white">{isTeam(selectedMatch.team1) ? selectedMatch.team1.name : 'TBD'}</span>
                     <input
                       type="number"
                       min="0"
@@ -423,7 +437,7 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-white">{selectedMatch.team2?.name}</span>
+                    <span className="text-white">{isTeam(selectedMatch.team2) ? selectedMatch.team2.name : 'TBD'}</span>
                     <input
                       type="number"
                       min="0"
@@ -460,7 +474,7 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
                 
                 {Math.max(matchScore.team1, matchScore.team2) > Math.ceil(selectedMatch.bestOf / 2) && (
                   <p className="text-green-400 text-sm mt-2">
-                    {matchScore.team1 > matchScore.team2 ? selectedMatch.team1?.name : selectedMatch.team2?.name} wins the series!
+                    {matchScore.team1 > matchScore.team2 ? isTeam(selectedMatch.team1) ? selectedMatch.team1.name : 'TBD' : isTeam(selectedMatch.team2) ? selectedMatch.team2.name : 'TBD'} wins the series!
                   </p>
                 )}
               </div>

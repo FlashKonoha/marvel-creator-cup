@@ -18,7 +18,7 @@ export default function AdminTournamentBracketPage() {
       const response = await fetch('/api/auth')
       const data = await response.json()
       setIsAuthenticated(data.authenticated)
-    } catch (error) {
+    } catch {
       setIsAuthenticated(false)
     } finally {
       setCheckingAuth(false)
@@ -33,8 +33,8 @@ export default function AdminTournamentBracketPage() {
     try {
       await fetch('/api/auth', { method: 'DELETE' })
       setIsAuthenticated(false)
-    } catch (error) {
-      console.error('Logout error:', error)
+    } catch {
+      console.error('Logout error')
     }
   }
 

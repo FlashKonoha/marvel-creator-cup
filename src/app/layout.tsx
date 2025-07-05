@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Marvel Creator Cup - BasimZB Tournament",
@@ -31,7 +32,7 @@ export default function RootLayout({
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
               <Link href="/" className="flex items-center gap-3 text-2xl font-bold text-white hover:text-gray-300 transition-colors">
-                <img src="/logo.png" alt="Marvel Creator Cup Logo" className="w-10 h-10 rounded-full border border-white/20 bg-black" />
+                <Image src="/logo.png" alt="Marvel Creator Cup Logo" width={40} height={40} className="w-10 h-10 rounded-full border border-white/20 bg-black" />
                 <span>MARVEL CREATOR CUP</span>
               </Link>
               
@@ -78,7 +79,7 @@ export default function RootLayout({
             <div className="grid md:grid-cols-3 gap-8">
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <img src="/logo.png" alt="Marvel Creator Cup Logo" className="w-8 h-8 rounded-full border border-white/20 bg-black" />
+                  <Image src="/logo.png" alt="Marvel Creator Cup Logo" width={32} height={32} className="w-8 h-8 rounded-full border border-white/20 bg-black" />
                   <h3 className="text-white font-bold text-lg">Marvel Creator Cup</h3>
                 </div>
                 <p className="text-gray-400 text-sm">

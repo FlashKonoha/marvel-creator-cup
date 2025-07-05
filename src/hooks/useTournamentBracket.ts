@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react'
 
 export interface TournamentMatch {
   id: string
-  team1: any
-  team2: any
+  team1: unknown
+  team2: unknown
   team1Score: number
   team2Score: number
-  winner: any
-  loser: any
+  winner: unknown
+  loser: unknown
   status: 'pending' | 'completed'
   bestOf: number
   scheduledTime: string | null
@@ -61,14 +61,16 @@ export function useTournamentBracket() {
       } else {
         setError(data.error || 'Failed to fetch bracket state')
       }
-    } catch (err) {
-      setError('Network error. Please try again.')
+    } catch {
+      const errorMsg = 'Network error. Please try again.'
+      setError(errorMsg)
+      return { success: false, error: errorMsg }
     } finally {
       setLoading(false)
     }
   }
 
-  const initializeBracket = async (teams: any[]) => {
+  const initializeBracket = async (teams: unknown[]) => {
     try {
       setUpdating(true)
       setError(null)
@@ -93,7 +95,7 @@ export function useTournamentBracket() {
         setError(result.error || 'Failed to initialize bracket')
         return { success: false, error: result.error }
       }
-    } catch (err) {
+    } catch {
       const errorMsg = 'Network error. Please try again.'
       setError(errorMsg)
       return { success: false, error: errorMsg }
@@ -127,7 +129,7 @@ export function useTournamentBracket() {
         setError(result.error || 'Failed to update match result')
         return { success: false, error: result.error }
       }
-    } catch (err) {
+    } catch {
       const errorMsg = 'Network error. Please try again.'
       setError(errorMsg)
       return { success: false, error: errorMsg }
@@ -160,7 +162,7 @@ export function useTournamentBracket() {
         setError(result.error || 'Failed to reset bracket')
         return { success: false, error: result.error }
       }
-    } catch (err) {
+    } catch {
       const errorMsg = 'Network error. Please try again.'
       setError(errorMsg)
       return { success: false, error: errorMsg }

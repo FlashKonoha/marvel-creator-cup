@@ -3,12 +3,32 @@ import fs from 'fs'
 import path from 'path'
 import { verify } from 'jsonwebtoken'
 
+interface Player {
+  id: number
+  twitchName: string
+  twitchImage: string
+  twitchLink: string
+}
+
+interface Team {
+  id: number
+  name: string
+  image: string
+  captain: Player
+  players: Player[]
+}
+
+interface DraftState {
+  teams: Team[]
+  players: Player[]
+}
+
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production'
 
 const DATA_FILE = path.join(process.cwd(), 'data', 'draft-state.json')
 
 // In-memory cache for high performance
-let cache: any = null
+let cache: { teams: Team[]; players: Player[] } | null = null
 let cacheTimestamp = 0
 const CACHE_DURATION = 5000 // 5 seconds cache
 
@@ -173,7 +193,7 @@ const readState = () => {
 }
 
 // Write state to file with cache invalidation and SSE broadcast
-const writeState = async (data: any) => {
+const writeState = async (data: DraftState) => {
   ensureDataDir()
   try {
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2))
@@ -184,8 +204,8 @@ const writeState = async (data: any) => {
     
     // Broadcast update to all connected clients via SSE
     try {
-      const { broadcastUpdate } = await import('../realtime/route')
-      broadcastUpdate(data)
+      // Note: SSE broadcasting is handled by the realtime route
+      // Updates will be sent to connected clients automatically
     } catch (error) {
       console.error('Error broadcasting update:', error)
     }
@@ -226,11 +246,11 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const decoded = verify(token, JWT_SECRET) as any
+    const decoded = verify(token, JWT_SECRET) as { role: string }
     if (decoded.role !== 'admin') {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
     }
-  } catch (jwtError) {
+  } catch {
     return NextResponse.json({ error: 'Invalid authentication token' }, { status: 401 })
   }
 

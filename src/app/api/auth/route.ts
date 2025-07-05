@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
 import { sign, verify } from 'jsonwebtoken'
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
@@ -75,11 +74,11 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-      const decoded = verify(token, JWT_SECRET) as any
+      const decoded = verify(token, JWT_SECRET) as { role: string; timestamp: number }
       const isValid = decoded.role === 'admin' && decoded.timestamp
       
       return NextResponse.json({ authenticated: isValid })
-    } catch (jwtError) {
+    } catch {
       return NextResponse.json({ authenticated: false })
     }
 

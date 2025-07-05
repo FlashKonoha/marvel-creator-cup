@@ -32,7 +32,7 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
       } else {
         setError(data.error || 'Login failed')
       }
-    } catch (err) {
+    } catch {
       setError('Network error. Please try again.')
     } finally {
       setLoading(false)

@@ -1,6 +1,5 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import PlayerCard from '@/components/PlayerCard'
 import TeamStack from '@/components/TeamStack'

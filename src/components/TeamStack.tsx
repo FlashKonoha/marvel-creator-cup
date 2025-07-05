@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import PlayerCard from './PlayerCard'
+// import PlayerCard from './PlayerCard'
 
 interface Player {
   id: number
@@ -26,9 +26,11 @@ export default function TeamStack({ team }: TeamStackProps) {
   return (
     <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
       <div className="text-center mb-6">
-        <img 
+        <Image 
           src={team.image} 
           alt={team.name}
+          width={80}
+          height={80}
           className="w-20 h-20 rounded-lg mx-auto mb-4 object-cover"
         />
         <h3 className="text-xl font-bold text-white mb-2">{team.name}</h3>
@@ -37,10 +39,12 @@ export default function TeamStack({ team }: TeamStackProps) {
         <div className="mb-4">
           <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 hover:border-blue-500 transition-colors relative">
             <div className="flex items-center space-x-3 bg-gray-700 rounded p-2 text-left">
-              <img 
+              <Image 
                 src={team.captain.twitchImage} 
                 alt={team.captain.twitchName}
-               className="w-8 h-8 rounded-full object-cover"
+                width={32}
+                height={32}
+                className="w-8 h-8 rounded-full object-cover"
               />
               <div className="flex-1">
               <p className="text-white text-sm">
@@ -79,9 +83,11 @@ export default function TeamStack({ team }: TeamStackProps) {
           <div className="space-y-2">
             {team.players.map((player) => (
               <div key={player.id} className="flex items-center space-x-3 bg-gray-700 rounded p-2">
-                <img 
+                <Image 
                   src={player.twitchImage} 
                   alt={player.twitchName}
+                  width={32}
+                  height={32}
                   className="w-8 h-8 rounded-full object-cover"
                 />
                 <div className="flex-1">

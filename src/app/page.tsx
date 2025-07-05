@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import TournamentBracket from '../components/TournamentBracket'
-import { useTournamentBracket } from '../hooks/useTournamentBracket'
+import { useTournamentBracket, TournamentState } from '../hooks/useTournamentBracket'
 import { useTeams } from '../hooks/useTeams'
 
 export default function Home() {
@@ -10,28 +10,31 @@ export default function Home() {
   const { teams } = useTeams()
   
   // Transform bracket state into the format expected by TournamentBracket component
-  const transformBracketData = (state: any) => {
+  const isTeam = (obj: unknown): obj is { id: number|string, name: string, image: string } => {
+    return !!obj && typeof obj === 'object' && 'name' in obj && 'image' in obj;
+  };
+  const transformBracketData = (state: TournamentState | null) => {
     if (!state) return { upperBracket: [], lowerBracket: [] };
 
     const upperBracket = [
       {
         label: 'Upper Quarterfinals',
-        matches: state.brackets.upper.quarterfinals.map((match: any) => ({
+        matches: state.brackets.upper.quarterfinals.map((match) => ({
           id: match.id,
-          title: `${match.team1?.name || 'TBD'} vs ${match.team2?.name || 'TBD'}`,
+          title: `${isTeam(match.team1) ? match.team1.name : 'TBD'} vs ${isTeam(match.team2) ? match.team2.name : 'TBD'}`,
           href: `/match/${match.id}`,
           team1: {
-            id: match.team1?.id?.toString() || 'tbd',
-            name: match.team1?.name || 'TBD',
-            logo: match.team1?.image || 'https://picsum.photos/200/200',
+            id: isTeam(match.team1) ? match.team1.id?.toString() : 'tbd',
+            name: isTeam(match.team1) ? match.team1.name : 'TBD',
+            logo: isTeam(match.team1) ? match.team1.image : 'https://picsum.photos/200/200',
             score: match.team1Score,
             isWinner: match.winner === match.team1,
             isLoser: match.loser === match.team1
           },
           team2: {
-            id: match.team2?.id?.toString() || 'tbd',
-            name: match.team2?.name || 'TBD',
-            logo: match.team2?.image || 'https://picsum.photos/200/200',
+            id: isTeam(match.team2) ? match.team2.id?.toString() : 'tbd',
+            name: isTeam(match.team2) ? match.team2.name : 'TBD',
+            logo: isTeam(match.team2) ? match.team2.image : 'https://picsum.photos/200/200',
             score: match.team2Score,
             isWinner: match.winner === match.team2,
             isLoser: match.loser === match.team2
@@ -42,22 +45,22 @@ export default function Home() {
       },
       {
         label: 'Upper Semifinals',
-        matches: state.brackets.upper.semifinals.map((match: any) => ({
+        matches: state.brackets.upper.semifinals.map((match) => ({
           id: match.id,
-          title: `${match.team1?.name || 'TBD'} vs ${match.team2?.name || 'TBD'}`,
+          title: `${isTeam(match.team1) ? match.team1.name : 'TBD'} vs ${isTeam(match.team2) ? match.team2.name : 'TBD'}`,
           href: `/match/${match.id}`,
           team1: {
-            id: match.team1?.id?.toString() || 'tbd',
-            name: match.team1?.name || 'TBD',
-            logo: match.team1?.image || 'https://picsum.photos/200/200',
+            id: isTeam(match.team1) ? match.team1.id?.toString() : 'tbd',
+            name: isTeam(match.team1) ? match.team1.name : 'TBD',
+            logo: isTeam(match.team1) ? match.team1.image : 'https://picsum.photos/200/200',
             score: match.team1Score,
             isWinner: match.winner === match.team1,
             isLoser: match.loser === match.team1
           },
           team2: {
-            id: match.team2?.id?.toString() || 'tbd',
-            name: match.team2?.name || 'TBD',
-            logo: match.team2?.image || 'https://picsum.photos/200/200',
+            id: isTeam(match.team2) ? match.team2.id?.toString() : 'tbd',
+            name: isTeam(match.team2) ? match.team2.name : 'TBD',
+            logo: isTeam(match.team2) ? match.team2.image : 'https://picsum.photos/200/200',
             score: match.team2Score,
             isWinner: match.winner === match.team2,
             isLoser: match.loser === match.team2
@@ -68,22 +71,22 @@ export default function Home() {
       },
       {
         label: 'Upper Final',
-        matches: state.brackets.upper.final.map((match: any) => ({
+        matches: state.brackets.upper.final.map((match) => ({
           id: match.id,
-          title: `${match.team1?.name || 'TBD'} vs ${match.team2?.name || 'TBD'}`,
+          title: `${isTeam(match.team1) ? match.team1.name : 'TBD'} vs ${isTeam(match.team2) ? match.team2.name : 'TBD'}`,
           href: `/match/${match.id}`,
           team1: {
-            id: match.team1?.id?.toString() || 'tbd',
-            name: match.team1?.name || 'TBD',
-            logo: match.team1?.image || 'https://picsum.photos/200/200',
+            id: isTeam(match.team1) ? match.team1.id?.toString() : 'tbd',
+            name: isTeam(match.team1) ? match.team1.name : 'TBD',
+            logo: isTeam(match.team1) ? match.team1.image : 'https://picsum.photos/200/200',
             score: match.team1Score,
             isWinner: match.winner === match.team1,
             isLoser: match.loser === match.team1
           },
           team2: {
-            id: match.team2?.id?.toString() || 'tbd',
-            name: match.team2?.name || 'TBD',
-            logo: match.team2?.image || 'https://picsum.photos/200/200',
+            id: isTeam(match.team2) ? match.team2.id?.toString() : 'tbd',
+            name: isTeam(match.team2) ? match.team2.name : 'TBD',
+            logo: isTeam(match.team2) ? match.team2.image : 'https://picsum.photos/200/200',
             score: match.team2Score,
             isWinner: match.winner === match.team2,
             isLoser: match.loser === match.team2
@@ -97,22 +100,22 @@ export default function Home() {
     const lowerBracket = [
       {
         label: 'Lower Round 1',
-        matches: state.brackets.lower.round1.map((match: any) => ({
+        matches: state.brackets.lower.round1.map((match) => ({
           id: match.id,
-          title: `${match.team1?.name || 'TBD'} vs ${match.team2?.name || 'TBD'}`,
+          title: `${isTeam(match.team1) ? match.team1.name : 'TBD'} vs ${isTeam(match.team2) ? match.team2.name : 'TBD'}`,
           href: `/match/${match.id}`,
           team1: {
-            id: match.team1?.id?.toString() || 'tbd',
-            name: match.team1?.name || 'TBD',
-            logo: match.team1?.image || 'https://picsum.photos/200/200',
+            id: isTeam(match.team1) ? match.team1.id?.toString() : 'tbd',
+            name: isTeam(match.team1) ? match.team1.name : 'TBD',
+            logo: isTeam(match.team1) ? match.team1.image : 'https://picsum.photos/200/200',
             score: match.team1Score,
             isWinner: match.winner === match.team1,
             isLoser: match.loser === match.team1
           },
           team2: {
-            id: match.team2?.id?.toString() || 'tbd',
-            name: match.team2?.name || 'TBD',
-            logo: match.team2?.image || 'https://picsum.photos/200/200',
+            id: isTeam(match.team2) ? match.team2.id?.toString() : 'tbd',
+            name: isTeam(match.team2) ? match.team2.name : 'TBD',
+            logo: isTeam(match.team2) ? match.team2.image : 'https://picsum.photos/200/200',
             score: match.team2Score,
             isWinner: match.winner === match.team2,
             isLoser: match.loser === match.team2
@@ -123,22 +126,22 @@ export default function Home() {
       },
       {
         label: 'Lower Round 2',
-        matches: state.brackets.lower.round2.map((match: any) => ({
+        matches: state.brackets.lower.round2.map((match) => ({
           id: match.id,
-          title: `${match.team1?.name || 'TBD'} vs ${match.team2?.name || 'TBD'}`,
+          title: `${isTeam(match.team1) ? match.team1.name : 'TBD'} vs ${isTeam(match.team2) ? match.team2.name : 'TBD'}`,
           href: `/match/${match.id}`,
           team1: {
-            id: match.team1?.id?.toString() || 'tbd',
-            name: match.team1?.name || 'TBD',
-            logo: match.team1?.image || 'https://picsum.photos/200/200',
+            id: isTeam(match.team1) ? match.team1.id?.toString() : 'tbd',
+            name: isTeam(match.team1) ? match.team1.name : 'TBD',
+            logo: isTeam(match.team1) ? match.team1.image : 'https://picsum.photos/200/200',
             score: match.team1Score,
             isWinner: match.winner === match.team1,
             isLoser: match.loser === match.team1
           },
           team2: {
-            id: match.team2?.id?.toString() || 'tbd',
-            name: match.team2?.name || 'TBD',
-            logo: match.team2?.image || 'https://picsum.photos/200/200',
+            id: isTeam(match.team2) ? match.team2.id?.toString() : 'tbd',
+            name: isTeam(match.team2) ? match.team2.name : 'TBD',
+            logo: isTeam(match.team2) ? match.team2.image : 'https://picsum.photos/200/200',
             score: match.team2Score,
             isWinner: match.winner === match.team2,
             isLoser: match.loser === match.team2
@@ -149,22 +152,22 @@ export default function Home() {
       },
       {
         label: 'Lower Round 3',
-        matches: state.brackets.lower.round3.map((match: any) => ({
+        matches: state.brackets.lower.round3.map((match) => ({
           id: match.id,
-          title: `${match.team1?.name || 'TBD'} vs ${match.team2?.name || 'TBD'}`,
+          title: `${isTeam(match.team1) ? match.team1.name : 'TBD'} vs ${isTeam(match.team2) ? match.team2.name : 'TBD'}`,
           href: `/match/${match.id}`,
           team1: {
-            id: match.team1?.id?.toString() || 'tbd',
-            name: match.team1?.name || 'TBD',
-            logo: match.team1?.image || 'https://picsum.photos/200/200',
+            id: isTeam(match.team1) ? match.team1.id?.toString() : 'tbd',
+            name: isTeam(match.team1) ? match.team1.name : 'TBD',
+            logo: isTeam(match.team1) ? match.team1.image : 'https://picsum.photos/200/200',
             score: match.team1Score,
             isWinner: match.winner === match.team1,
             isLoser: match.loser === match.team1
           },
           team2: {
-            id: match.team2?.id?.toString() || 'tbd',
-            name: match.team2?.name || 'TBD',
-            logo: match.team2?.image || 'https://picsum.photos/200/200',
+            id: isTeam(match.team2) ? match.team2.id?.toString() : 'tbd',
+            name: isTeam(match.team2) ? match.team2.name : 'TBD',
+            logo: isTeam(match.team2) ? match.team2.image : 'https://picsum.photos/200/200',
             score: match.team2Score,
             isWinner: match.winner === match.team2,
             isLoser: match.loser === match.team2
@@ -175,22 +178,22 @@ export default function Home() {
       },
       {
         label: 'Lower Final',
-        matches: state.brackets.lower.final.map((match: any) => ({
+        matches: state.brackets.lower.final.map((match) => ({
           id: match.id,
-          title: `${match.team1?.name || 'TBD'} vs ${match.team2?.name || 'TBD'}`,
+          title: `${isTeam(match.team1) ? match.team1.name : 'TBD'} vs ${isTeam(match.team2) ? match.team2.name : 'TBD'}`,
           href: `/match/${match.id}`,
           team1: {
-            id: match.team1?.id?.toString() || 'tbd',
-            name: match.team1?.name || 'TBD',
-            logo: match.team1?.image || 'https://picsum.photos/200/200',
+            id: isTeam(match.team1) ? match.team1.id?.toString() : 'tbd',
+            name: isTeam(match.team1) ? match.team1.name : 'TBD',
+            logo: isTeam(match.team1) ? match.team1.image : 'https://picsum.photos/200/200',
             score: match.team1Score,
             isWinner: match.winner === match.team1,
             isLoser: match.loser === match.team1
           },
           team2: {
-            id: match.team2?.id?.toString() || 'tbd',
-            name: match.team2?.name || 'TBD',
-            logo: match.team2?.image || 'https://picsum.photos/200/200',
+            id: isTeam(match.team2) ? match.team2.id?.toString() : 'tbd',
+            name: isTeam(match.team2) ? match.team2.name : 'TBD',
+            logo: isTeam(match.team2) ? match.team2.image : 'https://picsum.photos/200/200',
             score: match.team2Score,
             isWinner: match.winner === match.team2,
             isLoser: match.loser === match.team2

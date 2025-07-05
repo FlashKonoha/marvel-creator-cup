@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 interface Team {
   id: string;
@@ -42,9 +43,11 @@ const TournamentBracket: React.FC<TournamentBracketProps> = ({ upperBracket, low
           match.team1.isLoser ? 'opacity-60' : ''
         }`}>
           <div className="flex items-center space-x-2">
-            <img 
+            <Image 
               src={match.team1.logo} 
               alt={match.team1.name}
+              width={24}
+              height={24}
               className="w-6 h-6 object-contain"
             />
             <span className="text-sm font-medium text-gray-100">
@@ -63,9 +66,11 @@ const TournamentBracket: React.FC<TournamentBracketProps> = ({ upperBracket, low
           match.team2.isLoser ? 'opacity-60' : ''
         }`}>
           <div className="flex items-center space-x-2">
-            <img 
+            <Image 
               src={match.team2.logo} 
               alt={match.team2.name}
+              width={24}
+              height={24}
               className="w-6 h-6 object-contain"
             />
             <span className="text-sm font-medium text-gray-100">

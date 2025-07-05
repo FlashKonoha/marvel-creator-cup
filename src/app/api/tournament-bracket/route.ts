@@ -1,8 +1,56 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
 import { verify } from 'jsonwebtoken'
 import { promises as fs } from 'fs'
 import path from 'path'
+
+interface Team {
+  id: number
+  name: string
+  image: string
+  captain: {
+    id: number
+    twitchName: string
+    twitchImage: string
+    twitchLink: string
+  }
+  players: Array<{
+    id: number
+    twitchName: string
+    twitchImage: string
+    twitchLink: string
+  }>
+}
+
+interface Match {
+  id: string;
+  team1: Team | null;
+  team2: Team | null;
+  team1Score: number;
+  team2Score: number;
+  winner: Team | null;
+  loser: Team | null;
+  status: 'pending' | 'completed';
+  bestOf: number;
+  scheduledTime: string | null;
+  completedTime: string | null;
+}
+
+interface BracketState {
+  brackets: {
+    upper: {
+      quarterfinals: Match[]
+      semifinals: Match[]
+      final: Match[]
+    }
+    lower: {
+      round1: Match[]
+      round2: Match[]
+      round3: Match[]
+      final: Match[]
+    }
+  }
+  grandFinal: Match
+}
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production'
 const BRACKET_STATE_FILE = path.join(process.cwd(), 'data', 'tournament-bracket-state.json')
@@ -38,7 +86,7 @@ async function readBracketState() {
   }
 }
 
-async function writeBracketState(state: any) {
+async function writeBracketState(state: BracketState) {
   try {
     await fs.writeFile(BRACKET_STATE_FILE, JSON.stringify(state, null, 2))
     return true
@@ -48,7 +96,7 @@ async function writeBracketState(state: any) {
   }
 }
 
-function updateBracketProgression(bracketState: any) {
+function updateBracketProgression(bracketState: BracketState) {
   const { brackets, grandFinal } = bracketState
 
   // Update upper bracket progression
@@ -80,8 +128,8 @@ function updateBracketProgression(bracketState: any) {
   // Update lower bracket progression
   // Losers from upper quarterfinals go to lower round 1
   const upperLosers = brackets.upper.quarterfinals
-    .filter((match: any) => match.loser)
-    .map((match: any) => match.loser)
+    .filter((match: Match) => match.loser)
+    .map((match: Match) => match.loser)
 
   if (upperLosers.length >= 2) {
     brackets.lower.round1[0].team1 = upperLosers[0]
@@ -100,8 +148,8 @@ function updateBracketProgression(bracketState: any) {
 
   // Losers from upper semifinals go to lower bracket
   const semifinalLosers = brackets.upper.semifinals
-    .filter((match: any) => match.loser)
-    .map((match: any) => match.loser)
+    .filter((match: Match) => match.loser)
+    .map((match: Match) => match.loser)
 
   if (semifinalLosers.length >= 2) {
     brackets.lower.round2[1].team1 = semifinalLosers[0]
@@ -156,11 +204,11 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const decoded = verify(token, JWT_SECRET) as any
+    const decoded = verify(token, JWT_SECRET) as { role: string }
     if (decoded.role !== 'admin') {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
     }
-  } catch (jwtError) {
+  } catch {
     return NextResponse.json({ error: 'Invalid authentication token' }, { status: 401 })
   }
 
@@ -220,8 +268,8 @@ export async function POST(request: NextRequest) {
         let matchFound = false
         
         // Search in upper bracket
-        for (const round of Object.values(bracketState.brackets.upper)) {
-          for (const match of round as any[]) {
+        for (const round of Object.values(bracketState.brackets.upper) as Match[][]) {
+          for (const match of round) {
             if (match.id === matchId) {
               match.team1Score = team1Score
               match.team2Score = team2Score
@@ -253,8 +301,8 @@ export async function POST(request: NextRequest) {
 
         // Search in lower bracket
         if (!matchFound) {
-          for (const round of Object.values(bracketState.brackets.lower)) {
-            for (const match of round as any[]) {
+          for (const round of Object.values(bracketState.brackets.lower) as Match[][]) {
+            for (const match of round) {
               if (match.id === matchId) {
                 match.team1Score = team1Score
                 match.team2Score = team2Score

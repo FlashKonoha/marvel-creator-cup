@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import fs from 'fs'
 import path from 'path'
 
@@ -33,18 +33,18 @@ const readState = () => {
   }
 }
 
-// Broadcast function for other API routes
-export const broadcastUpdate = (data: any) => {
-  const message = `data: ${JSON.stringify(data)}\n\n`
-  connections.forEach(controller => {
-    try {
-      controller.enqueue(new TextEncoder().encode(message))
-    } catch (error) {
-      // Remove dead connections
-      connections.delete(controller)
-    }
-  })
-}
+// Broadcast function for other API routes (unused in current implementation)
+// const broadcastUpdate = (data: unknown) => {
+//   const message = `data: ${JSON.stringify(data)}\n\n`
+//   connections.forEach(controller => {
+//     try {
+//       controller.enqueue(new TextEncoder().encode(message))
+//     } catch {
+//       // Remove dead connections
+//       connections.delete(controller)
+//     }
+//   })
+// }
 
 export async function GET(request: NextRequest) {
   const stream = new ReadableStream({
@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
       const heartbeat = setInterval(() => {
         try {
           controller.enqueue(new TextEncoder().encode(': heartbeat\n\n'))
-        } catch (error) {
+        } catch {
           clearInterval(heartbeat)
           connections.delete(controller)
         }

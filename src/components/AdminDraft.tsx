@@ -1,9 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
-import PlayerCard from './PlayerCard'
-import TeamStack from './TeamStack'
+import Image from 'next/image'
 
 interface Player {
   id: number
@@ -152,9 +151,11 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
                       onDragStart={(e) => handleDragStart(e, player)}
                     >
                       <div className="flex flex-col items-center text-center">
-                        <img 
+                        <Image 
                           src={player.twitchImage} 
                           alt={player.twitchName}
+                          width={64}
+                          height={64}
                           className="w-16 h-16 rounded-full mb-3 object-cover border-2 border-gray-600"
                         />
                         <h3 className="font-semibold text-white text-sm mb-2">
@@ -188,9 +189,11 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
                 >
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center space-x-3">
-                      <img 
+                      <Image 
                         src={team.image} 
                         alt={team.name}
+                        width={48}
+                        height={48}
                         className="w-12 h-12 rounded-lg object-cover"
                       />
                       <div>
@@ -210,9 +213,11 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
                   <div className="mb-4">
                     <div className="flex items-center justify-between bg-gray-700 rounded p-3 py-5">
                       <div className="flex items-center space-x-2">
-                        <img 
+                        <Image 
                           src={team.captain.twitchImage} 
                           alt={team.captain.twitchName}
+                          width={32}
+                          height={32}
                           className="w-8 h-8 rounded-full object-cover"
                         />
                         <span className="text-white text-sm">{team.captain.twitchName}</span>
@@ -236,9 +241,11 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
                         {team.players.map((player) => (
                           <div key={player.id} className="flex items-center justify-between bg-gray-700 rounded p-3">
                             <div className="flex items-center space-x-3">
-                              <img 
+                              <Image 
                                 src={player.twitchImage} 
                                 alt={player.twitchName}
+                                width={32}
+                                height={32}
                                 className="w-8 h-8 rounded-full object-cover"
                               />
                               <span className="text-white text-sm">{player.twitchName}</span>

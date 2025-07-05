@@ -114,8 +114,8 @@ export function useDraftState(options: UseDraftStateOptions = {}) {
   // Poll for updates with exponential backoff on errors
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null
-    let retryCount = 0
-    const maxRetries = 3
+    // let retryCount = 0
+    // const maxRetries = 3
 
     const startPolling = () => {
       fetchState(true) // Initial load with loading state

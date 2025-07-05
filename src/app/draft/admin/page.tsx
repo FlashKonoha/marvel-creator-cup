@@ -8,7 +8,7 @@ import { useSocketDraftState } from '@/hooks/useSocketDraftState'
 export default function AdminDraftPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [checkingAuth, setCheckingAuth] = useState(true)
-  const { state, loading, error, updateState } = useSocketDraftState()
+  const { state, loading, updateState } = useSocketDraftState()
   const { teams, players } = state
 
   // Check authentication status on mount
@@ -21,7 +21,7 @@ export default function AdminDraftPage() {
       const response = await fetch('/api/auth')
       const data = await response.json()
       setIsAuthenticated(data.authenticated)
-    } catch (error) {
+    } catch {
       setIsAuthenticated(false)
     } finally {
       setCheckingAuth(false)
@@ -36,12 +36,12 @@ export default function AdminDraftPage() {
     try {
       await fetch('/api/auth', { method: 'DELETE' })
       setIsAuthenticated(false)
-    } catch (error) {
-      console.error('Logout error:', error)
+    } catch {
+      console.error('Logout error')
     }
   }
 
-  const handleStateChange = async (newTeams: any[], newPlayers: any[]) => {
+  const handleStateChange = async (newTeams: Team[], newPlayers: Player[]) => {
     await updateState({ teams: newTeams, players: newPlayers })
   }
 
@@ -79,23 +79,7 @@ export default function AdminDraftPage() {
   }
 
   // Show error if data loading failed
-  if (error) {
-    return (
-      <main className="min-h-screen bg-black py-8">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <p className="text-red-400 text-xl mb-4">Error loading admin console: {error}</p>
-            <button 
-              onClick={() => window.location.reload()} 
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-            >
-              Retry
-            </button>
-          </div>
-        </div>
-      </main>
-    )
-  }
+  // Note: Error handling is done in the useSocketDraftState hook
 
   // Show admin console
   return (
