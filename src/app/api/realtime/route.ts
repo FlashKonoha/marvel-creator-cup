@@ -1,11 +1,9 @@
 import { NextRequest } from 'next/server'
 import fs from 'fs'
 import path from 'path'
+import { addConnection, removeConnection } from '../../../lib/sse-broadcast'
 
 const DATA_FILE = path.join(process.cwd(), 'data', 'draft-state.json')
-
-// Store active connections for broadcasting
-const connections = new Set<ReadableStreamDefaultController>()
 
 // Ensure data directory exists
 const ensureDataDir = () => {
@@ -33,29 +31,27 @@ const readState = () => {
   }
 }
 
-// Broadcast function for other API routes (unused in current implementation)
-// const broadcastUpdate = (data: unknown) => {
-//   const message = `data: ${JSON.stringify(data)}\n\n`
-//   connections.forEach(controller => {
-//     try {
-//       controller.enqueue(new TextEncoder().encode(message))
-//     } catch {
-//       // Remove dead connections
-//       connections.delete(controller)
-//     }
-//   })
-// }
-
 export async function GET(request: NextRequest) {
+  // Set proper headers for SSE
+  const headers = {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache, no-transform',
+    'Connection': 'keep-alive',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET',
+    'Access-Control-Allow-Headers': 'Cache-Control',
+    'X-Accel-Buffering': 'no' // Disable nginx buffering
+  }
+
   const stream = new ReadableStream({
     start(controller) {
-      // Send initial state
+      // Send initial state immediately
       const initialState = readState()
       const message = `data: ${JSON.stringify(initialState)}\n\n`
       controller.enqueue(new TextEncoder().encode(message))
       
       // Add connection to set
-      connections.add(controller)
+      addConnection(controller)
       
       // Keep connection alive with heartbeat
       const heartbeat = setInterval(() => {
@@ -63,27 +59,18 @@ export async function GET(request: NextRequest) {
           controller.enqueue(new TextEncoder().encode(': heartbeat\n\n'))
         } catch {
           clearInterval(heartbeat)
-          connections.delete(controller)
+          removeConnection(controller)
         }
       }, 30000) // 30 second heartbeat
       
       // Clean up on close
       request.signal.addEventListener('abort', () => {
         clearInterval(heartbeat)
-        connections.delete(controller)
+        removeConnection(controller)
         controller.close()
       })
     }
   })
 
-  return new Response(stream, {
-    headers: {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
-      'Connection': 'keep-alive',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET',
-      'Access-Control-Allow-Headers': 'Cache-Control'
-    }
-  })
+  return new Response(stream, { headers })
 } 

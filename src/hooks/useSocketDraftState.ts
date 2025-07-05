@@ -28,8 +28,29 @@ export function useSocketDraftState() {
   const [isConnected, setIsConnected] = useState(false)
   const eventSourceRef = useRef<EventSource | null>(null)
 
+  // Fetch initial state
+  const fetchInitialState = useCallback(async () => {
+    try {
+      const response = await fetch('/api/draft')
+      if (response.ok) {
+        const data = await response.json()
+        setState(data)
+        setLoading(false)
+        setError(null)
+        return true
+      } else {
+        throw new Error('Failed to fetch initial state')
+      }
+    } catch (err) {
+      console.error('Error fetching initial state:', err)
+      return false
+    }
+  }, [])
+
   // Initialize SSE connection
   useEffect(() => {
+    let sseConnected = false
+
     const connectSSE = () => {
       try {
         const eventSource = new EventSource('/api/realtime')
@@ -39,20 +60,15 @@ export function useSocketDraftState() {
           console.log('Connected to SSE server')
           setIsConnected(true)
           setError(null)
+          sseConnected = true
         }
 
         eventSource.onerror = (err) => {
           console.error('SSE connection error:', err)
-          setError('Connection failed. Trying to reconnect...')
-          setIsConnected(false)
-          
-          // Attempt to reconnect after 5 seconds
-          setTimeout(() => {
-            if (eventSourceRef.current) {
-              eventSourceRef.current.close()
-              connectSSE()
-            }
-          }, 5000)
+          if (!sseConnected) {
+            setError('Real-time connection failed. Using static mode.')
+            setIsConnected(false)
+          }
         }
 
         eventSource.onmessage = (event) => {
@@ -72,24 +88,34 @@ export function useSocketDraftState() {
         return eventSource
       } catch (err) {
         console.error('Error creating SSE connection:', err)
-        setError('Failed to establish connection')
+        setError('Real-time connection failed. Using static mode.')
         setIsConnected(false)
         return null
       }
     }
 
-    const eventSource = connectSSE()
+    // Try to fetch initial state first, then connect SSE
+    fetchInitialState().then((success) => {
+      if (success) {
+        // If initial fetch succeeds, try SSE for real-time updates
+        connectSSE()
+      } else {
+        // If initial fetch fails, try SSE as fallback
+        const eventSource = connectSSE()
+        if (!eventSource) {
+          setLoading(false)
+          setError('Failed to load draft state')
+        }
+      }
+    })
 
     return () => {
-      if (eventSource) {
-        eventSource.close()
-      }
       if (eventSourceRef.current) {
         eventSourceRef.current.close()
         eventSourceRef.current = null
       }
     }
-  }, [])
+  }, [fetchInitialState])
 
   // Update state on server
   const updateState = useCallback(async (newState: DraftState) => {

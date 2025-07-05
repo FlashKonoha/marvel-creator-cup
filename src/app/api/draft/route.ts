@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
 import { verify } from 'jsonwebtoken'
+import { broadcastUpdate } from '../../../lib/sse-broadcast'
 
 interface Player {
   id: number
@@ -204,8 +205,7 @@ const writeState = async (data: DraftState) => {
     
     // Broadcast update to all connected clients via SSE
     try {
-      // Note: SSE broadcasting is handled by the realtime route
-      // Updates will be sent to connected clients automatically
+      broadcastUpdate(data)
     } catch (error) {
       console.error('Error broadcasting update:', error)
     }
