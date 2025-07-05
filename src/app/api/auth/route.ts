@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { sign, verify } from 'jsonwebtoken'
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '84f34b752300dece33b4f23878a0fadac6a870a9'
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production'
 
 // Rate limiting for login attempts
