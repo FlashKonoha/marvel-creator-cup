@@ -84,14 +84,14 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
   }
 
   const renderMatch = (match: any, roundName: string) => (
-    <div key={match.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-4">
+    <div key={match.id} className="bg-gray-800/50 border border-white/10 rounded-lg p-4 mb-4">
       <div className="flex justify-between items-center mb-2">
-        <span className="text-sm font-semibold text-blue-400">{roundName}</span>
+        <span className="text-sm font-semibold text-white">{roundName}</span>
         <span className="text-xs text-gray-500 bg-gray-700 px-2 py-1 rounded">{match.id}</span>
       </div>
       
       <div className="space-y-3">
-        <div className="flex justify-between items-center p-2 rounded bg-gray-700">
+        <div className="flex justify-between items-center p-2 rounded bg-gray-700/50">
           <div className="flex items-center space-x-2">
             <img 
               src={match.team1?.image || 'https://picsum.photos/200/200'} 
@@ -102,14 +102,14 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
               {match.team1 ? match.team1.name : 'TBD'}
             </span>
           </div>
-          <span className={`font-bold text-lg ${match.winner === match.team1 ? 'text-green-400' : 'text-gray-400'}`}>
+          <span className={`font-bold text-lg ${match.winner === match.team1 ? 'text-white' : 'text-gray-400'}`}>
             {match.team1Score}
           </span>
         </div>
         
         <div className="text-center text-gray-400 text-sm font-semibold">VS</div>
         
-        <div className="flex justify-between items-center p-2 rounded bg-gray-700">
+        <div className="flex justify-between items-center p-2 rounded bg-gray-700/50">
           <div className="flex items-center space-x-2">
             <img 
               src={match.team2?.image || 'https://picsum.photos/200/200'} 
@@ -120,7 +120,7 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
               {match.team2 ? match.team2.name : 'TBD'}
             </span>
           </div>
-          <span className={`font-bold text-lg ${match.winner === match.team2 ? 'text-green-400' : 'text-gray-400'}`}>
+          <span className={`font-bold text-lg ${match.winner === match.team2 ? 'text-white' : 'text-gray-400'}`}>
             {match.team2Score}
           </span>
         </div>
@@ -204,7 +204,7 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
       <div className="min-h-screen bg-black py-8">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500 mx-auto"></div>
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white mx-auto"></div>
             <p className="text-white text-xl mt-4">Loading tournament bracket...</p>
           </div>
         </div>
@@ -236,7 +236,7 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <Link href="/tournament-bracket" className="text-blue-400 hover:text-blue-300 transition-colors mb-2 inline-block">
+            <Link href="/tournament-bracket" className="text-white hover:text-gray-300 transition-colors mb-2 inline-block">
               ← Back to Tournament Bracket
             </Link>
             <h1 className="text-4xl font-bold text-white">Admin Tournament Bracket</h1>
@@ -245,14 +245,14 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
             <button
               onClick={() => setShowInitializeModal(true)}
               disabled={updating || bracketState?.tournament.status === 'active'}
-              className="bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white px-4 py-2 rounded transition-colors"
+              className="bg-white hover:bg-gray-200 disabled:bg-gray-600 text-black px-4 py-2 rounded transition-colors"
             >
               Initialize Bracket
             </button>
             <button
               onClick={resetBracket}
               disabled={updating}
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition-colors"
+              className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded transition-colors border border-white/20"
             >
               Reset Bracket
             </button>
@@ -261,7 +261,7 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
 
         {/* Tournament Status */}
         {bracketState && (
-          <div className="bg-gray-900 border border-gray-700 rounded-lg p-6 mb-8">
+          <div className="bg-gray-900/50 border border-white/10 rounded-lg p-6 mb-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <h3 className="text-lg font-semibold text-white">{bracketState.tournament.name}</h3>
@@ -287,19 +287,19 @@ export default function AdminTournamentBracket({}: AdminTournamentBracketProps) 
         {bracketState && (
           <div>
             {/* Visual Bracket Structure */}
-            <div className="mb-8 p-6 bg-gray-800 border border-gray-700 rounded-lg">
+            <div className="mb-8 p-6 bg-gray-800/50 border border-white/10 rounded-lg">
               <h3 className="text-lg font-semibold text-white mb-4">Tournament Flow</h3>
               <div className="text-sm text-gray-300 space-y-2">
                 <div className="flex items-center space-x-2">
-                  <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
+                  <span className="w-3 h-3 bg-white rounded-full"></span>
                   <span>Upper Bracket: Winners advance, losers drop to Lower Bracket</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <span className="w-3 h-3 bg-red-500 rounded-full"></span>
+                  <span className="w-3 h-3 bg-gray-400 rounded-full"></span>
                   <span>Lower Bracket: Losers are eliminated, winners advance</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+                  <span className="w-3 h-3 bg-gray-600 rounded-full"></span>
                   <span>Grand Final: Upper Bracket Winner vs Lower Bracket Winner</span>
                 </div>
               </div>

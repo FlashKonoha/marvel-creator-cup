@@ -3,12 +3,12 @@
 :root {
   --background: #000000;
   --foreground: #ffffff;
-  --primary: #0070f3;
-  --secondary: #666666;
-  --accent: #ff0080;
+  --primary: #ffffff;
+  --secondary: #1a1a1a;
+  --accent: #333333;
   --border: #333333;
   --card: #111111;
-  --muted: #888888;
+  --muted: #666666;
 }
 
 @theme inline {
