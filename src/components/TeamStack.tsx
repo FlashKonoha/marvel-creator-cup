@@ -20,9 +20,10 @@ interface Team {
 
 interface TeamStackProps {
   team: Team
+  onRemovePlayer?: (playerId: number) => void
 }
 
-export default function TeamStack({ team }: TeamStackProps) {
+export default function TeamStack({ team, onRemovePlayer }: TeamStackProps) {
   return (
     <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
       <div className="text-center mb-6">
@@ -82,25 +83,36 @@ export default function TeamStack({ team }: TeamStackProps) {
         ) : (
           <div className="space-y-2">
             {team.players.map((player) => (
-              <div key={player.id} className="flex items-center space-x-3 bg-gray-700 rounded p-2">
-                <Image 
-                  src={player.twitchImage} 
-                  alt={player.twitchName}
-                  width={32}
-                  height={32}
-                  className="w-8 h-8 rounded-full object-cover"
-                />
-                <div className="flex-1">
-                  <p className="text-white text-sm">{player.twitchName}</p>
-                  <a 
-                    href={player.twitchLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-400 hover:text-blue-300 text-xs"
-                  >
-                    View on Twitch
-                  </a>
+              <div key={player.id} className="flex items-center justify-between bg-gray-700 rounded p-2">
+                <div className="flex items-center space-x-3">
+                  <Image 
+                    src={player.twitchImage} 
+                    alt={player.twitchName}
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+                  <div className="flex-1">
+                    <p className="text-white text-sm">{player.twitchName}</p>
+                    <a 
+                      href={player.twitchLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-400 hover:text-blue-300 text-xs"
+                    >
+                      View on Twitch
+                    </a>
+                  </div>
                 </div>
+                {onRemovePlayer && (
+                  <button
+                    onClick={() => onRemovePlayer(player.id)}
+                    className="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-xs transition-colors"
+                    title="Remove player"
+                  >
+                    ×
+                  </button>
+                )}
               </div>
             ))}
           </div>

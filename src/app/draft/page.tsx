@@ -1,13 +1,22 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import PlayerCard from '@/components/PlayerCard'
 import TeamStack from '@/components/TeamStack'
 import { useSocketDraftState } from '@/hooks/useSocketDraftState'
 
+interface Player {
+  id: number
+  twitchName: string
+  twitchImage: string
+  twitchLink: string
+}
+
 export default function DraftPage() {
-  const { state, loading, error, isUpdating, isConnected } = useSocketDraftState()
+  const { state, loading, error, isUpdating, isConnected, updateState } = useSocketDraftState()
   const { teams, players } = state
+  const [draggedPlayer, setDraggedPlayer] = useState<Player | null>(null)
 
   if (loading) {
     return (
@@ -40,6 +49,87 @@ export default function DraftPage() {
     )
   }
 
+  // Drag and drop handlers
+  const handleDragStart = (e: React.DragEvent, player: Player) => {
+    setDraggedPlayer(player)
+    e.dataTransfer.effectAllowed = 'move'
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+  }
+
+  const handleDrop = async (e: React.DragEvent, teamId: number) => {
+    e.preventDefault()
+    
+    if (!draggedPlayer) return
+
+    // Check if team already has 5 players
+    const targetTeam = teams.find(team => team.id === teamId)
+    if (targetTeam && targetTeam.players.length >= 5) {
+      alert('Team is full! Maximum 5 players per team.')
+      return
+    }
+
+    // Check if player is already on a team
+    const playerAlreadyOnTeam = teams.some(team => 
+      team.players.some(player => player.id === draggedPlayer.id)
+    )
+    if (playerAlreadyOnTeam) {
+      alert('Player is already on a team!')
+      return
+    }
+
+    // Update state
+    const updatedTeams = teams.map(team => {
+      if (team.id === teamId) {
+        return {
+          ...team,
+          players: [...team.players, draggedPlayer]
+        }
+      }
+      return team
+    })
+
+    const updatedPlayers = players.filter(player => player.id !== draggedPlayer.id)
+
+    // Send update to server
+    await updateState({
+      teams: updatedTeams,
+      players: updatedPlayers
+    })
+
+    setDraggedPlayer(null)
+  }
+
+  const handleRemovePlayer = async (teamId: number, playerId: number) => {
+    const targetTeam = teams.find(team => team.id === teamId)
+    if (!targetTeam) return
+
+    const playerToRemove = targetTeam.players.find(player => player.id === playerId)
+    if (!playerToRemove) return
+
+    // Update state
+    const updatedTeams = teams.map(team => {
+      if (team.id === teamId) {
+        return {
+          ...team,
+          players: team.players.filter(player => player.id !== playerId)
+        }
+      }
+      return team
+    })
+
+    const updatedPlayers = [...players, playerToRemove]
+
+    // Send update to server
+    await updateState({
+      teams: updatedTeams,
+      players: updatedPlayers
+    })
+  }
+
   // Calculate draft statistics
   const totalPlayers = players.length
   const draftedPlayers = teams.reduce((total, team) => total + team.players.length, 0)
@@ -57,7 +147,7 @@ export default function DraftPage() {
             Team Draft
           </h1>
           <p className="text-xl text-gray-300 mb-6">
-            Watch the team captains select their players
+            Drag players to teams to draft them
           </p>
           
           {/* Draft Progress */}
@@ -91,7 +181,14 @@ export default function DraftPage() {
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
               {players.map((player) => (
-                <PlayerCard key={player.id} player={player} />
+                <div
+                  key={player.id}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, player)}
+                  className="cursor-grab active:cursor-grabbing"
+                >
+                  <PlayerCard player={player} />
+                </div>
               ))}
             </div>
           )}
@@ -102,7 +199,26 @@ export default function DraftPage() {
           <h2 className="text-2xl font-bold text-white mb-6">Team Stacks</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {teams.map((team) => (
-              <TeamStack key={team.id} team={team} />
+              <div
+                key={team.id}
+                className="relative"
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, team.id)}
+              >
+                <div className={`transition-all duration-200 ${
+                  draggedPlayer ? 'ring-2 ring-blue-500 ring-opacity-50' : ''
+                }`}>
+                  <TeamStack 
+                    team={team} 
+                    onRemovePlayer={(playerId) => handleRemovePlayer(team.id, playerId)}
+                  />
+                </div>
+                {draggedPlayer && (
+                  <div className="absolute inset-0 bg-blue-500 bg-opacity-10 border-2 border-dashed border-blue-500 rounded-lg flex items-center justify-center pointer-events-none">
+                    <span className="text-blue-400 font-semibold">Drop to draft {draggedPlayer.twitchName}</span>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         </div>
