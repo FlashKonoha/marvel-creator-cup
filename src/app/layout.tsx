@@ -15,6 +15,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link 
+          rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
+          crossOrigin="anonymous" 
+          referrerPolicy="no-referrer" 
+        />
+      </head>
       <body>
         {/* Navigation Header */}
         <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-gray-800">
@@ -30,6 +39,9 @@ export default function RootLayout({
                 </Link>
                 <Link href="/tournament-info" className="text-gray-300 hover:text-white transition-colors">
                   Tournament Info
+                </Link>
+                <Link href="/tournament-bracket" className="text-gray-300 hover:text-white transition-colors">
+                  Bracket
                 </Link>
                 <a 
                   href="https://www.twitch.tv/basimzb" 
