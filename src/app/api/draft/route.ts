@@ -172,8 +172,8 @@ const readState = () => {
   return defaultData
 }
 
-// Write state to file with cache invalidation and Socket.IO broadcast
-const writeState = (data: any) => {
+// Write state to file with cache invalidation and SSE broadcast
+const writeState = async (data: any) => {
   ensureDataDir()
   try {
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2))
@@ -182,11 +182,10 @@ const writeState = (data: any) => {
     cache = null
     cacheTimestamp = 0
     
-    // Broadcast update to all connected clients via Socket.IO
+    // Broadcast update to all connected clients via SSE
     try {
-      if ((global as any).broadcastDraftUpdate) {
-        (global as any).broadcastDraftUpdate(data)
-      }
+      const { broadcastUpdate } = await import('../realtime/route')
+      broadcastUpdate(data)
     } catch (error) {
       console.error('Error broadcasting update:', error)
     }
@@ -252,11 +251,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing teams or players data' }, { status: 400 })
     }
 
-    const success = writeState({ teams, players })
+    const success = await writeState({ teams, players })
     
     if (success) {
-      // Broadcast the update to all connected Socket.IO clients
-      // This will be handled by the Socket.IO server when it receives the update
       return NextResponse.json({ success: true, teams, players })
     } else {
       return NextResponse.json({ error: 'Failed to save state' }, { status: 500 })

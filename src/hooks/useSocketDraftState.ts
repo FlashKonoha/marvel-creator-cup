@@ -1,5 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
-import { io, Socket } from 'socket.io-client'
+import { useState, useEffect, useCallback, useRef } from 'react'
 
 interface Player {
   id: number
@@ -27,43 +26,68 @@ export function useSocketDraftState() {
   const [error, setError] = useState<string | null>(null)
   const [isUpdating, setIsUpdating] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
-  const [socket, setSocket] = useState<Socket | null>(null)
+  const eventSourceRef = useRef<EventSource | null>(null)
 
-  // Initialize Socket.IO connection
+  // Initialize SSE connection
   useEffect(() => {
-    const newSocket = io({
-      transports: ['websocket', 'polling'],
-      timeout: 20000,
-    })
+    const connectSSE = () => {
+      try {
+        const eventSource = new EventSource('/api/realtime')
+        eventSourceRef.current = eventSource
 
-    setSocket(newSocket)
+        eventSource.onopen = () => {
+          console.log('Connected to SSE server')
+          setIsConnected(true)
+          setError(null)
+        }
 
-    newSocket.on('connect', () => {
-      console.log('Connected to Socket.IO server')
-      setIsConnected(true)
-      setError(null)
-    })
+        eventSource.onerror = (err) => {
+          console.error('SSE connection error:', err)
+          setError('Connection failed. Trying to reconnect...')
+          setIsConnected(false)
+          
+          // Attempt to reconnect after 5 seconds
+          setTimeout(() => {
+            if (eventSourceRef.current) {
+              eventSourceRef.current.close()
+              connectSSE()
+            }
+          }, 5000)
+        }
 
-    newSocket.on('disconnect', () => {
-      console.log('Disconnected from Socket.IO server')
-      setIsConnected(false)
-    })
+        eventSource.onmessage = (event) => {
+          if (event.data.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(event.data.slice(6))
+              console.log('Received draft update via SSE')
+              setState(data)
+              setLoading(false)
+              setError(null)
+            } catch (parseError) {
+              console.error('Error parsing SSE data:', parseError)
+            }
+          }
+        }
 
-    newSocket.on('connect_error', (err) => {
-      console.error('Socket.IO connection error:', err)
-      setError('Connection failed. Trying to reconnect...')
-      setIsConnected(false)
-    })
+        return eventSource
+      } catch (err) {
+        console.error('Error creating SSE connection:', err)
+        setError('Failed to establish connection')
+        setIsConnected(false)
+        return null
+      }
+    }
 
-    newSocket.on('draft-update', (data: DraftState) => {
-      console.log('Received draft update via Socket.IO')
-      setState(data)
-      setLoading(false)
-      setError(null)
-    })
+    const eventSource = connectSSE()
 
     return () => {
-      newSocket.close()
+      if (eventSource) {
+        eventSource.close()
+      }
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close()
+        eventSourceRef.current = null
+      }
     }
   }, [])
 
@@ -104,6 +128,5 @@ export function useSocketDraftState() {
     isUpdating,
     isConnected,
     updateState,
-    socket,
   }
 } 
