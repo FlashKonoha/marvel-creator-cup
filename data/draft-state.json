@@ -71,6 +71,30 @@
         "twitchLink": "https://twitch.tv/daredevil"
       },
       "players": []
+    },
+    {
+      "id": 7,
+      "name": "Fantastic Six",
+      "image": "https://picsum.photos/200/200",
+      "captain": {
+        "id": 2,
+        "twitchName": "RivalsPro",
+        "twitchImage": "https://picsum.photos/200/200",
+        "twitchLink": "https://twitch.tv/daredevil"
+      },
+      "players": []
+    },
+    {
+      "id": 8,
+      "name": "Funtastic",
+      "image": "https://picsum.photos/200/200",
+      "captain": {
+        "id": 6,
+        "twitchName": "StreamQueen",
+        "twitchImage": "https://picsum.photos/200/200",
+        "twitchLink": "https://twitch.tv/daredevil"
+      },
+      "players": []
     }
   ],
   "players": [

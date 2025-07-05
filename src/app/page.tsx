@@ -1,6 +1,16 @@
+'use client'
+
 import Link from 'next/link'
+import TournamentBracket from '../components/TournamentBracket'
+import { useTeams } from '../hooks/useTeams'
+import { createTournamentBracket } from '../lib/tournamentUtils'
 
 export default function Home() {
+  const { teams, loading, error } = useTeams()
+  
+  // Transform teams data into bracket format
+  const bracketData = createTournamentBracket(teams)
+
   return (
     <main className="min-h-screen bg-black">
       {/* Hero Section */}
@@ -84,12 +94,71 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Host Section */}
+      {/* Tournament Bracket Section */}
       <section className="py-16 bg-black">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-white mb-4">Tournament Bracket</h2>
+            <p className="text-xl text-gray-300 mb-6">
+              Follow the tournament progress with our live bracket
+            </p>
+            {loading && (
+              <div className="text-white text-lg">Loading tournament data...</div>
+            )}
+            {error && (
+              <div className="text-red-400 text-lg">Error loading tournament data: {error}</div>
+            )}
+            {teams.length > 0 && (
+              <div className="text-sm text-gray-400 mb-4">
+                <p>Registered Teams: {teams.length}</p>
+                <p>Status: Registration Open</p>
+              </div>
+            )}
+          </div>
+          
+          {!loading && !error && teams.length > 0 && (
+            <div className="bg-gray-900 p-6 rounded-lg border border-gray-700">
+              <TournamentBracket 
+                upperBracket={bracketData.upperBracket}
+                lowerBracket={bracketData.lowerBracket}
+              />
+            </div>
+          )}
+          
+          {!loading && !error && teams.length === 0 && (
+            <div className="text-center py-12">
+              <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 max-w-2xl mx-auto">
+                <h3 className="text-2xl font-bold text-white mb-4">No Teams Registered Yet</h3>
+                <p className="text-gray-300 mb-6">
+                  The tournament bracket will appear here once teams start registering for the tournament.
+                </p>
+                <Link 
+                  href="/draft" 
+                  className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                >
+                  Join the Draft
+                </Link>
+              </div>
+            </div>
+          )}
+          
+          <div className="text-center mt-8">
+            <Link 
+              href="/tournament-bracket" 
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
+            >
+              View Full Bracket
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Host Section */}
+      <section className="py-16 bg-gray-900">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-8">Meet Your Host</h2>
           <div className="max-w-2xl mx-auto">
-            <div className="bg-gray-900 p-8 rounded-lg border border-gray-700">
+            <div className="bg-gray-800 p-8 rounded-lg border border-gray-700">
               <h3 className="text-2xl font-bold text-white mb-4">BasimZB</h3>
               <p className="text-gray-300 mb-6">
                 Join us for an epic Marvel Rivals tournament hosted by the legendary BasimZB! 
@@ -112,7 +181,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gray-900">
+      <section className="py-16 bg-black">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-6">Tournament Information</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
