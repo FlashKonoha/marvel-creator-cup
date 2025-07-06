@@ -87,12 +87,20 @@ export default function AdminDraftPage() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-white">Admin Console</h1>
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition-colors"
-          >
-            Logout
-          </button>
+          <div className="flex gap-4">
+            <a
+              href="/admin/players"
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition-colors"
+            >
+              Player Management
+            </a>
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition-colors"
+            >
+              Logout
+            </button>
+          </div>
         </div>
         <AdminDraft
           teams={teams}

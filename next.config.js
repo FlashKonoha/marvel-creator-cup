@@ -2,7 +2,7 @@
 const nextConfig = {
   // Image optimization
   images: {
-    domains: ['picsum.photos'],
+    domains: ['picsum.photos',"static-cdn.jtvnw.net"],
     formats: ['image/webp', 'image/avif'],
   },
   
