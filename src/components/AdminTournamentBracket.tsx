@@ -279,7 +279,7 @@ export default function AdminTournamentBracket() {
               </div>
               <div>
                 <p className="text-gray-400">Max Teams: {bracketState.tournament.maxTeams}</p>
-                <p className="text-gray-400">Last Updated: {new Date(bracketState.lastUpdated).toLocaleString()}</p>
+                <p className="text-gray-400">Last Updated: {bracketState.lastUpdated ? new Date(bracketState.lastUpdated).toLocaleString() : 'N/A'}</p>
               </div>
               <div>
                 <p className="text-gray-400">Available Teams: {teams.length}</p>

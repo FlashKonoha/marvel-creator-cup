@@ -238,7 +238,7 @@ export default function TournamentBracketPage() {
             <div className="mt-4 text-sm text-gray-400">
               <p>Status: {bracketState.tournament.status}</p>
               <p>Format: {bracketState.tournament.format}</p>
-              <p>Last Updated: {new Date(bracketState.lastUpdated).toLocaleString()}</p>
+              <p>Last Updated: {bracketState.lastUpdated ? new Date(bracketState.lastUpdated).toLocaleString() : 'N/A'}</p>
             </div>
           )}
 

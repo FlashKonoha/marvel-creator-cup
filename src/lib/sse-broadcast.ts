@@ -1,25 +1,12 @@
-// Store active connections for broadcasting
-const connections = new Set<ReadableStreamDefaultController>()
+// This file is kept for compatibility but the real-time updates now use timestamp-based polling
+// The actual polling logic is implemented in the frontend hooks
 
-// Add connection to the set
-export const addConnection = (controller: ReadableStreamDefaultController) => {
-  connections.add(controller)
+export const broadcastUpdate = async () => {
+  // No-op for now - updates are detected via timestamp polling
+  console.log('Draft update broadcast (timestamp-based polling will detect this)')
 }
 
-// Remove connection from the set
-export const removeConnection = (controller: ReadableStreamDefaultController) => {
-  connections.delete(controller)
-}
-
-// Broadcast function for other API routes
-export const broadcastUpdate = (data: unknown) => {
-  const message = `data: ${JSON.stringify(data)}\n\n`
-  connections.forEach(controller => {
-    try {
-      controller.enqueue(new TextEncoder().encode(message))
-    } catch {
-      // Remove dead connections
-      connections.delete(controller)
-    }
-  })
+export const broadcastTournamentUpdate = async () => {
+  // No-op for now - updates are detected via timestamp polling
+  console.log('Tournament update broadcast (timestamp-based polling will detect this)')
 } 

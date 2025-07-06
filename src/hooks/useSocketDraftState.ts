@@ -18,6 +18,7 @@ interface Team {
 interface DraftState {
   teams: Team[]
   players: Player[]
+  lastUpdated?: string
 }
 
 export function useSocketDraftState() {
@@ -26,7 +27,8 @@ export function useSocketDraftState() {
   const [error, setError] = useState<string | null>(null)
   const [isUpdating, setIsUpdating] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
-  const eventSourceRef = useRef<EventSource | null>(null)
+  const lastUpdateRef = useRef<string | null>(null)
+  const pollIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   // Fetch initial state
   const fetchInitialState = useCallback(async () => {
@@ -35,6 +37,7 @@ export function useSocketDraftState() {
       if (response.ok) {
         const data = await response.json()
         setState(data)
+        lastUpdateRef.current = data.lastUpdated
         setLoading(false)
         setError(null)
         return true
@@ -47,75 +50,62 @@ export function useSocketDraftState() {
     }
   }, [])
 
-  // Initialize SSE connection
-  useEffect(() => {
-    let sseConnected = false
-
-    const connectSSE = () => {
-      try {
-        const eventSource = new EventSource('/api/realtime')
-        eventSourceRef.current = eventSource
-
-        eventSource.onopen = () => {
-          console.log('Connected to SSE server')
-          setIsConnected(true)
-          setError(null)
-          sseConnected = true
-        }
-
-        eventSource.onerror = (err) => {
-          console.error('SSE connection error:', err)
-          if (!sseConnected) {
-            setError('Real-time connection failed. Using static mode.')
-            setIsConnected(false)
+  // Check for updates
+  const checkForUpdates = useCallback(async () => {
+    try {
+      const response = await fetch('/api/updates')
+      if (response.ok) {
+        const data = await response.json()
+        if (data.draft.lastUpdated !== lastUpdateRef.current) {
+          // Fetch the updated draft state
+          const draftResponse = await fetch('/api/draft')
+          if (draftResponse.ok) {
+            const draftData = await draftResponse.json()
+            setState(draftData)
+            lastUpdateRef.current = draftData.lastUpdated
+            console.log('Draft state updated via polling')
           }
         }
-
-        eventSource.onmessage = (event) => {
-          if (event.data.startsWith('data: ')) {
-            try {
-              const data = JSON.parse(event.data.slice(6))
-              console.log('Received draft update via SSE')
-              setState(data)
-              setLoading(false)
-              setError(null)
-            } catch (parseError) {
-              console.error('Error parsing SSE data:', parseError)
-            }
-          }
-        }
-
-        return eventSource
-      } catch (err) {
-        console.error('Error creating SSE connection:', err)
-        setError('Real-time connection failed. Using static mode.')
-        setIsConnected(false)
-        return null
       }
+    } catch (error) {
+      console.error('Error checking for updates:', error)
     }
+  }, [])
 
-    // Try to fetch initial state first, then connect SSE
+  // Start polling
+  const startPolling = useCallback(() => {
+    if (pollIntervalRef.current) {
+      clearInterval(pollIntervalRef.current)
+    }
+    
+    pollIntervalRef.current = setInterval(checkForUpdates, 3000) // Poll every 3 seconds
+    setIsConnected(true)
+  }, [checkForUpdates])
+
+  // Stop polling
+  const stopPolling = useCallback(() => {
+    if (pollIntervalRef.current) {
+      clearInterval(pollIntervalRef.current)
+      pollIntervalRef.current = null
+    }
+    setIsConnected(false)
+  }, [])
+
+  useEffect(() => {
+    // Fetch initial state and start polling
     fetchInitialState().then((success) => {
       if (success) {
-        // If initial fetch succeeds, try SSE for real-time updates
-        connectSSE()
+        startPolling()
       } else {
-        // If initial fetch fails, try SSE as fallback
-        const eventSource = connectSSE()
-        if (!eventSource) {
-          setLoading(false)
-          setError('Failed to load draft state')
-        }
+        setLoading(false)
+        setError('Failed to load draft state')
       }
     })
 
     return () => {
-      if (eventSourceRef.current) {
-        eventSourceRef.current.close()
-        eventSourceRef.current = null
-      }
+      stopPolling()
     }
-  }, [fetchInitialState])
+  }, [fetchInitialState, startPolling, stopPolling])
 
   // Update state on server
   const updateState = useCallback(async (newState: DraftState) => {
@@ -136,6 +126,7 @@ export function useSocketDraftState() {
 
       const data = await response.json()
       setState(data)
+      lastUpdateRef.current = data.lastUpdated
       setError(null)
       return true
     } catch (err) {

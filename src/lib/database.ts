@@ -1,14 +1,23 @@
 import { Redis } from '@upstash/redis'
 
-// Initialize Redis client
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-})
-
 // Database keys
 const DRAFT_STATE_KEY = 'draft-state'
 const TOURNAMENT_BRACKET_STATE_KEY = 'tournament-bracket-state'
+
+// Initialize Redis client with error handling
+function createRedisClient(): Redis {
+  const url = process.env.UPSTASH_REDIS_REST_URL
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN
+
+  if (!url || !token) {
+    throw new Error('Missing Upstash Redis environment variables. Please set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN')
+  }
+
+  return new Redis({
+    url,
+    token,
+  })
+}
 
 // Types
 export interface Player {
@@ -29,6 +38,7 @@ export interface Team {
 export interface DraftState {
   teams: Team[]
   players: Player[]
+  lastUpdated?: string
 }
 
 export interface Match {
@@ -68,6 +78,7 @@ export interface TournamentBracketState {
     }
   }
   grandFinal: Match
+  lastUpdated?: string
 }
 
 // Default data
@@ -113,6 +124,20 @@ const defaultDraftData: DraftState = {
       name: 'Defenders',
       image: 'https://picsum.photos/200/200',
       captain: { id: 106, twitchName: 'Daredevil', twitchImage: 'https://picsum.photos/200/200', twitchLink: 'https://twitch.tv/daredevil' },
+      players: []
+    },
+    {
+      id: 7,
+      name: 'Thunderbolts',
+      image: 'https://picsum.photos/200/200',
+      captain: { id: 107, twitchName: 'ThunderBolt', twitchImage: 'https://picsum.photos/200/200', twitchLink: 'https://twitch.tv/thunderbolt' },
+      players: []
+    },
+    {
+      id: 8,
+      name: 'Inhumans',
+      image: 'https://picsum.photos/200/200',
+      captain: { id: 108, twitchName: 'InhumanKing', twitchImage: 'https://picsum.photos/200/200', twitchLink: 'https://twitch.tv/inhumanking' },
       players: []
     }
   ],
@@ -384,6 +409,7 @@ const defaultTournamentBracketData: TournamentBracketState = {
 // Draft state operations
 export async function getDraftState(): Promise<DraftState> {
   try {
+    const redis = createRedisClient()
     const data = await redis.get<DraftState>(DRAFT_STATE_KEY)
     return data || defaultDraftData
   } catch (error) {
@@ -394,7 +420,12 @@ export async function getDraftState(): Promise<DraftState> {
 
 export async function setDraftState(state: DraftState): Promise<boolean> {
   try {
-    await redis.set(DRAFT_STATE_KEY, state)
+    const redis = createRedisClient()
+    const stateWithTimestamp = {
+      ...state,
+      lastUpdated: new Date().toISOString()
+    }
+    await redis.set(DRAFT_STATE_KEY, stateWithTimestamp)
     return true
   } catch (error) {
     console.error('Error writing draft state to Redis:', error)
@@ -405,6 +436,7 @@ export async function setDraftState(state: DraftState): Promise<boolean> {
 // Tournament bracket state operations
 export async function getTournamentBracketState(): Promise<TournamentBracketState> {
   try {
+    const redis = createRedisClient()
     const data = await redis.get<TournamentBracketState>(TOURNAMENT_BRACKET_STATE_KEY)
     return data || defaultTournamentBracketData
   } catch (error) {
@@ -415,7 +447,12 @@ export async function getTournamentBracketState(): Promise<TournamentBracketStat
 
 export async function setTournamentBracketState(state: TournamentBracketState): Promise<boolean> {
   try {
-    await redis.set(TOURNAMENT_BRACKET_STATE_KEY, state)
+    const redis = createRedisClient()
+    const stateWithTimestamp = {
+      ...state,
+      lastUpdated: new Date().toISOString()
+    }
+    await redis.set(TOURNAMENT_BRACKET_STATE_KEY, stateWithTimestamp)
     return true
   } catch (error) {
     console.error('Error writing tournament bracket state to Redis:', error)
@@ -426,6 +463,7 @@ export async function setTournamentBracketState(state: TournamentBracketState): 
 // Initialize default data if not exists
 export async function initializeDefaultData(): Promise<void> {
   try {
+    const redis = createRedisClient()
     const draftExists = await redis.exists(DRAFT_STATE_KEY)
     const bracketExists = await redis.exists(TOURNAMENT_BRACKET_STATE_KEY)
     

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verify } from 'jsonwebtoken'
+import { broadcastTournamentUpdate } from '../../../lib/sse-broadcast'
 import { 
   getTournamentBracketState, 
   setTournamentBracketState, 
@@ -517,6 +518,8 @@ export async function POST(request: NextRequest) {
     const success = await setTournamentBracketState(bracketState)
     
     if (success) {
+      // Broadcast update to connected clients
+      await broadcastTournamentUpdate()
       return NextResponse.json({ success: true, data: bracketState })
     } else {
       return NextResponse.json({ error: 'Failed to save bracket state' }, { status: 500 })

@@ -1,7 +1,7 @@
 # Marvel Creator Cup - Vercel Deployment Guide
 
 ## Overview
-This guide will help you deploy the Marvel Creator Cup application to Vercel with minimal code changes. The app has been updated to use Server-Sent Events (SSE) instead of Socket.IO for real-time communication, making it compatible with Vercel's serverless functions. The application uses Upstash Redis for data persistence.
+This guide will help you deploy the Marvel Creator Cup application to Vercel with minimal code changes. The app has been updated to use Server-Sent Events (SSE) with efficient polling instead of Socket.IO for real-time communication, making it compatible with Vercel's serverless functions. The application uses Upstash Redis for data persistence.
 
 ## Prerequisites
 - A GitHub account
@@ -51,17 +51,24 @@ In your Vercel project settings, add the following environment variables:
 
 ### Real-time Communication
 - **Before**: Socket.IO with persistent WebSocket connections
-- **After**: Server-Sent Events (SSE) using Vercel's serverless functions
+- **After**: Server-Sent Events (SSE) with efficient polling using Vercel's serverless functions
 
 ### Data Storage
 - **Before**: File-based storage (not suitable for serverless)
 - **After**: Upstash Redis for persistent data storage
 
+### Real-time Updates
+- **Implementation**: Efficient polling every 2 seconds with change detection
+- **Benefits**: Works perfectly with Vercel's serverless architecture
+- **Performance**: Only sends updates when data actually changes
+- **Scalability**: No persistent connections to manage
+
 ### File Structure
 - Removed custom socket server (`src/lib/socket-server.ts`)
 - Added SSE endpoint (`src/app/api/realtime/route.ts`)
-- Updated frontend hook (`src/hooks/useSocketDraftState.ts`)
+- Updated frontend hooks (`src/hooks/useSocketDraftState.ts`, `src/hooks/useTournamentBracket.ts`)
 - Updated database layer (`src/lib/database.ts`) to use Upstash Redis
+- Added Redis-based broadcast system (`src/lib/sse-broadcast.ts`)
 
 ### Dependencies
 - Removed `socket.io` and `socket.io-client`
@@ -104,6 +111,7 @@ UPSTASH_REDIS_REST_TOKEN=your-redis-token-here
 - Check browser console for SSE connection errors
 - Verify the `/api/realtime` endpoint is accessible
 - Ensure CORS headers are properly set
+- Check that polling is working (should see heartbeat messages in network tab)
 
 ### Data Persistence Issues
 - Check your Upstash Redis dashboard for data
@@ -121,6 +129,12 @@ UPSTASH_REDIS_REST_TOKEN=your-redis-token-here
 - Upstash Redis has low latency for global deployments
 - Free tier includes 10,000 requests per day
 - Consider upgrading for high-traffic applications
+
+### Real-time Performance
+- Polling interval: 2 seconds (configurable)
+- Change detection prevents unnecessary data transmission
+- Heartbeat messages keep connections alive
+- Automatic reconnection on connection loss
 
 ### Scaling
 - Vercel automatically scales based on traffic

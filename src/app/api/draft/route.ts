@@ -41,7 +41,7 @@ const writeState = async (data: DraftState) => {
     
     if (success) {
       // Broadcast update to connected clients
-      await broadcastUpdate(data)
+      await broadcastUpdate()
     }
     
     return success

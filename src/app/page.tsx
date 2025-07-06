@@ -292,7 +292,7 @@ export default function Home() {
               <div className="text-sm text-gray-400 mb-4">
                 <p>Tournament Status: {bracketState.tournament.status}</p>
                 <p>Available Teams: {teams.length}</p>
-                <p>Last Updated: {new Date(bracketState.lastUpdated).toLocaleString()}</p>
+                <p>Last Updated: {bracketState.lastUpdated ? new Date(bracketState.lastUpdated).toLocaleString() : 'N/A'}</p>
               </div>
             )}
           </div>

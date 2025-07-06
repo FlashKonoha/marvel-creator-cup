@@ -1,35 +1,5 @@
 import { NextRequest } from 'next/server'
-import fs from 'fs'
-import path from 'path'
-import { addConnection, removeConnection } from '../../../lib/sse-broadcast'
-
-const DATA_FILE = path.join(process.cwd(), 'data', 'draft-state.json')
-
-// Ensure data directory exists
-const ensureDataDir = () => {
-  const dataDir = path.dirname(DATA_FILE)
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true })
-  }
-}
-
-// Read current state
-const readState = () => {
-  ensureDataDir()
-  try {
-    if (fs.existsSync(DATA_FILE)) {
-      const data = fs.readFileSync(DATA_FILE, 'utf8')
-      return JSON.parse(data)
-    }
-  } catch (error) {
-    console.error('Error reading draft state:', error)
-  }
-  
-  return {
-    teams: [],
-    players: []
-  }
-}
+import { getDraftState, getTournamentBracketState } from '../../../lib/database'
 
 export async function GET(request: NextRequest) {
   // Set proper headers for SSE
@@ -44,31 +14,40 @@ export async function GET(request: NextRequest) {
   }
 
   const stream = new ReadableStream({
-    start(controller) {
-      // Send initial state immediately
-      const initialState = readState()
-      const message = `data: ${JSON.stringify(initialState)}\n\n`
-      controller.enqueue(new TextEncoder().encode(message))
-      
-      // Add connection to set
-      addConnection(controller)
-      
-      // Keep connection alive with heartbeat
-      const heartbeat = setInterval(() => {
-        try {
-          controller.enqueue(new TextEncoder().encode(': heartbeat\n\n'))
-        } catch {
+    async start(controller) {
+      try {
+        // Send initial state for both draft and tournament bracket
+        const [draftState, tournamentState] = await Promise.all([
+          getDraftState(),
+          getTournamentBracketState()
+        ])
+        
+        // Send draft state
+        const draftMessage = `data: ${JSON.stringify({ type: 'draft', data: draftState })}\n\n`
+        controller.enqueue(new TextEncoder().encode(draftMessage))
+        
+        // Send tournament state
+        const tournamentMessage = `data: ${JSON.stringify({ type: 'tournament', data: tournamentState })}\n\n`
+        controller.enqueue(new TextEncoder().encode(tournamentMessage))
+        
+        // Simple heartbeat to keep connection alive
+        const heartbeat = setInterval(() => {
+          try {
+            controller.enqueue(new TextEncoder().encode(': heartbeat\n\n'))
+          } catch {
+            clearInterval(heartbeat)
+          }
+        }, 30000) // 30 second heartbeat
+        
+        // Clean up on close
+        request.signal.addEventListener('abort', () => {
           clearInterval(heartbeat)
-          removeConnection(controller)
-        }
-      }, 30000) // 30 second heartbeat
-      
-      // Clean up on close
-      request.signal.addEventListener('abort', () => {
-        clearInterval(heartbeat)
-        removeConnection(controller)
+          controller.close()
+        })
+      } catch (error) {
+        console.error('Error in SSE connection:', error)
         controller.close()
-      })
+      }
     }
   })
 
