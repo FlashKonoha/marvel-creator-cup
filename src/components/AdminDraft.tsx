@@ -29,7 +29,6 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
   const [draggedPlayer, setDraggedPlayer] = useState<Player | null>(null)
   const [editingTeam, setEditingTeam] = useState<Team | null>(null)
   const [showEditModal, setShowEditModal] = useState(false)
-  const [saving, setSaving] = useState(false)
 
 
 
@@ -59,9 +58,7 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
 
     const updatedPlayers = players.filter(player => player.id !== draggedPlayer.id)
     
-    setSaving(true)
     await onStateChange(updatedTeams, updatedPlayers)
-    setSaving(false)
     setDraggedPlayer(null)
   }
 
@@ -83,9 +80,7 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
     })
 
     const updatedPlayers = [...players, player]
-    setSaving(true)
     await onStateChange(updatedTeams, updatedPlayers)
-    setSaving(false)
   }
 
   const openEditModal = (team: Team) => {
@@ -107,9 +102,7 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
       return team
     })
 
-    setSaving(true)
     await onStateChange(updatedTeams, players)
-    setSaving(false)
     setShowEditModal(false)
     setEditingTeam(null)
   }
@@ -128,35 +121,6 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
           <div className="text-right">
             <p className="text-gray-300">Available Players: {players.length}</p>
             <p className="text-gray-300">Teams: {teams.length}</p>
-            <button
-              onClick={async () => {
-                if (confirm('Are you sure you want to reset all data? This will restore the default 8 teams and all players.')) {
-                  setSaving(true)
-                  try {
-                    const response = await fetch('/api/init', { method: 'POST' })
-                    if (response.ok) {
-                      window.location.reload()
-                    } else {
-                      alert('Failed to reset data')
-                    }
-                  } catch {
-                    alert('Error resetting data')
-                  } finally {
-                    setSaving(false)
-                  }
-                }
-              }}
-              disabled={saving}
-              className="mt-2 px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-800 text-white rounded-lg transition-colors"
-            >
-              {saving ? 'Resetting...' : 'Reset Data'}
-            </button>
-            {saving && (
-              <div className="flex items-center space-x-2 mt-2">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
-                <span className="text-blue-400 text-sm">Saving...</span>
-              </div>
-            )}
           </div>
         </div>
 
