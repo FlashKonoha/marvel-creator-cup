@@ -210,7 +210,7 @@ export default function TournamentBracketPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-white text-xl">Loading tournament data...</div>
       </div>
     );
@@ -218,14 +218,14 @@ export default function TournamentBracketPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-red-400 text-xl">Error loading tournament data: {error}</div>
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-gray-400 text-xl">Error loading tournament data: {error}</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-black">
       <div className="container mx-auto py-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">
@@ -251,19 +251,19 @@ export default function TournamentBracketPage() {
           />
         ) : (
           <div className="text-center py-12">
-                          <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 max-w-2xl mx-auto">
-                <h3 className="text-2xl font-bold text-white mb-4">Tournament Not Started</h3>
-                <p className="text-gray-300 mb-6">
-                  The tournament bracket will appear here once the tournament has been initialized.
-                </p>
-              </div>
+            <div className="glass-card rounded-lg p-8 max-w-2xl mx-auto depth-2">
+              <h3 className="text-2xl font-bold text-white mb-4">Tournament Not Started</h3>
+              <p className="text-gray-300 mb-6">
+                The tournament bracket will appear here once the tournament has been initialized.
+              </p>
+            </div>
           </div>
         )}
         
         {/* Grand Final Display */}
         {bracketState && bracketState.tournament.status === 'active' && bracketState.grandFinal && (
           <div className="mt-12 text-center">
-            <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-sm p-6 max-w-2xl mx-auto">
+            <div className="glass-card rounded-lg p-6 max-w-2xl mx-auto depth-2">
               <h2 className="text-2xl font-bold text-white mb-4">Grand Final</h2>
               <div className="flex justify-center items-center space-x-8">
                 <div className="text-center">
@@ -279,7 +279,7 @@ export default function TournamentBracketPage() {
                   </div>
                   <div className={`text-2xl font-bold ${
                     bracketState.grandFinal.winner === bracketState.grandFinal.team1 
-                      ? 'text-green-400' 
+                      ? 'text-white' 
                       : 'text-gray-400'
                   }`}>
                     {bracketState.grandFinal.team1Score}
@@ -301,7 +301,7 @@ export default function TournamentBracketPage() {
                   </div>
                   <div className={`text-2xl font-bold ${
                     bracketState.grandFinal.winner === bracketState.grandFinal.team2 
-                      ? 'text-green-400' 
+                      ? 'text-white' 
                       : 'text-gray-400'
                   }`}>
                     {bracketState.grandFinal.team2Score}

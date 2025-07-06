@@ -30,7 +30,7 @@ export default function DraftPage() {
             <p className="text-red-400 text-xl mb-4">Error loading draft: {error}</p>
             <button 
               onClick={() => window.location.reload()} 
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+              className="glass-button text-white px-4 py-2 rounded"
             >
               Retry
             </button>
@@ -50,7 +50,7 @@ export default function DraftPage() {
     <main className="min-h-screen bg-black py-12">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
-          <Link href="/" className="text-blue-400 hover:text-blue-300 transition-colors mb-4 inline-block">
+          <Link href="/" className="text-white hover:text-gray-300 transition-colors mb-4 inline-block">
             ← Back to Home
           </Link>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -62,27 +62,27 @@ export default function DraftPage() {
           
           {/* Connection Status */}
           <div className="mb-4">
-            <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+            <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium glass-card ${
               isConnected 
-                ? 'bg-green-100 text-green-800' 
-                : 'bg-yellow-100 text-yellow-800'
+                ? 'text-white' 
+                : 'text-gray-300'
             }`}>
               <span className={`w-2 h-2 rounded-full mr-2 ${
-                isConnected ? 'bg-green-500' : 'bg-yellow-500'
+                isConnected ? 'bg-white' : 'bg-gray-400'
               }`}></span>
               {isConnected ? 'Live Updates' : 'Static Mode'}
             </span>
           </div>
           
           {/* Draft Progress */}
-          <div className="bg-gray-800 rounded-lg p-4 mb-6 max-w-md mx-auto">
+          <div className="glass-card rounded-lg p-4 mb-6 max-w-md mx-auto depth-2">
             <div className="flex justify-between items-center mb-2">
               <span className="text-white font-semibold">Draft Progress</span>
-              <span className="text-blue-400 font-bold">{draftProgress}%</span>
+              <span className="text-white font-bold">{draftProgress}%</span>
             </div>
-            <div className="w-full bg-gray-700 rounded-full h-2">
+            <div className="w-full bg-black/30 rounded-full h-2">
               <div 
-                className="bg-blue-500 h-2 rounded-full transition-all duration-500" 
+                className="bg-white h-2 rounded-full transition-all duration-500" 
                 style={{ width: `${draftProgress}%` }}
               ></div>
             </div>

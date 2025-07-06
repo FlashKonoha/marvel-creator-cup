@@ -212,37 +212,53 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black">
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-black"></div>
-        <div className="relative z-10 container mx-auto px-4 py-20 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-            <span className="text-white">MARVEL</span> CREATOR CUP
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            Join the ultimate Marvel Rivals tournament hosted by BasimZB
-          </p>
-          <div className="flex justify-center items-center gap-4">
-            <Link 
-              href="/tournament-info" 
-              className="bg-white hover:bg-gray-200 text-black px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
-            >
-              Tournament Info
-            </Link>
-            <Link 
-              href="/draft" 
-              className="bg-gray-800 hover:bg-gray-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors border border-white/20"
-            >
-              Team Draft
-            </Link>
+      <section className="relative overflow-hidden h-[180svh] flex items-start pt-50 -mb-360">
+        {/* Smooth gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 via-gray-800 to-gray-900 to-transparent h-[300%]"></div>
+        
+        {/* Subtle radial overlay for depth */}
+        <div className="absolute inset-0 bg-radial-gradient from-white/5 via-transparent to-transparent h-[300%]"></div>
+        
+        <div className="relative container mx-auto px-4 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-6xl md:text-8xl font-bold text-white mb-8 leading-tight">
+              <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                MARVEL
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-gray-300 to-white bg-clip-text text-transparent">
+                CREATOR CUP
+              </span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+              Join the ultimate Marvel Rivals tournament hosted by BasimZB
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
+              <Link 
+                href="/tournament-info" 
+                className="glass-button text-white px-10 py-5 rounded-xl font-semibold text-lg shadow-2xl hover:scale-105 transition-transform duration-300"
+              >
+                Tournament Info
+              </Link>
+              <Link 
+                href="/draft" 
+                className="glass-button text-white px-10 py-5 rounded-xl font-semibold text-lg shadow-2xl hover:scale-105 transition-transform duration-300"
+              >
+                Team Draft
+              </Link>
+            </div>
           </div>
         </div>
+        
+        {/* Smooth fade to next section */}
+        <div className="absolute -bottom-20 left-0 right-0 h-96 bg-gradient-to-t from-black to-transparent"></div>
       </section>
 
       {/* Tournament Details */}
-      <section className="py-16 bg-gray-900/50">
+      <section className="relative py-40 pb-80 -mt-240">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
+          <div className="grid md:grid-cols-2 gap-20 items-center">
+            <div className="glass-card p-8 rounded-lg depth-2">
               <h2 className="text-3xl font-bold text-white mb-6">Tournament Details</h2>
               <div className="space-y-4 text-gray-300">
                 <div className="text-lg text-white"><strong>Date:</strong> July 25, 2025</div>
@@ -253,11 +269,11 @@ export default function Home() {
                 <div className="text-lg text-white"><strong>Draft:</strong> July 18, 2025 (Team Selection)</div>
               </div>
             </div>
-            <div className="bg-gray-800/50 p-8 rounded-lg border border-white/10">
+            <div className="glass-card p-8 rounded-lg depth-2">
               <h3 className="text-2xl font-bold text-white mb-4">Prize Pool</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-yellow-400">🥇 1st Place</span>
+                  <span className="text-white">🥇 1st Place</span>
                   <span className="text-white font-bold">$2000</span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -265,7 +281,7 @@ export default function Home() {
                   <span className="text-white font-bold">$250</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-amber-400">🥉 3rd Place</span>
+                  <span className="text-gray-400">🥉 3rd Place</span>
                   <span className="text-white font-bold">$100</span>
                 </div>
               </div>
@@ -275,7 +291,7 @@ export default function Home() {
       </section>
 
       {/* Tournament Bracket Section */}
-      <section className="py-16 bg-black">
+      <section className="py-16 relative bg-black">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-white mb-4">Tournament Bracket</h2>
@@ -286,7 +302,7 @@ export default function Home() {
               <div className="text-white text-lg">Loading tournament data...</div>
             )}
             {error && (
-              <div className="text-red-400 text-lg">Error loading tournament data: {error}</div>
+              <div className="text-gray-400 text-lg">Error loading tournament data: {error}</div>
             )}
             {bracketState && (
               <div className="text-sm text-gray-400 mb-4">
@@ -298,7 +314,7 @@ export default function Home() {
           </div>
           
           {!loading && !error && bracketState && bracketState.tournament.status === 'active' && (
-            <div className="bg-gray-900/50 p-6 rounded-lg border border-white/10">
+            <div className="glass-card p-6 rounded-lg depth-2">
               <TournamentBracket 
                 upperBracket={bracketData.upperBracket}
                 lowerBracket={bracketData.lowerBracket}
@@ -308,7 +324,7 @@ export default function Home() {
           
           {!loading && !error && (!bracketState || bracketState.tournament.status !== 'active') && (
             <div className="text-center py-12">
-              <div className="bg-gray-800/50 border border-white/10 rounded-lg p-8 max-w-2xl mx-auto">
+              <div className="glass-card p-8 rounded-lg depth-2 max-w-2xl mx-auto">
                 <h3 className="text-2xl font-bold text-white mb-4">Tournament Not Started</h3>
                 <p className="text-gray-300 mb-6">
                   The tournament bracket will appear here once the tournament has been initialized by an admin.
@@ -316,7 +332,7 @@ export default function Home() {
                 <div className="flex justify-center">
                   <Link 
                     href="/draft" 
-                    className="bg-white hover:bg-gray-200 text-black px-6 py-3 rounded-lg font-semibold transition-colors"
+                    className="glass-button text-white px-6 py-3 rounded-lg font-semibold"
                   >
                     Join the Draft
                   </Link>
@@ -328,7 +344,7 @@ export default function Home() {
           <div className="text-center mt-8">
             <Link 
               href="/tournament-bracket" 
-              className="bg-white hover:bg-gray-200 text-black px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
+              className="glass-button text-white px-8 py-4 rounded-lg font-semibold text-lg"
             >
               View Full Bracket
             </Link>
@@ -337,11 +353,11 @@ export default function Home() {
       </section>
 
       {/* Host Section */}
-      <section className="py-16 bg-gray-900/50">
+      <section className="py-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-8">Meet Your Host</h2>
           <div className="max-w-2xl mx-auto">
-            <div className="bg-gray-800/50 p-8 rounded-lg border border-white/10">
+            <div className="glass-card p-8 rounded-lg depth-2">
               <h3 className="text-2xl font-bold text-white mb-4">BasimZB</h3>
               <p className="text-gray-300 mb-6">
                 Join us for an epic Marvel Rivals tournament hosted by the legendary BasimZB! 
@@ -351,7 +367,7 @@ export default function Home() {
                 href="https://www.twitch.tv/basimzb" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-white hover:bg-gray-200 text-black px-6 py-3 rounded-lg font-semibold transition-colors"
+                className="inline-flex items-center gap-2 glass-button text-white px-6 py-3 rounded-lg font-semibold"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/>
@@ -364,7 +380,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-black">
+      <section className="py-16 mb-20 border-box">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-6">Tournament Information</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
@@ -372,7 +388,7 @@ export default function Home() {
           </p>
           <Link 
             href="/tournament-info" 
-            className="bg-white hover:bg-gray-200 text-black px-10 py-4 rounded-lg font-bold text-xl transition-colors"
+            className="glass-button text-white px-10 py-4 rounded-lg font-bold text-xl"
           >
             View Tournament Details
           </Link>

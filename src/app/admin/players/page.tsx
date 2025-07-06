@@ -100,7 +100,7 @@ export default function AdminPlayersPage() {
       <main className="min-h-screen bg-black py-8">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500 mx-auto"></div>
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white mx-auto"></div>
             <p className="text-white text-xl mt-4">Verifying access...</p>
           </div>
         </div>
@@ -119,7 +119,7 @@ export default function AdminPlayersPage() {
       <main className="min-h-screen bg-black py-8">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500 mx-auto"></div>
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white mx-auto"></div>
             <p className="text-white text-xl mt-4">Loading player management...</p>
           </div>
         </div>
@@ -139,13 +139,13 @@ export default function AdminPlayersPage() {
           <div className="flex gap-4">
             <a
               href="/draft/admin"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition-colors"
+              className="glass-button text-white px-4 py-2 rounded"
             >
               Draft Admin
             </a>
             <button
               onClick={handleLogout}
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition-colors"
+              className="glass-button text-white px-4 py-2 rounded"
             >
               Logout
             </button>
@@ -157,7 +157,7 @@ export default function AdminPlayersPage() {
           {players.map((player) => (
             <div
               key={player.id}
-              className="bg-gray-800 rounded-lg p-6 border border-gray-700 hover:border-blue-500 transition-colors"
+              className="glass-card rounded-lg p-6 depth-1 hover:depth-2 transition-all duration-200"
             >
               <div className="flex flex-col items-center text-center mb-4">
                 {player.twitchImage.startsWith('/api/image/') ? (
@@ -183,7 +183,7 @@ export default function AdminPlayersPage() {
                     href={player.twitchLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 hover:text-blue-300 text-sm"
+                    className="text-white hover:text-gray-300 text-sm"
                   >
                     View on Twitch
                   </a>
@@ -194,7 +194,7 @@ export default function AdminPlayersPage() {
               </div>
               <button
                 onClick={() => openEditModal(player)}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition-colors"
+                className="w-full glass-button text-white px-4 py-2 rounded"
               >
                 Edit Player
               </button>
@@ -205,7 +205,7 @@ export default function AdminPlayersPage() {
         {/* Player Edit Modal */}
         {showEditModal && editingPlayer && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-gray-900 p-8 rounded-lg border border-gray-700 max-w-md w-full mx-4">
+            <div className="glass-card p-8 rounded-lg max-w-md w-full mx-4 depth-3">
               <h3 className="text-2xl font-bold text-white mb-4">Edit Player</h3>
               <form onSubmit={async (e) => {
                 e.preventDefault()
@@ -241,7 +241,7 @@ export default function AdminPlayersPage() {
                     type="text"
                     name="twitchName"
                     defaultValue={editingPlayer.twitchName}
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                    className="glass-input w-full px-4 py-3 rounded-lg text-white placeholder-gray-400 focus:outline-none"
                     required
                   />
                 </div>
@@ -274,11 +274,11 @@ export default function AdminPlayersPage() {
                     type="file"
                     name="imageFile"
                     accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 file:cursor-pointer cursor-pointer focus:outline-none focus:border-blue-500 transition-colors"
+                    className="w-full px-4 py-3 glass-input rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/20 file:text-white hover:file:bg-white/30 file:cursor-pointer cursor-pointer focus:outline-none"
                   />
                   <p className="text-gray-400 text-xs mt-1">Max size: 2MB. Supported: JPEG, PNG, GIF, WebP. Images are stored in Redis.</p>
                   {uploadError && (
-                    <p className="text-red-400 text-xs mt-1">{uploadError}</p>
+                    <p className="text-gray-400 text-xs mt-1">{uploadError}</p>
                   )}
                 </div>
                 
@@ -291,7 +291,7 @@ export default function AdminPlayersPage() {
                     name="twitchLink"
                     defaultValue={editingPlayer.twitchLink}
                     placeholder="https://twitch.tv/username"
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                    className="glass-input w-full px-4 py-3 rounded-lg text-white placeholder-gray-400 focus:outline-none"
                   />
                   <p className="text-gray-400 text-xs mt-1">Leave empty if no Twitch link is available</p>
                 </div>
@@ -300,7 +300,7 @@ export default function AdminPlayersPage() {
                   <button
                     type="submit"
                     disabled={uploadingImage}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-4 py-3 rounded-lg font-semibold transition-colors"
+                    className="flex-1 glass-button text-white px-4 py-3 rounded-lg font-semibold disabled:opacity-50"
                   >
                     {uploadingImage ? 'Uploading...' : 'Save Changes'}
                   </button>
@@ -311,7 +311,7 @@ export default function AdminPlayersPage() {
                       setEditingPlayer(null)
                       setUploadError(null)
                     }}
-                    className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-4 py-3 rounded-lg font-semibold transition-colors"
+                    className="flex-1 glass-button text-white px-4 py-3 rounded-lg font-semibold"
                   >
                     Cancel
                   </button>

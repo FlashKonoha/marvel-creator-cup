@@ -15,8 +15,11 @@ interface PlayerCardProps {
 
 export default function PlayerCard({ player }: PlayerCardProps) {
   return (
-    <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 hover:border-blue-500 transition-colors">
-      <div className="flex flex-col items-center text-center">
+    <div className="glass-card rounded-lg p-4 depth-1 hover:depth-2 transition-all duration-200">
+      <a className="flex flex-col items-center text-center"  
+        href={player.twitchLink}
+        target="_blank"
+        rel="noopener noreferrer">
         <Image 
           src={player.twitchImage} 
           alt={player.twitchName}
@@ -31,11 +34,11 @@ export default function PlayerCard({ player }: PlayerCardProps) {
           href={player.twitchLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-400 hover:text-blue-300 text-xs transition-colors"
+          className="text-white hover:text-gray-300 text-xs transition-colors"
         >
           View on Twitch
         </a> */}
-      </div>
+      </a>
     </div>
   )
 } 

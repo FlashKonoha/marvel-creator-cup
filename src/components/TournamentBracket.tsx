@@ -36,10 +36,10 @@ const TournamentBracket: React.FC<TournamentBracketProps> = ({ upperBracket, low
   const renderMatch = (match: Match, index: number, totalMatches: number, title: string, colIndex: number) => (
     <div key={match.id} className="relative mb-8" data-index={index} data-total-matches={totalMatches} data-col-index={colIndex}>
       <div
-        className="block bg-gray-800 border border-gray-700 rounded-lg shadow-sm hover:shadow-md hover:border-gray-600 transition-all duration-200"
+        className="block glass-card rounded-lg depth-1 hover:depth-2 transition-all duration-200"
       >
         {/* Team 1 */}
-        <div className={`flex items-center justify-between p-3 border-b border-gray-700 ${
+        <div className={`flex items-center justify-between p-3 border-b border-white/10 ${
           match.team1.isLoser ? 'opacity-60' : ''
         }`}>
           <div className="flex items-center space-x-2">
@@ -50,12 +50,12 @@ const TournamentBracket: React.FC<TournamentBracketProps> = ({ upperBracket, low
               height={24}
               className="w-6 h-6 object-contain"
             />
-            <span className="text-sm font-medium text-gray-100">
+            <span className="text-sm font-medium text-white">
               {match.team1.name}
             </span>
           </div>
           <div className={`text-sm font-bold ${
-            match.team1.isWinner ? 'text-green-400' : 'text-gray-400'
+            match.team1.isWinner ? 'text-white' : 'text-gray-400'
           }`}>
             {match.team1.score}
           </div>
@@ -73,19 +73,19 @@ const TournamentBracket: React.FC<TournamentBracketProps> = ({ upperBracket, low
               height={24}
               className="w-6 h-6 object-contain"
             />
-            <span className="text-sm font-medium text-gray-100">
+            <span className="text-sm font-medium text-white">
               {match.team2.name}
             </span>
           </div>
           <div className={`text-sm font-bold ${
-            match.team2.isWinner ? 'text-green-400' : 'text-gray-400'
+            match.team2.isWinner ? 'text-white' : 'text-gray-400'
           }`}>
             {match.team2.score}
           </div>
         </div>
         
         {/* Match Status */}
-        <div className="px-3 py-2 bg-gray-900 border-t border-gray-700 rounded-b-lg">
+        <div className="px-3 py-2 bg-black/20 border-t border-white/10 rounded-b-lg">
           <div className="flex items-center justify-between text-xs text-gray-400">
             <span className="pr-3">{match.time}</span>
             {match.hasVideo && (
@@ -93,7 +93,7 @@ const TournamentBracket: React.FC<TournamentBracketProps> = ({ upperBracket, low
                 href="https://www.twitch.tv/basimzb" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-purple-400 hover:text-purple-300 transition-colors flex items-center space-x-1"
+                className="text-white hover:text-gray-300 transition-colors flex items-center space-x-1"
                 onClick={(e) => e.stopPropagation()}
               >
                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
@@ -116,26 +116,26 @@ const TournamentBracket: React.FC<TournamentBracketProps> = ({ upperBracket, low
             // Line goes left down right
             return (
               <>
-                <div className="absolute top-12 transform -right-4 w-4 h-1 bg-gray-600"></div>
-                <div className="absolute top-12 transform -right-4 w-1 h-42 bg-gray-600"></div>
+                <div className="absolute top-12 transform -right-4 w-4 h-0.5 bg-gray-600"></div>
+                <div className="absolute top-12 transform -right-4 w-0.5 h-42 bg-gray-600"></div>
               </>
             );
           } else if (matchIndexValue === 1) {
             // Line goes left
             return (
-              <div className="absolute top-12.5 transform -translate-y-1/2 -right-8 w-8 h-1 bg-gray-600"></div>
+              <div className="absolute top-12.5 transform -translate-y-1/2 -right-8 w-8 h-0.5 bg-gray-600"></div>
             );
           } else if (matchIndexValue === 2) {
             // Line goes left
             return (
-              <div className="absolute top-12.5 transform -translate-y-1/2 -right-8 w-8 h-1 bg-gray-600"></div>
+              <div className="absolute top-12.5 transform -translate-y-1/2 -right-8 w-8 h-0.5 bg-gray-600"></div>
             );
           } else if (matchIndexValue === 3) {
             // Line goes left up right
             return (
               <>
-                <div className="absolute top-12 transform -right-4 w-4 h-1 bg-gray-600"></div>
-                <div className="absolute -top-28 transform -right-4 w-1 h-40 bg-gray-600"></div>
+                <div className="absolute top-12 transform -right-4 w-4 h-0.5 bg-gray-600"></div>
+                <div className="absolute -top-29 transform -right-4 w-0.5 h-41 bg-gray-600"></div>
               </>
             );
           }
@@ -144,17 +144,17 @@ const TournamentBracket: React.FC<TournamentBracketProps> = ({ upperBracket, low
             // Line goes left down right
             return (
               <>
-                <div className="absolute top-12 transform -right-4 w-4 h-1 bg-gray-600"></div>
-                <div className="absolute top-12 transform -right-4 w-1 h-21 bg-gray-600"></div>
-                <div className="absolute top-32.5 transform -right-8 w-4 h-1 bg-gray-600"></div>
+                <div className="absolute top-12 transform -right-4 w-4 h-0.5 bg-gray-600"></div>
+                <div className="absolute top-12 transform -right-4 w-0.5 h-21 bg-gray-600"></div>
+                <div className="absolute top-32.5 transform -right-8 w-4 h-0.5 bg-gray-600"></div>
               </>
             );
           } else if (matchIndexValue === 1) {
             // Line goes left up right
             return (
               <>
-                <div className="absolute top-12 transform -right-4 w-4 h-1 bg-gray-600"></div>
-                <div className="absolute -top-8 transform -right-4 w-1 h-21 bg-gray-600"></div>
+                <div className="absolute top-12 transform -right-4 w-4 h-0.5 bg-gray-600"></div>
+                <div className="absolute -top-9 transform -right-4 w-0.5 h-21 bg-gray-600"></div>
               </>
             );
           }
@@ -163,18 +163,18 @@ const TournamentBracket: React.FC<TournamentBracketProps> = ({ upperBracket, low
               // Line goes left down right
               return (
                 <>
-                  <div className="absolute top-12 transform -right-4 w-4 h-1 bg-gray-600"></div>
-                  <div className="absolute top-12 transform -right-4 w-1 h-9 bg-gray-600"></div>
-                  <div className="absolute top-20 transform -right-8 w-4 h-1 bg-gray-600"></div>
+                  <div className="absolute top-12 transform -right-4 w-4 h-0.5 bg-gray-600"></div>
+                  <div className="absolute top-12 transform -right-4 w-0.5 h-8.5 bg-gray-600"></div>
+                  <div className="absolute top-20 transform -right-8 w-4 h-0.5 bg-gray-600"></div>
                 </>
               );
             } else if (matchIndexValue === 1) {
               // Line goes left up right
               return (
                 <>
-                  <div className="absolute top-12 transform -right-4 w-4 h-1 bg-gray-600"></div>
-                  <div className="absolute top-12 transform -right-4 w-1 h-9 bg-gray-600"></div>
-                  <div className="absolute top-20 transform -right-8 w-4 h-1 bg-gray-600"></div>
+                  <div className="absolute top-12 transform -right-4 w-4 h-0.5 bg-gray-600"></div>
+                  <div className="absolute top-12 transform -right-4 w-0.5 h-8.5 bg-gray-600"></div>
+                  <div className="absolute top-20 transform -right-8 w-4 h-0.5 bg-gray-600"></div>
                 </>
               );
             }
@@ -183,17 +183,17 @@ const TournamentBracket: React.FC<TournamentBracketProps> = ({ upperBracket, low
                 // Line goes left down right
                 return (
                 <>
-                    <div className="absolute top-12 transform -right-4 w-4 h-1 bg-gray-600"></div>
-                    <div className="absolute top-12 transform -right-4 w-1 h-21 bg-gray-600"></div>
-                    <div className="absolute top-32.5 transform -right-8 w-4 h-1 bg-gray-600"></div>
+                    <div className="absolute top-12 transform -right-4 w-4 h-0.5 bg-gray-600"></div>
+                    <div className="absolute top-12 transform -right-4 w-0.5 h-21.5 bg-gray-600"></div>
+                    <div className="absolute top-32.5 transform -right-8 w-4 h-0.5 bg-gray-600"></div>
                 </>
                 );
             } else if (matchIndexValue === 1) {
                 // Line goes left up right
                 return (
                 <>
-                    <div className="absolute top-12 transform -right-4 w-4 h-1 bg-gray-600"></div>
-                    <div className="absolute -top-8 transform -right-4 w-1 h-20 bg-gray-600"></div>
+                    <div className="absolute top-12 transform -right-4 w-4 h-0.5 bg-gray-600"></div>
+                    <div className="absolute -top-8 transform -right-4 w-0.5 h-20 bg-gray-600"></div>
                 </>
                 );
             }
@@ -214,7 +214,7 @@ const TournamentBracket: React.FC<TournamentBracketProps> = ({ upperBracket, low
           
           return (
             <div key={colIndex} className="flex-shrink-0 min-w-[280px] flex flex-col items-center">
-              <div className="text-center text-sm font-semibold text-gray-300 mb-6 px-2 py-1 bg-gray-800 border border-gray-700 rounded">
+              <div className="text-center text-sm font-semibold text-white mb-6 px-2 py-1 glass-card rounded">
                 {column.label}
               </div>
               <div 

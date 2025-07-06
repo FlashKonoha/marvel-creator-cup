@@ -6,7 +6,7 @@ export default function TournamentInfo() {
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <Link href="/" className="text-blue-400 hover:text-blue-300 transition-colors mb-4 inline-block">
+            <Link href="/" className="text-white hover:text-gray-300 transition-colors mb-4 inline-block">
               ← Back to Home
             </Link>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -19,7 +19,7 @@ export default function TournamentInfo() {
 
           <div className="grid md:grid-cols-2 gap-8">
             {/* Tournament Overview */}
-            <div className="bg-gray-900 rounded-lg border border-gray-700 p-6">
+            <div className="glass-card rounded-lg p-6 depth-2">
               <h2 className="text-2xl font-bold text-white mb-4">Tournament Overview</h2>
               <div className="space-y-3 text-gray-300">
                 <div className="flex justify-between">
@@ -54,33 +54,33 @@ export default function TournamentInfo() {
             </div>
 
             {/* Prize Pool */}
-            <div className="bg-gray-900 rounded-lg border border-gray-700 p-6">
+            <div className="glass-card rounded-lg p-6 depth-2">
               <h2 className="text-2xl font-bold text-white mb-4">Prize Pool</h2>
               <div className="space-y-4">
-                <div className="flex justify-between items-center p-3 bg-gray-800 rounded">
+                <div className="flex justify-between items-center p-3 bg-black/20 rounded">
                   <span className="text-2xl">🥇</span>
                   <span className="text-white font-semibold">1st Place</span>
-                  <span className="text-yellow-400 font-bold text-xl">$2000</span>
+                  <span className="text-white font-bold text-xl">$2000</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-gray-800 rounded">
+                <div className="flex justify-between items-center p-3 bg-black/20 rounded">
                   <span className="text-2xl">🥈</span>
                   <span className="text-white font-semibold">2nd Place</span>
                   <span className="text-gray-300 font-bold text-xl">$250</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-gray-800 rounded">
+                <div className="flex justify-between items-center p-3 bg-black/20 rounded">
                   <span className="text-2xl">🥉</span>
                   <span className="text-white font-semibold">3rd Place</span>
-                  <span className="text-amber-400 font-bold text-xl">$100</span>
+                  <span className="text-gray-400 font-bold text-xl">$100</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Team Draft Process */}
-          <div className="mt-8 bg-gray-900 rounded-lg border border-gray-700 p-6">
+          <div className="mt-8 glass-card rounded-lg p-6 depth-2">
             <h2 className="text-2xl font-bold text-white mb-6">Team Draft Process</h2>
             <div className="space-y-4 text-gray-300">
-              <div className="border-l-4 border-blue-500 pl-4">
+              <div className="border-l-4 border-white/30 pl-4">
                 <h3 className="text-white font-semibold mb-2">Draft Overview</h3>
                 <ul className="space-y-2 text-sm">
                   <li>• Draft Date: July 18, 2025 (One week before tournament)</li>
@@ -90,7 +90,7 @@ export default function TournamentInfo() {
                   <li>• Snake draft format: 1-2-3-4-5-6-6-5-4-3-2-1</li>
                 </ul>
               </div>
-              <div className="border-l-4 border-purple-500 pl-4">
+              <div className="border-l-4 border-white/20 pl-4">
                 <h3 className="text-white font-semibold mb-2">Team Structure</h3>
                 <ul className="space-y-2 text-sm">
                   <li>• 6-8 teams total (depending on registration)</li>
@@ -104,7 +104,7 @@ export default function TournamentInfo() {
             <div className="mt-6 text-center">
               <Link 
                 href="/draft" 
-                className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                className="glass-button text-white px-6 py-3 rounded-lg font-semibold"
               >
                 View Team Draft
               </Link>
@@ -112,10 +112,10 @@ export default function TournamentInfo() {
           </div>
 
           {/* Tournament Rules */}
-          <div className="mt-8 bg-gray-900 rounded-lg border border-gray-700 p-6">
+          <div className="mt-8 glass-card rounded-lg p-6 depth-2">
             <h2 className="text-2xl font-bold text-white mb-6">Tournament Rules</h2>
             <div className="space-y-4 text-gray-300">
-              <div className="border-l-4 border-red-500 pl-4">
+              <div className="border-l-4 border-white/40 pl-4">
                 <h3 className="text-white font-semibold mb-2">General Rules</h3>
                 <ul className="space-y-2 text-sm">
                   <li>• All players must be 13 years or older</li>
@@ -126,7 +126,7 @@ export default function TournamentInfo() {
                 </ul>
               </div>
 
-              <div className="border-l-4 border-blue-500 pl-4">
+              <div className="border-l-4 border-white/30 pl-4">
                 <h3 className="text-white font-semibold mb-2">Tournament Format</h3>
                 <ul className="space-y-2 text-sm">
                   <li>• Double Elimination: Winners and Losers Bracket</li>
@@ -138,7 +138,7 @@ export default function TournamentInfo() {
                 </ul>
               </div>
 
-              <div className="border-l-4 border-green-500 pl-4">
+              <div className="border-l-4 border-white/25 pl-4">
                 <h3 className="text-white font-semibold mb-2">Game Rules</h3>
                 <ul className="space-y-2 text-sm">
                   <li>• No pick/bans system - players choose any hero freely</li>
@@ -148,7 +148,7 @@ export default function TournamentInfo() {
                   <li>• No intentional disconnections or game throwing</li>
                 </ul>
               </div>
-              <div className="border-l-4 border-purple-500 pl-4">
+              <div className="border-l-4 border-white/20 pl-4">
                 <h3 className="text-white font-semibold mb-2">Streaming & Content</h3>
                 <ul className="space-y-2 text-sm">
                   <li>• All matches will be streamed on BasimZB&apos;s Twitch channel</li>
@@ -161,38 +161,38 @@ export default function TournamentInfo() {
           </div>
 
           {/* Schedule */}
-          <div className="mt-8 bg-gray-900 rounded-lg border border-gray-700 p-6">
+          <div className="mt-8 glass-card rounded-lg p-6 depth-2">
             <h2 className="text-2xl font-bold text-white mb-6">Tournament Schedule</h2>
             <div className="space-y-4">
-              <div className="flex items-center gap-4 p-4 bg-gray-800 rounded border border-gray-600">
-                <div className="text-purple-400 font-bold">July 18, 2025</div>
+              <div className="flex items-center gap-4 p-4 bg-black/20 rounded border border-white/10">
+                <div className="text-white font-bold">July 18, 2025</div>
                 <div className="text-white">Team Draft Day - Captains Select Players</div>
               </div>
-              <div className="flex items-center gap-4 p-4 bg-gray-800 rounded border border-gray-600">
-                <div className="text-blue-400 font-bold">5:30 PM EST</div>
+              <div className="flex items-center gap-4 p-4 bg-black/20 rounded border border-white/10">
+                <div className="text-white font-bold">5:30 PM EST</div>
                 <div className="text-white">July 25 - Team Check-in Begins</div>
               </div>
-              <div className="flex items-center gap-4 p-4 bg-gray-800 rounded border border-gray-600">
-                <div className="text-green-400 font-bold">6:00 PM EST</div>
+              <div className="flex items-center gap-4 p-4 bg-black/20 rounded border border-white/10">
+                <div className="text-white font-bold">6:00 PM EST</div>
                 <div className="text-white">Tournament Begins - Winners Bracket Round 1</div>
               </div>
-              <div className="flex items-center gap-4 p-4 bg-gray-800 rounded border border-gray-600">
-                <div className="text-orange-400 font-bold">7:00 PM EST</div>
+              <div className="flex items-center gap-4 p-4 bg-black/20 rounded border border-white/10">
+                <div className="text-white font-bold">7:00 PM EST</div>
                 <div className="text-white">Losers Bracket Begins</div>
               </div>
-              <div className="flex items-center gap-4 p-4 bg-gray-800 rounded border border-gray-600">
-                <div className="text-red-400 font-bold">8:30 PM EST</div>
+              <div className="flex items-center gap-4 p-4 bg-black/20 rounded border border-white/10">
+                <div className="text-white font-bold">8:30 PM EST</div>
                 <div className="text-white">Semi Finals (Both Brackets)</div>
               </div>
-              <div className="flex items-center gap-4 p-4 bg-gray-800 rounded border border-gray-600">
-                <div className="text-yellow-400 font-bold">9:30 PM EST</div>
+              <div className="flex items-center gap-4 p-4 bg-black/20 rounded border border-white/10">
+                <div className="text-white font-bold">9:30 PM EST</div>
                 <div className="text-white">Grand Finals & Prize Ceremony</div>
               </div>
             </div>
           </div>
 
           {/* Watch Tournament */}
-          <div className="mt-8 bg-gray-900 rounded-lg border border-gray-700 p-6 text-center">
+          <div className="mt-8 glass-card rounded-lg p-6 depth-2 text-center">
             <h2 className="text-2xl font-bold text-white mb-4">Watch the Tournament</h2>
             <p className="text-gray-300 mb-6">
               Tune in to BasimZB&apos;s Twitch channel to watch the ultimate Marvel Rivals tournament!
@@ -201,14 +201,14 @@ export default function TournamentInfo() {
               href="https://www.twitch.tv/basimzb" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-block bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors"
+              className="inline-block glass-button text-white px-8 py-4 rounded-lg font-bold text-lg"
             >
               Watch on Twitch
             </a>
           </div>
 
           {/* Contact Info */}
-          <div className="mt-8 bg-gray-900 rounded-lg border border-gray-700 p-6">
+          <div className="mt-8 glass-card rounded-lg p-6 depth-2">
             <h2 className="text-2xl font-bold text-white mb-4">Contact Information</h2>
             <div className="grid md:grid-cols-2 gap-6 text-gray-300">
               <div>
@@ -218,7 +218,7 @@ export default function TournamentInfo() {
                   href="https://www.twitch.tv/basimzb" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-purple-400 hover:text-purple-300 transition-colors"
+                  className="text-white hover:text-gray-300 transition-colors"
                 >
                   twitch.tv/basimzb
                 </a>
@@ -226,7 +226,7 @@ export default function TournamentInfo() {
               <div>
                 <h3 className="text-white font-semibold mb-2">Support</h3>
                 <p>For questions or issues:</p>
-                <p className="text-blue-400">tournament@marvelcreatorcup.com</p>
+                <p className="text-white">tournament@marvelcreatorcup.com</p>
                 <p className="text-sm text-gray-400">Response within 24 hours</p>
               </div>
             </div>

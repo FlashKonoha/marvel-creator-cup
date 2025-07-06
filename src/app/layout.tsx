@@ -28,11 +28,11 @@ export default function RootLayout({
       </head>
       <body>
         {/* Navigation Header */}
-        <nav className="sticky top-0 z-50 bg-black/90 backdrop-blur-sm border-b border-white/10">
+        <nav className="sticky top-0 z-50 glass border-b border-white/10">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
               <Link href="/" className="flex items-center gap-3 text-2xl font-bold text-white hover:text-gray-300 transition-colors">
-                <Image src="/logo.png" alt="Marvel Creator Cup Logo" width={40} height={40} className="w-10 h-10 rounded-full border border-white/20 bg-black" />
+                <Image src="/logo.png" alt="Marvel Creator Cup Logo" width={40} height={40} className="w-10 h-10 rounded-full glass-card" />
                 <span>MARVEL CREATOR CUP</span>
               </Link>
               
@@ -74,12 +74,12 @@ export default function RootLayout({
         {children}
 
         {/* Footer */}
-        <footer className="bg-black border-t border-white/10 py-8">
+        <footer className="glass border-t border-white/10 py-8">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-3 gap-8">
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <Image src="/logo.png" alt="Marvel Creator Cup Logo" width={32} height={32} className="w-8 h-8 rounded-full border border-white/20 bg-black" />
+                  <Image src="/logo.png" alt="Marvel Creator Cup Logo" width={32} height={32} className="w-8 h-8 rounded-full glass-card" />
                   <h3 className="text-white font-bold text-lg">Marvel Creator Cup</h3>
                 </div>
                 <p className="text-gray-400 text-sm">
@@ -110,7 +110,7 @@ export default function RootLayout({
                     Watch on Twitch
                   </a>
                   <p className="text-gray-400 text-sm">
-                    tournament@marvelcreatorcup.com
+                    basimzb@outlook.com
                   </p>
                 </div>
               </div>
