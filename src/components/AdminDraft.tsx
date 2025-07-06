@@ -139,7 +139,7 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
                     } else {
                       alert('Failed to reset data')
                     }
-                  } catch (error) {
+                  } catch {
                     alert('Error resetting data')
                   } finally {
                     setSaving(false)
