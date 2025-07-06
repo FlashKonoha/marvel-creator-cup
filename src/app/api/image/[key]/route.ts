@@ -1,20 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { Redis } from '@upstash/redis'
-
-// Initialize Redis client
-function createRedisClient(): Redis {
-  const url = process.env.UPSTASH_REDIS_REST_URL
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN
-
-  if (!url || !token) {
-    throw new Error('Missing Upstash Redis environment variables')
-  }
-
-  return new Redis({
-    url,
-    token,
-  })
-}
+import { getRedisClient } from '@/lib/redis-pool'
 
 export async function GET(
   request: NextRequest,
@@ -31,7 +16,7 @@ export async function GET(
     }
 
     // Get image data from Redis
-    const redis = createRedisClient()
+    const redis = await getRedisClient()
     const imageData = await redis.get(key)
 
     if (!imageData || typeof imageData !== 'object' || !('data' in imageData)) {

@@ -1,23 +1,8 @@
-import { Redis } from '@upstash/redis'
+import { getRedisClient } from './redis-pool'
 
 // Database keys
 const DRAFT_STATE_KEY = 'draft-state'
 const TOURNAMENT_BRACKET_STATE_KEY = 'tournament-bracket-state'
-
-// Initialize Redis client with error handling
-function createRedisClient(): Redis {
-  const url = process.env.UPSTASH_REDIS_REST_URL
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN
-
-  if (!url || !token) {
-    throw new Error('Missing Upstash Redis environment variables. Please set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN')
-  }
-
-  return new Redis({
-    url,
-    token,
-  })
-}
 
 // Types
 export interface Player {
@@ -409,7 +394,7 @@ const defaultTournamentBracketData: TournamentBracketState = {
 // Draft state operations
 export async function getDraftState(): Promise<DraftState> {
   try {
-    const redis = createRedisClient()
+    const redis = await getRedisClient()
     const data = await redis.get<DraftState>(DRAFT_STATE_KEY)
     return data || defaultDraftData
   } catch (error) {
@@ -420,7 +405,7 @@ export async function getDraftState(): Promise<DraftState> {
 
 export async function setDraftState(state: DraftState): Promise<boolean> {
   try {
-    const redis = createRedisClient()
+    const redis = await getRedisClient()
     const stateWithTimestamp = {
       ...state,
       lastUpdated: new Date().toISOString()
@@ -436,7 +421,7 @@ export async function setDraftState(state: DraftState): Promise<boolean> {
 // Tournament bracket state operations
 export async function getTournamentBracketState(): Promise<TournamentBracketState> {
   try {
-    const redis = createRedisClient()
+    const redis = await getRedisClient()
     const data = await redis.get<TournamentBracketState>(TOURNAMENT_BRACKET_STATE_KEY)
     return data || defaultTournamentBracketData
   } catch (error) {
@@ -447,7 +432,7 @@ export async function getTournamentBracketState(): Promise<TournamentBracketStat
 
 export async function setTournamentBracketState(state: TournamentBracketState): Promise<boolean> {
   try {
-    const redis = createRedisClient()
+    const redis = await getRedisClient()
     const stateWithTimestamp = {
       ...state,
       lastUpdated: new Date().toISOString()
@@ -463,7 +448,7 @@ export async function setTournamentBracketState(state: TournamentBracketState): 
 // Initialize default data if not exists
 export async function initializeDefaultData(): Promise<void> {
   try {
-    const redis = createRedisClient()
+    const redis = await getRedisClient()
     const draftExists = await redis.exists(DRAFT_STATE_KEY)
     const bracketExists = await redis.exists(TOURNAMENT_BRACKET_STATE_KEY)
     

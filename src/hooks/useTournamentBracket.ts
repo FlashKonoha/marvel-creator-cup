@@ -104,7 +104,7 @@ export function useTournamentBracket() {
       clearInterval(pollIntervalRef.current)
     }
     
-    pollIntervalRef.current = setInterval(checkForUpdates, 3000) // Poll every 3 seconds
+    pollIntervalRef.current = setInterval(checkForUpdates, 5000) // Poll every 5 seconds
     setIsConnected(true)
   }, [checkForUpdates])
 
