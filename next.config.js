@@ -1,11 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Performance optimizations for high-scale usage
-  experimental: {
-    // Enable server components for better performance
-    serverComponentsExternalPackages: [],
-  },
-  
   // Image optimization
   images: {
     domains: ['picsum.photos'],

@@ -1,60 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verify } from 'jsonwebtoken'
-import { promises as fs } from 'fs'
-import path from 'path'
-
-interface Team {
-  id: number
-  name: string
-  image: string
-  captain: {
-    id: number
-    twitchName: string
-    twitchImage: string
-    twitchLink: string
-  }
-  players: Array<{
-    id: number
-    twitchName: string
-    twitchImage: string
-    twitchLink: string
-  }>
-}
-
-interface Match {
-  id: string;
-  team1: Team | null;
-  team2: Team | null;
-  team1Score: number;
-  team2Score: number;
-  winner: Team | null;
-  loser: Team | null;
-  status: 'pending' | 'completed';
-  bestOf: number;
-  scheduledTime: string | null;
-  completedTime: string | null;
-}
-
-interface BracketState {
-  brackets: {
-    upper: {
-      quarterfinals: Match[]
-      semifinals: Match[]
-      final: Match[]
-    }
-    lower: {
-      round1: Match[]
-      round2: Match[]
-      round3: Match[]
-      final: Match[]
-    }
-  }
-  grandFinal: Match
-}
+import { 
+  getTournamentBracketState, 
+  setTournamentBracketState, 
+  type TournamentBracketState, 
+  type Match 
+} from '../../../lib/database'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production'
-const BRACKET_STATE_FILE = path.join(process.cwd(), 'data', 'tournament-bracket-state.json')
-
 // Rate limiting for admin actions
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
 const MAX_ATTEMPTS = 10
@@ -76,27 +29,7 @@ function checkRateLimit(ip: string): boolean {
   return true
 }
 
-async function readBracketState() {
-  try {
-    const data = await fs.readFile(BRACKET_STATE_FILE, 'utf-8')
-    return JSON.parse(data)
-  } catch (error) {
-    console.error('Error reading bracket state:', error)
-    return null
-  }
-}
-
-async function writeBracketState(state: BracketState) {
-  try {
-    await fs.writeFile(BRACKET_STATE_FILE, JSON.stringify(state, null, 2))
-    return true
-  } catch (error) {
-    console.error('Error writing bracket state:', error)
-    return false
-  }
-}
-
-function updateBracketProgression(bracketState: BracketState) {
+function updateBracketProgression(bracketState: TournamentBracketState) {
   const { brackets, grandFinal } = bracketState
 
   // Update upper bracket progression
@@ -182,12 +115,7 @@ function updateBracketProgression(bracketState: BracketState) {
 
 export async function GET() {
   try {
-    const bracketState = await readBracketState()
-    
-    if (!bracketState) {
-      return NextResponse.json({ error: 'Failed to load bracket state' }, { status: 500 })
-    }
-
+    const bracketState = await getTournamentBracketState()
     return NextResponse.json(bracketState)
   } catch (error) {
     console.error('Error in GET /api/tournament-bracket:', error)
@@ -229,10 +157,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Action is required' }, { status: 400 })
     }
 
-    let bracketState = await readBracketState()
-    if (!bracketState) {
-      return NextResponse.json({ error: 'Failed to load bracket state' }, { status: 500 })
-    }
+    let bracketState = await getTournamentBracketState()
 
     switch (action) {
       case 'initialize_bracket':
@@ -581,18 +506,15 @@ export async function POST(request: NextRequest) {
             completedTime: null
           }
         }
-        bracketState = initialBracketState
+        bracketState = initialBracketState as TournamentBracketState
         break
 
       default:
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
     }
 
-    // Update timestamp
-    bracketState.lastUpdated = new Date().toISOString()
-
     // Save updated state
-    const success = await writeBracketState(bracketState)
+    const success = await setTournamentBracketState(bracketState)
     
     if (success) {
       return NextResponse.json({ success: true, data: bracketState })
