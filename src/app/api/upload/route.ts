@@ -1,7 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { writeFile, mkdir } from 'fs/promises'
-import { join } from 'path'
-import { existsSync } from 'fs'
+import { Redis } from '@upstash/redis'
+
+// Initialize Redis client
+function createRedisClient(): Redis {
+  const url = process.env.UPSTASH_REDIS_REST_URL
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN
+
+  if (!url || !token) {
+    throw new Error('Missing Upstash Redis environment variables')
+  }
+
+  return new Redis({
+    url,
+    token,
+  })
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -33,31 +46,34 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create uploads directory if it doesn't exist
-    const uploadsDir = join(process.cwd(), 'public', 'uploads')
-    if (!existsSync(uploadsDir)) {
-      await mkdir(uploadsDir, { recursive: true })
-    }
-
-    // Generate unique filename
-    const timestamp = Date.now()
-    const randomString = Math.random().toString(36).substring(2, 15)
-    const fileExtension = file.name.split('.').pop()
-    const fileName = `player-${timestamp}-${randomString}.${fileExtension}`
-    const filePath = join(uploadsDir, fileName)
-
-    // Convert file to buffer and save
+    // Convert file to base64
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
-    await writeFile(filePath, buffer)
-
-    // Return the public URL
-    const publicUrl = `/uploads/${fileName}`
+    const base64String = buffer.toString('base64')
+    
+    // Generate unique key for Redis
+    const timestamp = Date.now()
+    const randomString = Math.random().toString(36).substring(2, 15)
+    const imageKey = `player-image-${timestamp}-${randomString}`
+    
+    // Store in Redis
+    const redis = createRedisClient()
+    await redis.set(imageKey, {
+      data: base64String,
+      type: file.type,
+      name: file.name,
+      size: file.size,
+      uploadedAt: new Date().toISOString()
+    })
+    
+    // Set expiration (optional - images will be stored for 1 year)
+    await redis.expire(imageKey, 365 * 24 * 60 * 60) // 1 year in seconds
 
     return NextResponse.json({ 
       success: true, 
-      url: publicUrl,
-      fileName: fileName
+      url: `/api/image/${imageKey}`,
+      fileName: file.name,
+      key: imageKey
     })
 
   } catch (error) {

@@ -160,13 +160,21 @@ export default function AdminPlayersPage() {
               className="bg-gray-800 rounded-lg p-6 border border-gray-700 hover:border-blue-500 transition-colors"
             >
               <div className="flex flex-col items-center text-center mb-4">
-                <Image 
-                  src={player.twitchImage} 
-                  alt={player.twitchName}
-                  width={80}
-                  height={80}
-                  className="w-20 h-20 rounded-full mb-3 object-cover border-2 border-gray-600"
-                />
+                {player.twitchImage.startsWith('/api/image/') ? (
+                  <img 
+                    src={player.twitchImage} 
+                    alt={player.twitchName}
+                    className="w-20 h-20 rounded-full mb-3 object-cover border-2 border-gray-600"
+                  />
+                ) : (
+                  <Image 
+                    src={player.twitchImage} 
+                    alt={player.twitchName}
+                    width={80}
+                    height={80}
+                    className="w-20 h-20 rounded-full mb-3 object-cover border-2 border-gray-600"
+                  />
+                )}
                 <h3 className="font-semibold text-white text-lg mb-1">
                   {player.twitchName}
                 </h3>
@@ -244,13 +252,21 @@ export default function AdminPlayersPage() {
                   </label>
                   <div className="mb-3">
                     <div className="flex items-center space-x-3 mb-2">
-                      <Image 
-                        src={editingPlayer.twitchImage} 
-                        alt="Current image"
-                        width={48}
-                        height={48}
-                        className="w-12 h-12 rounded-full object-cover border-2 border-gray-600"
-                      />
+                      {editingPlayer.twitchImage.startsWith('/api/image/') ? (
+                        <img 
+                          src={editingPlayer.twitchImage} 
+                          alt="Current image"
+                          className="w-12 h-12 rounded-full object-cover border-2 border-gray-600"
+                        />
+                      ) : (
+                        <Image 
+                          src={editingPlayer.twitchImage} 
+                          alt="Current image"
+                          width={48}
+                          height={48}
+                          className="w-12 h-12 rounded-full object-cover border-2 border-gray-600"
+                        />
+                      )}
                       <span className="text-gray-400 text-sm">Current image</span>
                     </div>
                   </div>
@@ -260,7 +276,7 @@ export default function AdminPlayersPage() {
                     accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
                     className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 file:cursor-pointer cursor-pointer focus:outline-none focus:border-blue-500 transition-colors"
                   />
-                  <p className="text-gray-400 text-xs mt-1">Max size: 2MB. Supported: JPEG, PNG, GIF, WebP</p>
+                  <p className="text-gray-400 text-xs mt-1">Max size: 2MB. Supported: JPEG, PNG, GIF, WebP. Images are stored in Redis.</p>
                   {uploadError && (
                     <p className="text-red-400 text-xs mt-1">{uploadError}</p>
                   )}

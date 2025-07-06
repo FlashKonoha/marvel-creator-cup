@@ -4,6 +4,12 @@ const nextConfig = {
   images: {
     domains: ['picsum.photos',"static-cdn.jtvnw.net"],
     formats: ['image/webp', 'image/avif'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
   },
   
   // Compression and caching
