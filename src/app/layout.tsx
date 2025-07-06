@@ -46,6 +46,9 @@ export default function RootLayout({
                 <Link href="/tournament-bracket" className="text-gray-400 hover:text-white transition-colors">
                   Bracket
                 </Link>
+                <Link href="/draft" className="text-gray-400 hover:text-white transition-colors">
+                  Draft
+                </Link>
                 <a 
                   href="https://www.twitch.tv/basimzb" 
                   target="_blank" 
