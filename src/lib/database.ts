@@ -1,4 +1,10 @@
-import { kv } from '@vercel/kv'
+import { Redis } from '@upstash/redis'
+
+// Initialize Redis client
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+})
 
 // Database keys
 const DRAFT_STATE_KEY = 'draft-state'
@@ -378,20 +384,20 @@ const defaultTournamentBracketData: TournamentBracketState = {
 // Draft state operations
 export async function getDraftState(): Promise<DraftState> {
   try {
-    const data = await kv.get<DraftState>(DRAFT_STATE_KEY)
+    const data = await redis.get<DraftState>(DRAFT_STATE_KEY)
     return data || defaultDraftData
   } catch (error) {
-    console.error('Error reading draft state from KV:', error)
+    console.error('Error reading draft state from Redis:', error)
     return defaultDraftData
   }
 }
 
 export async function setDraftState(state: DraftState): Promise<boolean> {
   try {
-    await kv.set(DRAFT_STATE_KEY, state)
+    await redis.set(DRAFT_STATE_KEY, state)
     return true
   } catch (error) {
-    console.error('Error writing draft state to KV:', error)
+    console.error('Error writing draft state to Redis:', error)
     return false
   }
 }
@@ -399,20 +405,20 @@ export async function setDraftState(state: DraftState): Promise<boolean> {
 // Tournament bracket state operations
 export async function getTournamentBracketState(): Promise<TournamentBracketState> {
   try {
-    const data = await kv.get<TournamentBracketState>(TOURNAMENT_BRACKET_STATE_KEY)
+    const data = await redis.get<TournamentBracketState>(TOURNAMENT_BRACKET_STATE_KEY)
     return data || defaultTournamentBracketData
   } catch (error) {
-    console.error('Error reading tournament bracket state from KV:', error)
+    console.error('Error reading tournament bracket state from Redis:', error)
     return defaultTournamentBracketData
   }
 }
 
 export async function setTournamentBracketState(state: TournamentBracketState): Promise<boolean> {
   try {
-    await kv.set(TOURNAMENT_BRACKET_STATE_KEY, state)
+    await redis.set(TOURNAMENT_BRACKET_STATE_KEY, state)
     return true
   } catch (error) {
-    console.error('Error writing tournament bracket state to KV:', error)
+    console.error('Error writing tournament bracket state to Redis:', error)
     return false
   }
 }
@@ -420,16 +426,16 @@ export async function setTournamentBracketState(state: TournamentBracketState): 
 // Initialize default data if not exists
 export async function initializeDefaultData(): Promise<void> {
   try {
-    const draftExists = await kv.exists(DRAFT_STATE_KEY)
-    const bracketExists = await kv.exists(TOURNAMENT_BRACKET_STATE_KEY)
+    const draftExists = await redis.exists(DRAFT_STATE_KEY)
+    const bracketExists = await redis.exists(TOURNAMENT_BRACKET_STATE_KEY)
     
     if (!draftExists) {
-      await kv.set(DRAFT_STATE_KEY, defaultDraftData)
+      await redis.set(DRAFT_STATE_KEY, defaultDraftData)
       console.log('Initialized default draft state')
     }
     
     if (!bracketExists) {
-      await kv.set(TOURNAMENT_BRACKET_STATE_KEY, defaultTournamentBracketData)
+      await redis.set(TOURNAMENT_BRACKET_STATE_KEY, defaultTournamentBracketData)
       console.log('Initialized default tournament bracket state')
     }
   } catch (error) {

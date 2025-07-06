@@ -22,12 +22,16 @@ A modern, responsive web application for BasimZB's Marvel Rivals tournament on J
 - **Tournament Information:** Detailed rules, schedule, and prize information
 - **Host Integration:** Direct links to BasimZB's Twitch channel
 - **SEO Optimized:** Proper metadata and structured content
+- **Real-time Updates:** Server-Sent Events for live draft and tournament updates
+- **Data Persistence:** Upstash Redis for reliable data storage
 
 ## 🛠️ Technology Stack
 
 - **Framework:** Next.js 15.3.5 (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS v4
+- **Database:** Upstash Redis
+- **Real-time:** Server-Sent Events (SSE)
 - **Deployment:** Ready for Vercel deployment
 
 ## 📁 Project Structure
@@ -35,14 +39,21 @@ A modern, responsive web application for BasimZB's Marvel Rivals tournament on J
 ```
 marvel-creator-cup/
 ├── src/
-│   └── app/
-│       ├── page.tsx              # Home page with tournament overview
-│       ├── register/
-│       │   └── page.tsx          # Tournament registration form
-│       ├── tournament-info/
-│       │   └── page.tsx          # Detailed tournament information
-│       ├── layout.tsx            # Root layout with navigation
-│       └── globals.css           # Global styles
+│   ├── app/
+│   │   ├── api/                  # API routes
+│   │   │   ├── auth/             # Authentication endpoints
+│   │   │   ├── draft/            # Draft management
+│   │   │   ├── realtime/         # Server-Sent Events
+│   │   │   └── tournament-bracket/ # Tournament bracket API
+│   │   ├── draft/                # Draft pages
+│   │   ├── tournament-bracket/   # Tournament bracket pages
+│   │   ├── page.tsx              # Home page
+│   │   ├── layout.tsx            # Root layout
+│   │   └── globals.css           # Global styles
+│   ├── components/               # React components
+│   ├── hooks/                    # Custom React hooks
+│   ├── lib/                      # Utility libraries
+│   └── data/                     # Data utilities
 ├── public/                       # Static assets
 └── package.json                  # Dependencies and scripts
 ```
@@ -55,18 +66,19 @@ marvel-creator-cup/
 - Host information with Twitch integration
 - Call-to-action buttons
 
-### Registration Page (`/register`)
-- Complete registration form
-- Form validation
-- Experience level selection
-- Terms and conditions agreement
+### Draft Pages (`/draft`)
+- Real-time draft interface
+- Team selection and player assignment
+- Admin controls for draft management
 
-### Tournament Info Page (`/tournament-info`)
-- Detailed tournament overview
-- Team draft process and rules
-- Complete tournament format and regulations
-- Tournament schedule (including draft day)
-- Contact information
+### Tournament Bracket (`/tournament-bracket`)
+- Interactive tournament bracket
+- Match results and progression
+- Admin controls for match management
+
+### Admin Pages
+- Draft administration (`/draft/admin`)
+- Tournament bracket administration (`/tournament-bracket/admin`)
 
 ## 🎨 Design Features
 
@@ -89,12 +101,25 @@ marvel-creator-cup/
    npm install
    ```
 
-3. **Run the development server:**
+3. **Set up environment variables:**
+   Create a `.env.local` file in the project root:
+   ```env
+   JWT_SECRET=your-secure-random-string-here
+   UPSTASH_REDIS_REST_URL=https://your-db.upstash.io
+   UPSTASH_REDIS_REST_TOKEN=your-redis-token-here
+   ```
+
+4. **Set up Upstash Redis:**
+   - Go to [console.upstash.com](https://console.upstash.com)
+   - Create a new Redis database
+   - Copy your REST URL and token to your `.env.local` file
+
+5. **Run the development server:**
    ```bash
    npm run dev
    ```
 
-4. **Open your browser:**
+6. **Open your browser:**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## 📝 Available Scripts
@@ -106,11 +131,31 @@ marvel-creator-cup/
 
 ## 🌐 Deployment
 
-This project is optimized for deployment on Vercel:
+This project is optimized for deployment on Vercel with Upstash Redis:
 
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Deploy automatically
+1. **Set up Upstash Redis:**
+   - Create a Redis database at [console.upstash.com](https://console.upstash.com)
+   - Choose a region close to your Vercel deployment
+
+2. **Deploy to Vercel:**
+   - Push your code to GitHub
+   - Connect your repository to Vercel
+   - Add environment variables in Vercel dashboard:
+     - `JWT_SECRET`
+     - `UPSTASH_REDIS_REST_URL`
+     - `UPSTASH_REDIS_REST_TOKEN`
+
+3. **Deploy automatically**
+
+For detailed deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md) and [UPSTASH_REDIS_SETUP.md](./UPSTASH_REDIS_SETUP.md).
+
+## 🔧 Environment Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `JWT_SECRET` | Secret key for JWT token generation | Yes |
+| `UPSTASH_REDIS_REST_URL` | Your Upstash Redis REST API URL | Yes |
+| `UPSTASH_REDIS_REST_TOKEN` | Your Upstash Redis REST API token | Yes |
 
 ## 📧 Contact
 

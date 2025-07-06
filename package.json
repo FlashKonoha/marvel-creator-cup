@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@types/jsonwebtoken": "^9.0.10",
-    "@vercel/kv": "^1.0.0",
+    "@upstash/redis": "^1.28.4",
     "jsonwebtoken": "^9.0.2",
     "next": "15.3.5",
     "react": "^19.0.0",
