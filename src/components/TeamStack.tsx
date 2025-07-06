@@ -51,14 +51,14 @@ export default function TeamStack({ team, onRemovePlayer }: TeamStackProps) {
               <p className="text-white text-sm">
                 {team.captain.twitchName}
               </p>
-              <a 
+              {/* <a 
                 href={team.captain.twitchLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-400 hover:text-blue-300 text-xs"
               >
                 View on Twitch
-              </a>
+              </a> */}
               </div>
             </div>
             {/* Crown icon */}
@@ -94,14 +94,14 @@ export default function TeamStack({ team, onRemovePlayer }: TeamStackProps) {
                   />
                   <div className="flex-1">
                     <p className="text-white text-sm">{player.twitchName}</p>
-                    <a 
+                    {/* <a 
                       href={player.twitchLink}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-400 hover:text-blue-300 text-xs"
                     >
                       View on Twitch
-                    </a>
+                    </a> */}
                   </div>
                 </div>
                 {onRemovePlayer && (

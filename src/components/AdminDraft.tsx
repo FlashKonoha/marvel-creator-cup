@@ -148,7 +148,7 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
                         <h3 className="font-semibold text-white text-sm mb-2">
                           {player.twitchName}
                         </h3>
-                        <a 
+                        {/* <a 
                           href={player.twitchLink}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -156,7 +156,7 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
                           onClick={(e) => e.stopPropagation()}
                         >
                           View on Twitch
-                        </a>
+                        </a> */}
                       </div>
                     </div>
                   ))}

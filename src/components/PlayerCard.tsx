@@ -27,14 +27,14 @@ export default function PlayerCard({ player }: PlayerCardProps) {
         <h3 className="font-semibold text-white text-sm mb-2">
           {player.twitchName}
         </h3>
-        <a 
+        {/* <a 
           href={player.twitchLink}
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-400 hover:text-blue-300 text-xs transition-colors"
         >
           View on Twitch
-        </a>
+        </a> */}
       </div>
     </div>
   )
