@@ -127,15 +127,6 @@ export default function DraftPage() {
           </div>
         </div>
 
-        {/* Admin Link */}
-        <div className="text-center mt-12">
-          <Link 
-            href="/draft/admin" 
-            className="text-blue-400 hover:text-blue-300 transition-colors text-sm"
-          >
-            Admin Panel →
-          </Link>
-        </div>
       </div>
     </main>
   )

@@ -128,6 +128,29 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
           <div className="text-right">
             <p className="text-gray-300">Available Players: {players.length}</p>
             <p className="text-gray-300">Teams: {teams.length}</p>
+            <button
+              onClick={async () => {
+                if (confirm('Are you sure you want to reset all data? This will restore the default 8 teams and all players.')) {
+                  setSaving(true)
+                  try {
+                    const response = await fetch('/api/init', { method: 'POST' })
+                    if (response.ok) {
+                      window.location.reload()
+                    } else {
+                      alert('Failed to reset data')
+                    }
+                  } catch (error) {
+                    alert('Error resetting data')
+                  } finally {
+                    setSaving(false)
+                  }
+                }
+              }}
+              disabled={saving}
+              className="mt-2 px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-800 text-white rounded-lg transition-colors"
+            >
+              {saving ? 'Resetting...' : 'Reset Data'}
+            </button>
             {saving && (
               <div className="flex items-center space-x-2 mt-2">
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
@@ -140,7 +163,7 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Available Players */}
           <div className="lg:col-span-1">
-            <div className="bg-gray-900 border border-gray-700 rounded-lg p-4">
+            <div className="bg-gray-900 border border-gray-700 rounded-lg p-4 sticky top-25 left-0">
               <h2 className="text-2xl font-bold text-white mb-4">Available Players</h2>
                               <div className="grid grid-cols-2 gap-4 max-h-96 overflow-y-auto">
                   {players.map((player) => (
