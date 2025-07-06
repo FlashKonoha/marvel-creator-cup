@@ -11,6 +11,8 @@
   "dependencies": {
     "@types/jsonwebtoken": "^9.0.10",
     "@upstash/redis": "^1.28.4",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "jsonwebtoken": "^9.0.2",
     "next": "15.3.5",
     "react": "^19.0.0",

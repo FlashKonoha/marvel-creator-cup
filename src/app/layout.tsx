@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
   title: "Marvel Creator Cup - BasimZB Tournament",
@@ -125,6 +127,9 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
