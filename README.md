@@ -12,7 +12,7 @@ A modern, responsive web application for BasimZB's Marvel Rivals tournament on J
 - **Teams:** 6-8 Teams (6 players each)
 - **Draft:** July 18, 2025 (Team Selection)
 - **Platform:** PC & Console
-- **Prize Pool:** $2350 total ($2000, $250, $100)
+- **Prize Pool:** $2600 total ($2000, $600)
 
 ## 🚀 Features
 

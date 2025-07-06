@@ -65,12 +65,7 @@ export default function TournamentInfo() {
                 <div className="flex justify-between items-center p-3 bg-black/20 rounded">
                   <span className="text-2xl">🥈</span>
                   <span className="text-white font-semibold">2nd Place</span>
-                  <span className="text-gray-300 font-bold text-xl">$250</span>
-                </div>
-                <div className="flex justify-between items-center p-3 bg-black/20 rounded">
-                  <span className="text-2xl">🥉</span>
-                  <span className="text-white font-semibold">3rd Place</span>
-                  <span className="text-gray-400 font-bold text-xl">$100</span>
+                  <span className="text-gray-300 font-bold text-xl">$600</span>
                 </div>
               </div>
             </div>

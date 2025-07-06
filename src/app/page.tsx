@@ -270,7 +270,7 @@ export default function Home() {
               {/* Prize Pool for Winner */}
               <div className="text-center">
                 <div className="text-8xl md:text-9xl font-bold text-black mb-6">$2000</div>
-                <p className="text-xl md:text-2xl text-black font-medium">Dollar grand prize awaits the ultimate champion who conquers all opponents.</p>
+                <p className="text-xl md:text-2xl text-black font-medium">Grand prize awaits the ultimate champion who conquers all opponents.</p>
               </div>
               
               {/* Tournament Date */}
