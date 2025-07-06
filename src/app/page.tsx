@@ -4,10 +4,12 @@ import Link from 'next/link'
 import TournamentBracket from '../components/TournamentBracket'
 import { useTournamentBracket, TournamentState } from '../hooks/useTournamentBracket'
 import { useTeams } from '../hooks/useTeams'
+import { useDraftState } from '../hooks/useDraftState'
 
 export default function Home() {
   const { bracketState, loading, error } = useTournamentBracket()
   const { teams } = useTeams()
+  const { state: draftState } = useDraftState()
   
   // Transform bracket state into the format expected by TournamentBracket component
   const isTeam = (obj: unknown): obj is { id: number|string, name: string, image: string } => {
@@ -214,10 +216,10 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative overflow-hidden h-[180svh] flex items-start pt-50 md:-mb-360">
         {/* Smooth gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 via-gray-800 to-gray-900 to-transparent h-[300%]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 via-gray-800 to-gray-900 to-transparent h-[100%]"></div>
         
         {/* Subtle radial overlay for depth */}
-        <div className="absolute inset-0 bg-radial-gradient from-white/5 via-transparent to-transparent h-[300%]"></div>
+        <div className="absolute inset-0 bg-radial-gradient from-white/5 via-transparent to-transparent h-[100%]"></div>
         
         <div className="relative container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto">
@@ -255,35 +257,26 @@ export default function Home() {
       </section>
 
       {/* Tournament Details */}
-      <section className="relative py-40 pb-80 -mt-150 md:-mt-240">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-20 items-center">
-            <div className="glass-card p-8 rounded-lg depth-2">
-              <h2 className="text-3xl font-bold text-white mb-6">Tournament Details</h2>
-              <div className="space-y-4 text-gray-300">
-                <div className="text-lg text-white"><strong>Date:</strong> July 25, 2025</div>
-                <div className="text-lg text-white"><strong>Host:</strong> BasimZB</div>
-                <div className="text-lg text-white"><strong>Game:</strong> Marvel Rivals</div>
-                <div className="text-lg text-white"><strong>Format:</strong> BO3 Winners/Losers Bracket</div>
-                <div className="text-lg text-white"><strong>Teams:</strong> 6-8 Teams</div>
-                <div className="text-lg text-white"><strong>Draft:</strong> July 18, 2025 (Team Selection)</div>
+      <section className="relative pt-40 -mt-150 md:-mt-240">
+        <div className="w-full bg-white text-black py-20">
+          <div className="container mx-auto px-4">
+            <div className="grid lg:grid-cols-3 gap-20 lg:gap-40 items-center">
+              {/* Number of Creators */}
+              <div className="text-center">
+                <div className="text-8xl md:text-9xl font-bold text-black mb-6">{draftState.players.length}</div>
+                <p className="text-xl md:text-2xl text-black font-medium">Elite Marvel Rivals creators competing for glory in this epic tournament showdown.</p>
               </div>
-            </div>
-            <div className="glass-card p-8 rounded-lg depth-2">
-              <h3 className="text-2xl font-bold text-white mb-4">Prize Pool</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-white">🥇 1st Place</span>
-                  <span className="text-white font-bold">$2000</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">🥈 2nd Place</span>
-                  <span className="text-white font-bold">$250</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400">🥉 3rd Place</span>
-                  <span className="text-white font-bold">$100</span>
-                </div>
+              
+              {/* Prize Pool for Winner */}
+              <div className="text-center">
+                <div className="text-8xl md:text-9xl font-bold text-black mb-6">$2000</div>
+                <p className="text-xl md:text-2xl text-black font-medium">Dollar grand prize awaits the ultimate champion who conquers all opponents.</p>
+              </div>
+              
+              {/* Tournament Date */}
+              <div className="text-center">
+                <div className="text-8xl md:text-9xl font-bold text-black mb-6">07/25</div>
+                <p className="text-xl md:text-2xl text-black font-medium">July 2025 marks the date when legends will be made and history will be written.</p>
               </div>
             </div>
           </div>
@@ -291,7 +284,7 @@ export default function Home() {
       </section>
 
       {/* Tournament Bracket Section */}
-      <section className="py-16 relative bg-black border-t-2 border-white/20 shadow-[0_0_15px_4px_rgba(255,255,255,0.1)]">
+      <section className="py-25 relative bg-black">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-white mb-4">Tournament Bracket</h2>
@@ -341,7 +334,7 @@ export default function Home() {
             </div>
           )}
           
-          <div className="text-center mt-8">
+          <div className="text-center mt-22">
             <Link 
               href="/tournament-bracket" 
               className="glass-button text-white px-8 py-4 rounded-lg font-semibold text-lg"
@@ -353,7 +346,7 @@ export default function Home() {
       </section>
 
       {/* Host Section */}
-      <section className="py-16">
+      <section className="py-16 border-t-2 border-white/20 shadow-[0_0_15px_4px_rgba(255,255,255,0.1)]">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-8">Meet Your Host</h2>
           <div className="max-w-2xl mx-auto">
@@ -376,22 +369,6 @@ export default function Home() {
               </a>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 mb-20 border-box">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">Tournament Information</h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Get all the details about the ultimate Marvel Rivals tournament!
-          </p>
-          <Link 
-            href="/tournament-info" 
-            className="glass-button text-white px-10 py-4 rounded-lg font-bold text-xl"
-          >
-            View Tournament Details
-          </Link>
         </div>
       </section>
     </main>

@@ -7,7 +7,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
   title: "Marvel Creator Cup - BasimZB Tournament",
-  description: "Join the ultimate Marvel Rivals tournament hosted by BasimZB on July 25, 2025. Compete for $2350 in prizes!",
+  description: "Join the ultimate Marvel Rivals tournament hosted by BasimZB on July 25, 2025. Compete for $2000 in prizes!",
   keywords: "Marvel Rivals, tournament, BasimZB, gaming, esports, competition",
 };
 
@@ -95,11 +95,17 @@ export default function RootLayout({
               <div>
                 <h3 className="text-white font-bold text-lg mb-4">Quick Links</h3>
                 <div className="space-y-2">
-                  <Link href="/" className="block text-gray-400 hover:text-white text-sm transition-colors">
+                  <Link href="/" className="block text-gray-400 hover:text-white transition-colors">
                     Home
                   </Link>
-                  <Link href="/tournament-info" className="block text-gray-400 hover:text-white text-sm transition-colors">
+                  <Link href="/tournament-info" className="block text-gray-400 hover:text-white transition-colors">
                     Tournament Info
+                  </Link>
+                  <Link href="/tournament-bracket" className="block text-gray-400 hover:text-white transition-colors">
+                    Bracket
+                  </Link>
+                  <Link href="/draft" className="block text-gray-400 hover:text-white transition-colors">
+                    Draft
                   </Link>
                 </div>
               </div>
