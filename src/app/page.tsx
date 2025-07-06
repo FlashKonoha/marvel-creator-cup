@@ -291,7 +291,7 @@ export default function Home() {
       </section>
 
       {/* Tournament Bracket Section */}
-      <section className="py-16 relative bg-black">
+      <section className="py-16 relative bg-black border-t-2 border-white/20 shadow-[0_0_15px_4px_rgba(255,255,255,0.1)]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-white mb-4">Tournament Bracket</h2>
