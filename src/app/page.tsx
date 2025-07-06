@@ -212,7 +212,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black">
       {/* Hero Section */}
-      <section className="relative overflow-hidden h-[180svh] flex items-start pt-50 -mb-360">
+      <section className="relative overflow-hidden h-[180svh] flex items-start pt-50 md:-mb-360">
         {/* Smooth gradient background */}
         <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 via-gray-800 to-gray-900 to-transparent h-[300%]"></div>
         
@@ -255,7 +255,7 @@ export default function Home() {
       </section>
 
       {/* Tournament Details */}
-      <section className="relative py-40 pb-80 -mt-240">
+      <section className="relative py-40 pb-80 -mt-150 md:-mt-240">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-20 items-center">
             <div className="glass-card p-8 rounded-lg depth-2">
