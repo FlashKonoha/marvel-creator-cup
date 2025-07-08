@@ -103,9 +103,9 @@ export default function DraftPage() {
               <p className="text-gray-400 text-lg">All players have been drafted!</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
               {players.map((player) => (
-                <div key={player.id}>
+                <div key={player.id} className="w-full">
                   <PlayerCard player={player} />
                 </div>
               ))}

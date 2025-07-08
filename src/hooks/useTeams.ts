@@ -9,12 +9,18 @@ export interface Team {
     twitchName: string
     twitchImage: string
     twitchLink: string
+    rank: string
+    preferredRole: string[]
+    heroes: string[]
   }
   players: Array<{
     id: number
     twitchName: string
     twitchImage: string
     twitchLink: string
+    rank: string
+    preferredRole: string[]
+    heroes: string[]
   }>
 }
 

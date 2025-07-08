@@ -8,6 +8,9 @@ interface Player {
   twitchName: string
   twitchImage: string
   twitchLink: string
+  rank?: string
+  preferredRole?: string[]
+  heroes?: string[]
 }
 
 interface Team {
@@ -24,6 +27,28 @@ interface TeamStackProps {
 }
 
 export default function TeamStack({ team, onRemovePlayer }: TeamStackProps) {
+  const getRankImage = (rank: string) => {
+    if (rank.includes('One Above All')) return '/One_Above_All_Rank.webp'
+    if (rank.includes('Eternity')) return '/Eternity_Rank.webp'
+    if (rank.includes('Celestial 1') || rank.includes('Celestial 2') || rank.includes('Celestial 3')) return '/Celestial_Rank.webp'
+    if (rank.includes('Grandmaster')) return '/Grandmaster_Rank.webp'
+    if (rank.includes('Diamond')) return '/Diamond_Rank.webp'
+    if (rank.includes('Platinum')) return '/Platinum_Rank.webp'
+    if (rank.includes('Gold')) return '/Gold_Rank.webp'
+    if (rank.includes('Silver')) return '/Silver_Rank.webp'
+    if (rank.includes('Bronze')) return '/Bronze_Rank.webp'
+    return '/Bronze_Rank.webp' // default
+  }
+
+  const getRoleColor = (role: string) => {
+    switch (role) {
+      case 'Strategist': return 'bg-blue-500'
+      case 'Vanguard': return 'bg-green-500'
+      case 'Duelist': return 'bg-red-500'
+      default: return 'bg-gray-500'
+    }
+  }
+
   return (
     <div className="glass-card rounded-lg p-6 depth-2">
       <div className="text-center mb-6">
@@ -36,35 +61,63 @@ export default function TeamStack({ team, onRemovePlayer }: TeamStackProps) {
         />
         <h3 className="text-xl font-bold text-white mb-2">{team.name}</h3>
         
-        {/* Captain */}
+        {/* Captain - Player Card Style */}
         <div className="mb-4">
-          <div className="glass-card rounded-lg p-4 depth-1 hover:depth-2 transition-all duration-200 relative">
-            <div className="flex items-center space-x-3 bg-black/20 rounded p-2 text-left">
-              <Image 
-                src={team.captain.twitchImage} 
-                alt={team.captain.twitchName}
-                width={32}
-                height={32}
-                className="w-8 h-8 rounded-full object-cover"
-              />
-              <div className="flex-1">
-              <p className="text-white text-sm">
-                {team.captain.twitchName}
-              </p>
-              {/* <a 
-                href={team.captain.twitchLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:text-gray-300 text-xs"
-              >
-                View on Twitch
-              </a> */}
+          <div className="glass-card rounded-lg p-4 depth-1 hover:depth-2 transition-all duration-200 h-48 flex flex-col relative">
+            <a className="flex flex-col items-center text-center h-full"  
+              href={team.captain.twitchLink}
+              target="_blank"
+              rel="noopener noreferrer">
+              <div className="flex items-center justify-center mb-3">
+                <Image 
+                  src={team.captain.twitchImage} 
+                  alt={team.captain.twitchName}
+                  width={64}
+                  height={64}
+                  className="w-16 h-16 rounded-full object-cover flex-shrink-0"
+                />
+                {/* Rank Image */}
+                {team.captain.rank && (
+                  <Image 
+                    src={getRankImage(team.captain.rank)} 
+                    alt={team.captain.rank}
+                    width={64}
+                    height={64}
+                    className="w-16 h-16 object-contain ml-2"
+                  />
+                )}
               </div>
-            </div>
+              <h3 className="font-semibold text-white text-sm mb-2 line-clamp-1">
+                {team.captain.twitchName}
+              </h3>
+              
+              {/* Preferred Roles */}
+              {team.captain.preferredRole && team.captain.preferredRole.length > 0 && (
+                <div className="flex flex-wrap gap-1 mb-2 justify-center">
+                  {team.captain.preferredRole.map((role) => (
+                    <span
+                      key={role}
+                      className={`${getRoleColor(role)} text-white text-xs px-2 py-1 rounded-full`}
+                    >
+                      {role}
+                    </span>
+                  ))}
+                </div>
+              )}
+              
+              {/* Heroes - takes remaining space */}
+              {team.captain.heroes && team.captain.heroes.length > 0 && (
+                <div className="text-xs text-gray-300 flex-1 flex items-center justify-center w-full">
+                  <div className="line-clamp-3">
+                    {team.captain.heroes.join(", ")}
+                  </div>
+                </div>
+              )}
+            </a>
             {/* Crown icon */}
-            <div className="absolute top-8 right-10">
+            <div className="absolute top-2 right-2">
               <svg 
-                className="w-5 h-5 text-white" 
+                className="w-6 h-6 text-yellow-400" 
                 fill="currentColor" 
                 viewBox="0 0 24 24"
               >
@@ -94,14 +147,39 @@ export default function TeamStack({ team, onRemovePlayer }: TeamStackProps) {
                   />
                   <div className="flex-1">
                     <p className="text-white text-sm">{player.twitchName}</p>
-                    {/* <a 
-                      href={player.twitchLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-white hover:text-gray-300 text-xs"
-                    >
-                      View on Twitch
-                    </a> */}
+                    {/* Rank */}
+                    {player.rank && (
+                      <div className="flex items-center mt-1">
+                        <Image 
+                          src={getRankImage(player.rank)} 
+                          alt={player.rank}
+                          width={16}
+                          height={16}
+                          className="w-4 h-4 object-contain mr-1"
+                        />
+                        <span className="text-xs text-gray-300">{player.rank}</span>
+                      </div>
+                    )}
+                    {/* Preferred Roles */}
+                    {player.preferredRole && player.preferredRole.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {player.preferredRole.map((role) => (
+                          <span
+                            key={role}
+                            className={`${getRoleColor(role)} text-white text-xs px-1 py-0.5 rounded-full`}
+                          >
+                            {role}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    {/* Heroes */}
+                    {player.heroes && player.heroes.length > 0 && (
+                      <div className="text-xs text-gray-300 mt-1">
+                        {player.heroes.slice(0, 2).join(', ')}
+                        {player.heroes.length > 2 && '...'}
+                      </div>
+                    )}
                   </div>
                 </div>
                 {onRemovePlayer && (

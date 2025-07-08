@@ -5,6 +5,9 @@ interface Player {
   twitchName: string
   twitchImage: string
   twitchLink: string
+  rank: string
+  preferredRole: string[]
+  heroes: string[]
 }
 
 interface Team {

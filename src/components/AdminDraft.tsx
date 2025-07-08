@@ -9,6 +9,9 @@ interface Player {
   twitchName: string
   twitchImage: string
   twitchLink: string
+  rank?: string
+  preferredRole?: string[]
+  heroes?: string[]
 }
 
 interface Team {
@@ -27,10 +30,32 @@ interface AdminDraftProps {
 
 export default function AdminDraft({ teams, players, onStateChange }: AdminDraftProps) {
   const [draggedPlayer, setDraggedPlayer] = useState<Player | null>(null)
-  const [editingTeam, setEditingTeam] = useState<Team | null>(null)
   const [showEditModal, setShowEditModal] = useState(false)
+  const [editingTeam, setEditingTeam] = useState<Team | null>(null)
+  const [teamName, setTeamName] = useState('')
+  const [teamImage, setTeamImage] = useState('')
 
+  const getRankImage = (rank: string) => {
+    if (rank.includes('One Above All')) return '/One_Above_All_Rank.webp'
+    if (rank.includes('Eternity')) return '/Eternity_Rank.webp'
+    if (rank.includes('Celestial 1') || rank.includes('Celestial 2') || rank.includes('Celestial 3')) return '/Celestial_Rank.webp'
+    if (rank.includes('Grandmaster')) return '/Grandmaster_Rank.webp'
+    if (rank.includes('Diamond')) return '/Diamond_Rank.webp'
+    if (rank.includes('Platinum')) return '/Platinum_Rank.webp'
+    if (rank.includes('Gold')) return '/Gold_Rank.webp'
+    if (rank.includes('Silver')) return '/Silver_Rank.webp'
+    if (rank.includes('Bronze')) return '/Bronze_Rank.webp'
+    return '/Bronze_Rank.webp' // default
+  }
 
+  const getRoleColor = (role: string) => {
+    switch (role) {
+      case 'Strategist': return 'bg-blue-500'
+      case 'Vanguard': return 'bg-green-500'
+      case 'Duelist': return 'bg-red-500'
+      default: return 'bg-gray-500'
+    }
+  }
 
   const handleDragStart = (e: React.DragEvent, player: Player) => {
     setDraggedPlayer(player)
@@ -57,7 +82,6 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
     })
 
     const updatedPlayers = players.filter(player => player.id !== draggedPlayer.id)
-    
     await onStateChange(updatedTeams, updatedPlayers)
     setDraggedPlayer(null)
   }
@@ -126,41 +150,63 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Available Players */}
-          <div className="lg:col-span-1">
-            <div className="bg-gray-900 border border-gray-700 rounded-lg p-4 sticky top-25 left-0">
-              <h2 className="text-2xl font-bold text-white mb-4">Available Players</h2>
-                              <div className="grid grid-cols-2 gap-4 max-h-96 overflow-y-auto">
-                  {players.map((player) => (
-                    <div
-                      key={player.id}
-                      className="bg-gray-800 rounded-lg p-4 border border-gray-700 cursor-grab active:cursor-grabbing hover:border-blue-500 hover:shadow-lg transition-all duration-200"
-                      draggable
-                      onDragStart={(e) => handleDragStart(e, player)}
-                    >
-                      <div className="flex flex-col items-center text-center">
-                        <Image 
-                          src={player.twitchImage} 
-                          alt={player.twitchName}
-                          width={64}
-                          height={64}
-                          className="w-16 h-16 rounded-full mb-3 object-cover border-2 border-gray-600"
-                        />
-                        <h3 className="font-semibold text-white text-sm mb-2">
-                          {player.twitchName}
-                        </h3>
-                        {/* <a 
-                          href={player.twitchLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-400 hover:text-blue-300 text-xs"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          View on Twitch
-                        </a> */}
-                      </div>
+          <div>
+            <h2 className="text-2xl font-bold text-white mb-6">Available Players</h2>
+            <div className="space-y-4 max-h-[600px] overflow-y-auto">
+              {players.map((player) => (
+                <div
+                  key={player.id}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, player)}
+                  className="bg-gray-800 rounded-lg p-4 border-2 border-dashed border-gray-600 cursor-move hover:border-blue-500 transition-colors h-20"
+                >
+                  <div className="flex items-center space-x-3 h-full">
+                    <Image 
+                      src={player.twitchImage} 
+                      alt={player.twitchName}
+                      width={48}
+                      height={48}
+                      className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-white font-semibold text-sm line-clamp-1">{player.twitchName}</h3>
+                      {/* Rank */}
+                      {player.rank && (
+                        <div className="flex items-center mt-1">
+                          <Image 
+                            src={getRankImage(player.rank)} 
+                            alt={player.rank}
+                            width={16}
+                            height={16}
+                            className="w-4 h-4 object-contain mr-1"
+                          />
+                          <span className="text-xs text-gray-300">{player.rank}</span>
+                        </div>
+                      )}
+                      {/* Preferred Roles */}
+                      {player.preferredRole && player.preferredRole.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {player.preferredRole.map((role) => (
+                            <span
+                              key={role}
+                              className={`${getRoleColor(role)} text-white text-xs px-2 py-1 rounded-full`}
+                            >
+                              {role}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      {/* Heroes */}
+                      {player.heroes && player.heroes.length > 0 && (
+                        <div className="text-xs text-gray-300 mt-1 line-clamp-1">
+                          {player.heroes.slice(0, 2).join(', ')}
+                          {player.heroes.length > 2 && '...'}
+                        </div>
+                      )}
                     </div>
-                  ))}
+                  </div>
                 </div>
+              ))}
             </div>
           </div>
 
@@ -198,6 +244,7 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
 
                   {/* Captain */}
                   <div className="mb-4">
+                    <h4 className="text-white font-semibold mb-3">Captain</h4>
                     <div className="flex items-center justify-between bg-gray-700 rounded p-3 py-5">
                       <div className="flex items-center space-x-2">
                         <Image 
@@ -207,7 +254,42 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
                           height={32}
                           className="w-8 h-8 rounded-full object-cover"
                         />
-                        <span className="text-white text-sm">{team.captain.twitchName}</span>
+                        <div>
+                          <span className="text-white text-sm">{team.captain.twitchName}</span>
+                          {/* Rank */}
+                          {team.captain.rank && (
+                            <div className="flex items-center mt-1">
+                              <Image 
+                                src={getRankImage(team.captain.rank)} 
+                                alt={team.captain.rank}
+                                width={16}
+                                height={16}
+                                className="w-4 h-4 object-contain mr-1"
+                              />
+                              <span className="text-xs text-gray-300">{team.captain.rank}</span>
+                            </div>
+                          )}
+                          {/* Preferred Roles */}
+                          {team.captain.preferredRole && team.captain.preferredRole.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              {team.captain.preferredRole.map((role) => (
+                                <span
+                                  key={role}
+                                  className={`${getRoleColor(role)} text-white text-xs px-1 py-0.5 rounded-full`}
+                                >
+                                  {role}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          {/* Heroes */}
+                          {team.captain.heroes && team.captain.heroes.length > 0 && (
+                            <div className="text-xs text-gray-300 mt-1">
+                              {team.captain.heroes.slice(0, 2).join(', ')}
+                              {team.captain.heroes.length > 2 && '...'}
+                            </div>
+                          )}
+                        </div>
                       </div>
                       <div className="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full inline-block mb-2">
                         CAPTAIN
@@ -235,7 +317,42 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
                                 height={32}
                                 className="w-8 h-8 rounded-full object-cover"
                               />
-                              <span className="text-white text-sm">{player.twitchName}</span>
+                              <div>
+                                <span className="text-white text-sm">{player.twitchName}</span>
+                                {/* Rank */}
+                                {player.rank && (
+                                  <div className="flex items-center mt-1">
+                                    <Image 
+                                      src={getRankImage(player.rank)} 
+                                      alt={player.rank}
+                                      width={16}
+                                      height={16}
+                                      className="w-4 h-4 object-contain mr-1"
+                                    />
+                                    <span className="text-xs text-gray-300">{player.rank}</span>
+                                  </div>
+                                )}
+                                {/* Preferred Roles */}
+                                {player.preferredRole && player.preferredRole.length > 0 && (
+                                  <div className="flex flex-wrap gap-1 mt-1">
+                                    {player.preferredRole.map((role) => (
+                                      <span
+                                        key={role}
+                                        className={`${getRoleColor(role)} text-white text-xs px-1 py-0.5 rounded-full`}
+                                      >
+                                        {role}
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
+                                {/* Heroes */}
+                                {player.heroes && player.heroes.length > 0 && (
+                                  <div className="text-xs text-gray-300 mt-1">
+                                    {player.heroes.slice(0, 2).join(', ')}
+                                    {player.heroes.length > 2 && '...'}
+                                  </div>
+                                )}
+                              </div>
                             </div>
                             <button
                               onClick={() => removePlayerFromTeam(team.id, player.id)}
@@ -294,7 +411,7 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
                 <div className="flex gap-4">
                   <button
                     type="submit"
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-semibold transition-colors"
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition-colors"
                   >
                     Save Changes
                   </button>
@@ -304,7 +421,7 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
                       setShowEditModal(false)
                       setEditingTeam(null)
                     }}
-                    className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-4 py-3 rounded-lg font-semibold transition-colors"
+                    className="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-lg font-semibold transition-colors"
                   >
                     Cancel
                   </button>

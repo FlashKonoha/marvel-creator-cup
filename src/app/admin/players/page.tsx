@@ -10,6 +10,9 @@ interface Player {
   twitchName: string
   twitchImage: string
   twitchLink: string
+  rank?: string
+  preferredRole?: string[]
+  heroes?: string[]
 }
 
 export default function AdminPlayersPage() {
@@ -75,14 +78,47 @@ export default function AdminPlayersPage() {
     return result.url
   }
 
-  const savePlayerEdit = async (playerId: number, twitchName: string, twitchImage: string, twitchLink: string) => {
+  const getRankImage = (rank: string) => {
+    if (rank.includes('One Above All')) return '/One_Above_All_Rank.webp'
+    if (rank.includes('Eternity')) return '/Eternity_Rank.webp'
+    if (rank.includes('Celestial 1') || rank.includes('Celestial 2') || rank.includes('Celestial 3')) return '/Celestial_Rank.webp'
+    if (rank.includes('Grandmaster')) return '/Grandmaster_Rank.webp'
+    if (rank.includes('Diamond')) return '/Diamond_Rank.webp'
+    if (rank.includes('Platinum')) return '/Platinum_Rank.webp'
+    if (rank.includes('Gold')) return '/Gold_Rank.webp'
+    if (rank.includes('Silver')) return '/Silver_Rank.webp'
+    if (rank.includes('Bronze')) return '/Bronze_Rank.webp'
+    return '/Bronze_Rank.webp' // default
+  }
+
+  const getRoleColor = (role: string) => {
+    switch (role) {
+      case 'Strategist': return 'bg-blue-500'
+      case 'Vanguard': return 'bg-green-500'
+      case 'Duelist': return 'bg-red-500'
+      default: return 'bg-gray-500'
+    }
+  }
+
+  const savePlayerEdit = async (
+    playerId: number, 
+    twitchName: string, 
+    twitchImage: string, 
+    twitchLink: string,
+    rank: string,
+    preferredRole: string[],
+    heroes: string[]
+  ) => {
     const updatedPlayers = players.map(player => {
       if (player.id === playerId) {
         return {
           ...player,
           twitchName,
           twitchImage,
-          twitchLink: twitchLink || '' // Make twitch link optional
+          twitchLink: twitchLink || '', // Make twitch link optional
+          rank,
+          preferredRole,
+          heroes
         }
       }
       return player
@@ -157,14 +193,14 @@ export default function AdminPlayersPage() {
           {players.map((player) => (
             <div
               key={player.id}
-              className="glass-card rounded-lg p-6 depth-1 hover:depth-2 transition-all duration-200"
+              className="glass-card rounded-lg p-6 depth-1 hover:depth-2 transition-all duration-200 h-80 flex flex-col"
             >
-              <div className="flex flex-col items-center text-center mb-4">
+              <div className="flex flex-col items-center text-center mb-4 flex-1">
                 {player.twitchImage.startsWith('/api/image/') ? (
                   <img 
                     src={player.twitchImage} 
                     alt={player.twitchName}
-                    className="w-20 h-20 rounded-full mb-3 object-cover border-2 border-gray-600"
+                    className="w-20 h-20 rounded-full mb-3 object-cover border-2 border-gray-600 flex-shrink-0"
                   />
                 ) : (
                   <Image 
@@ -172,29 +208,65 @@ export default function AdminPlayersPage() {
                     alt={player.twitchName}
                     width={80}
                     height={80}
-                    className="w-20 h-20 rounded-full mb-3 object-cover border-2 border-gray-600"
+                    className="w-20 h-20 rounded-full mb-3 object-cover border-2 border-gray-600 flex-shrink-0"
                   />
                 )}
-                <h3 className="font-semibold text-white text-lg mb-1">
+                <h3 className="font-semibold text-white text-lg mb-1 line-clamp-1">
                   {player.twitchName}
                 </h3>
+                
+                {/* Rank */}
+                {player.rank && (
+                  <div className="mb-2 flex-shrink-0">
+                    <Image 
+                      src={getRankImage(player.rank)} 
+                      alt={player.rank}
+                      width={40}
+                      height={40}
+                      className="w-10 h-10 object-contain"
+                    />
+                  </div>
+                )}
+                
+                {/* Preferred Roles */}
+                {player.preferredRole && player.preferredRole.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mb-2 justify-center">
+                    {player.preferredRole.map((role) => (
+                      <span
+                        key={role}
+                        className={`${getRoleColor(role)} text-white text-xs px-2 py-1 rounded-full`}
+                      >
+                        {role}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                
+                {/* Heroes */}
+                {player.heroes && player.heroes.length > 0 && (
+                  <div className="text-xs text-gray-300 mb-2 line-clamp-2">
+                    {player.heroes.slice(0, 2).join(', ')}
+                    {player.heroes.length > 2 && '...'}
+                  </div>
+                )}
+                
                 {player.twitchLink && (
                   <a 
                     href={player.twitchLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white hover:text-gray-300 text-sm"
+                    className="text-white hover:text-gray-300 text-sm mt-auto"
                   >
                     View on Twitch
                   </a>
                 )}
                 {!player.twitchLink && (
-                  <span className="text-gray-500 text-sm">No Twitch link</span>
+                  <span className="text-gray-500 text-sm mt-auto">No Twitch link</span>
                 )}
               </div>
               <button
                 onClick={() => openEditModal(player)}
-                className="w-full glass-button text-white px-4 py-2 rounded"
+                className="w-full glass-button text-white px-4 py-2 rounded mt-auto"
               >
                 Edit Player
               </button>
@@ -202,105 +274,141 @@ export default function AdminPlayersPage() {
           ))}
         </div>
 
-        {/* Player Edit Modal */}
+        {/* Edit Player Modal */}
         {showEditModal && editingPlayer && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="glass-card p-8 rounded-lg max-w-md w-full mx-4 depth-3">
-              <h3 className="text-2xl font-bold text-white mb-4">Edit Player</h3>
+            <div className="bg-gray-900 p-8 rounded-lg border border-gray-700 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+              <h3 className="text-2xl font-bold text-white mb-6">Edit Player: {editingPlayer.twitchName}</h3>
               <form onSubmit={async (e) => {
                 e.preventDefault()
                 const formData = new FormData(e.currentTarget)
-                const twitchName = formData.get('twitchName') as string
-                const twitchLink = formData.get('twitchLink') as string
-                const imageFile = formData.get('imageFile') as File
                 
-                let twitchImage = editingPlayer.twitchImage // Keep existing image by default
+                let imageUrl = editingPlayer.twitchImage
+                const imageFile = (e.currentTarget as any).imageFile.files[0]
                 
-                // Upload new image if provided
-                if (imageFile && imageFile.size > 0) {
+                if (imageFile) {
                   try {
                     setUploadingImage(true)
-                    setUploadError(null)
-                    twitchImage = await uploadImage(imageFile)
+                    imageUrl = await uploadImage(imageFile)
                   } catch (error) {
                     setUploadError(error instanceof Error ? error.message : 'Upload failed')
-                    setUploadingImage(false)
                     return
                   } finally {
                     setUploadingImage(false)
                   }
                 }
-                
-                await savePlayerEdit(editingPlayer.id, twitchName, twitchImage, twitchLink)
+
+                const rank = formData.get('rank') as string
+                const preferredRole = (formData.get('preferredRole') as string).split(',').map(r => r.trim()).filter(r => r)
+                const heroes = (formData.get('heroes') as string).split(',').map(h => h.trim()).filter(h => h)
+
+                await savePlayerEdit(
+                  editingPlayer.id,
+                  formData.get('twitchName') as string,
+                  imageUrl,
+                  formData.get('twitchLink') as string,
+                  rank,
+                  preferredRole,
+                  heroes
+                )
               }}>
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Twitch Name *
-                  </label>
-                  <input
-                    type="text"
-                    name="twitchName"
-                    defaultValue={editingPlayer.twitchName}
-                    className="glass-input w-full px-4 py-3 rounded-lg text-white placeholder-gray-400 focus:outline-none"
-                    required
-                  />
-                </div>
-                
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Player Image *
-                  </label>
-                  <div className="mb-3">
-                    <div className="flex items-center space-x-3 mb-2">
-                      {editingPlayer.twitchImage.startsWith('/api/image/') ? (
-                        <img 
-                          src={editingPlayer.twitchImage} 
-                          alt="Current image"
-                          className="w-12 h-12 rounded-full object-cover border-2 border-gray-600"
-                        />
-                      ) : (
-                        <Image 
-                          src={editingPlayer.twitchImage} 
-                          alt="Current image"
-                          width={48}
-                          height={48}
-                          className="w-12 h-12 rounded-full object-cover border-2 border-gray-600"
-                        />
-                      )}
-                      <span className="text-gray-400 text-sm">Current image</span>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Twitch Name
+                    </label>
+                    <input
+                      type="text"
+                      name="twitchName"
+                      defaultValue={editingPlayer.twitchName}
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                      required
+                    />
                   </div>
-                  <input
-                    type="file"
-                    name="imageFile"
-                    accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
-                    className="w-full px-4 py-3 glass-input rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/20 file:text-white hover:file:bg-white/30 file:cursor-pointer cursor-pointer focus:outline-none"
-                  />
-                  <p className="text-gray-400 text-xs mt-1">Max size: 2MB. Supported: JPEG, PNG, GIF, WebP. Images are stored in Redis.</p>
-                  {uploadError && (
-                    <p className="text-gray-400 text-xs mt-1">{uploadError}</p>
-                  )}
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Twitch Link
+                    </label>
+                    <input
+                      type="url"
+                      name="twitchLink"
+                      defaultValue={editingPlayer.twitchLink}
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Rank
+                    </label>
+                    <select
+                      name="rank"
+                      defaultValue={editingPlayer.rank || 'Celestial 3'}
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors"
+                      required
+                    >
+                      <option value="One Above All">One Above All</option>
+                      <option value="Eternity">Eternity</option>
+                      <option value="Celestial 1">Celestial 1</option>
+                      <option value="Celestial 2">Celestial 2</option>
+                      <option value="Celestial 3">Celestial 3</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Preferred Roles (comma-separated)
+                    </label>
+                    <input
+                      type="text"
+                      name="preferredRole"
+                      defaultValue={editingPlayer.preferredRole?.join(', ') || ''}
+                      placeholder="Strategist, Vanguard, Duelist"
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Heroes (comma-separated)
+                    </label>
+                    <input
+                      type="text"
+                      name="heroes"
+                      defaultValue={editingPlayer.heroes?.join(', ') || ''}
+                      placeholder="Iron Man, Captain America, Spider-Man"
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Profile Image
+                    </label>
+                    <input
+                      type="file"
+                      name="imageFile"
+                      accept="image/*"
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors"
+                    />
+                    <p className="text-xs text-gray-400 mt-1">Leave empty to keep current image</p>
+                  </div>
                 </div>
-                
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Twitch Link (Optional)
-                  </label>
-                  <input
-                    type="url"
-                    name="twitchLink"
-                    defaultValue={editingPlayer.twitchLink}
-                    placeholder="https://twitch.tv/username"
-                    className="glass-input w-full px-4 py-3 rounded-lg text-white placeholder-gray-400 focus:outline-none"
-                  />
-                  <p className="text-gray-400 text-xs mt-1">Leave empty if no Twitch link is available</p>
-                </div>
-                
-                <div className="flex gap-4">
+
+                {uploadError && (
+                  <div className="mt-4 p-3 bg-red-900/50 border border-red-500 rounded-lg">
+                    <p className="text-red-400 text-sm">{uploadError}</p>
+                  </div>
+                )}
+
+                <div className="flex gap-4 mt-6">
                   <button
                     type="submit"
                     disabled={uploadingImage}
-                    className="flex-1 glass-button text-white px-4 py-3 rounded-lg font-semibold disabled:opacity-50"
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white py-3 rounded-lg font-semibold transition-colors"
                   >
                     {uploadingImage ? 'Uploading...' : 'Save Changes'}
                   </button>
@@ -311,7 +419,7 @@ export default function AdminPlayersPage() {
                       setEditingPlayer(null)
                       setUploadError(null)
                     }}
-                    className="flex-1 glass-button text-white px-4 py-3 rounded-lg font-semibold"
+                    className="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-lg font-semibold transition-colors"
                   >
                     Cancel
                   </button>
