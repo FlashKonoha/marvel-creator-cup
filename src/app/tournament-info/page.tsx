@@ -24,7 +24,7 @@ export default function TournamentInfo() {
               <div className="space-y-3 text-gray-300">
                 <div className="flex justify-between">
                   <span>Date:</span>
-                  <span className="text-white font-semibold">July 25, 2025</span>
+                  <span className="text-white font-semibold">July 26, 2025</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Time:</span>
@@ -164,8 +164,8 @@ export default function TournamentInfo() {
                 <div className="text-white">Team Draft Day - Captains Select Players</div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-black/20 rounded border border-white/10">
-                <div className="text-white font-bold">5:30 PM EST</div>
-                <div className="text-white">July 25 - Team Check-in Begins</div>
+                <div className="text-white font-bold">05:30 PM EST</div>
+                <div className="text-white">July 26 - Team Check-in Begins</div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-black/20 rounded border border-white/10">
                 <div className="text-white font-bold">6:00 PM EST</div>

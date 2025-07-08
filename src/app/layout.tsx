@@ -8,7 +8,7 @@ import NavBar from "@/components/NavBar";
 
 export const metadata: Metadata = {
   title: "Marvel Creator Cup - BasimZB Tournament",
-  description: "Join the ultimate Marvel Rivals tournament hosted by BasimZB on July 25, 2025. Compete for $2600 in prizes!",
+  description: "Join the ultimate Marvel Rivals tournament hosted by BasimZB on July 26, 2025. Compete for $2600 in prizes!",
   keywords: "Marvel Rivals, tournament, BasimZB, gaming, esports, competition",
 };
 
@@ -45,7 +45,7 @@ export default function RootLayout({
                 </div>
                 <p className="text-gray-400 text-sm">
                   The ultimate Marvel Rivals tournament hosted by BasimZB. 
-                  Join the competition on July 25, 2025!
+                  Join the competition on July 26, 2025!
                 </p>
               </div>
               <div>

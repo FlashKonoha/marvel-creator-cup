@@ -275,8 +275,8 @@ export default function Home() {
               
               {/* Tournament Date */}
               <div className="text-center">
-                <div className="text-8xl md:text-9xl font-bold text-black mb-6">07/25</div>
-                <p className="text-xl md:text-2xl text-black font-medium">July 2025 marks the date when legends will be made and history will be written.</p>
+                <div className="text-8xl md:text-9xl font-bold text-black mb-6">07/26</div>
+                <p className="text-xl md:text-2xl text-black font-medium">July 26, 2025 06:00PM EST marks the date when legends will be made and history will be written.</p>
               </div>
             </div>
           </div>

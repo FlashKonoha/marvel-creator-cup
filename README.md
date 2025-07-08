@@ -1,10 +1,10 @@
 # Marvel Creator Cup - Tournament Web App
 
-A modern, responsive web application for BasimZB's Marvel Rivals tournament on July 25, 2025.
+A modern, responsive web application for BasimZB's Marvel Rivals tournament on July 26, 2025.
 
 ## 🎮 Tournament Details
 
-- **Date:** July 25, 2025
+- **Date:** July 26, 2025
 - **Time:** 6:00 PM EST
 - **Host:** [BasimZB](https://www.twitch.tv/basimzb)
 - **Game:** Marvel Rivals
