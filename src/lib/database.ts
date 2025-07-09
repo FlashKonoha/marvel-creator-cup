@@ -201,7 +201,7 @@ const defaultDraftData: DraftState = {
       twitchLink: 'https://www.twitch.tv/alineetv',
       rank: 'Eternity',
       preferredRole: ['Strategist'],
-      heroes: ['Luna', 'Invis', 'CND', 'Rocket', 'Adam', 'mANTIS']
+      heroes: ['Luna', 'Invis', 'CND', 'Rocket', 'Adam', 'Mantis']
     },
     {
       id: 2,
@@ -210,7 +210,7 @@ const defaultDraftData: DraftState = {
       twitchLink: 'https://www.twitch.tv/andtgro',
       rank: 'Celestial 2',
       preferredRole: ['Strategist', 'Vanguard'],
-      heroes: ['any hero within role']
+      heroes: []
     },
     {
       id: 3,
@@ -237,7 +237,7 @@ const defaultDraftData: DraftState = {
       twitchLink: 'https://www.twitch.tv/lmaofeli',
       rank: 'Eternity',
       preferredRole: ['Strategist'],
-      heroes: ['Invisible Woman']
+      heroes: ['Invis']
     },
     {
       id: 6,
@@ -255,16 +255,16 @@ const defaultDraftData: DraftState = {
       twitchLink: 'https://www.twitch.tv/kirkcast',
       rank: 'Celestial 3',
       preferredRole: ['Vanguard'],
-      heroes: ['N/A']
+      heroes: ['Any Tank']
     },
     {
       id: 8,
       twitchName: 'Luciyasa',
       twitchImage: '/placeholder.png',
-      twitchLink: 'twitch.tv/luciyasa',
+      twitchLink: 'https://twitch.tv/luciyasa',
       rank: 'One Above All',
       preferredRole: ['Strategist'],
-      heroes: ['Invisible woman']
+      heroes: ['Invis']
     },
     {
       id: 9,
@@ -307,7 +307,7 @@ const defaultDraftData: DraftState = {
       twitchName: 'NoDmgRocket',
       twitchImage: '/placeholder.png',
       twitchLink: 'https://www.twitch.tv/nodamagerocket',
-      rank: 'Eternity',
+      rank: 'One Above All',
       preferredRole: ['Strategist'],
       heroes: ['Rocket']
     },
@@ -322,6 +322,15 @@ const defaultDraftData: DraftState = {
     },
     {
       id: 15,
+      twitchName: 'PickNRoll',
+      twitchImage: '/placeholder.png',
+      twitchLink: 'https://www.twitch.tv/thep1cknroll',
+      rank: 'One Above All',
+      preferredRole: ['Vanguard', 'Duelist'],
+      heroes: ['magik', 'psylocke']
+    },
+    {
+      id: 16,
       twitchName: 'Raging',
       twitchImage: '/placeholder.png',
       twitchLink: 'https://www.twitch.tv/therag1ng',
@@ -330,7 +339,7 @@ const defaultDraftData: DraftState = {
       heroes: ['Captain America']
     },
     {
-      id: 16,
+      id: 17,
       twitchName: 'Swinny',
       twitchImage: '/placeholder.png',
       twitchLink: 'https://www.twitch.tv/swinnmvmt',
@@ -339,7 +348,7 @@ const defaultDraftData: DraftState = {
       heroes: ['Spidey']
     },
     {
-      id: 17,
+      id: 18,
       twitchName: 'Warden',
       twitchImage: '/placeholder.png',
       twitchLink: 'https://www.twitch.tv/wardensow',
@@ -348,7 +357,7 @@ const defaultDraftData: DraftState = {
       heroes: ['Hulk', 'Thor', 'Cap']
     },
     {
-      id: 18,
+      id: 19,
       twitchName: 'kpxchris',
       twitchImage: '/placeholder.png',
       twitchLink: 'https://www.twitch.tv/kpxchris',
@@ -357,16 +366,16 @@ const defaultDraftData: DraftState = {
       heroes: ['BLADE']
     },
     {
-      id: 19,
+      id: 20,
       twitchName: 'BlocBoyMo',
       twitchImage: '/placeholder.png',
-      twitchLink: 'twitch.tv/blocboymo',
+      twitchLink: 'https://twitch.tv/blocboymo',
       rank: 'Celestial 3',
-      preferredRole: ["Duelist", "Strategist", "Vanguard"],
+      preferredRole: ['Vanguard', 'Duelist', 'Strategist'],
       heroes: ['Psylocke']
     },
     {
-      id: 20,
+      id: 21,
       twitchName: 'matchuxd',
       twitchImage: '/placeholder.png',
       twitchLink: 'https://www.twitch.tv/matchuxd',
@@ -375,22 +384,22 @@ const defaultDraftData: DraftState = {
       heroes: ['Spider-Man']
     },
     {
-      id: 21,
+      id: 22,
       twitchName: 'MokeyMR',
       twitchImage: '/placeholder.png',
       twitchLink: 'https://www.twitch.tv/mokeymr',
       rank: 'Eternity',
-      preferredRole: ['Strategist', 'Vanguard'],
+      preferredRole: ['Vanguard', 'Strategist'],
       heroes: ['Rocket Racoon', 'Magneto']
     },
     {
-      id: 22,
+      id: 23,
       twitchName: 'SamiiMariee1',
       twitchImage: '/placeholder.png',
       twitchLink: 'https://m.twitch.samiimariee1',
       rank: 'Eternity',
       preferredRole: ['Strategist'],
-      heroes: ['Play all strats']
+      heroes: ['Any Strategist']
     }
   ]
 }
