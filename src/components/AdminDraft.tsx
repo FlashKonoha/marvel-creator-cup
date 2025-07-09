@@ -9,9 +9,9 @@ interface Player {
   twitchName: string
   twitchImage: string
   twitchLink: string
-  rank?: string
-  preferredRole?: string[]
-  heroes?: string[]
+  rank: string
+  preferredRole: string[]
+  heroes: string[]
 }
 
 interface Team {
@@ -32,8 +32,6 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
   const [draggedPlayer, setDraggedPlayer] = useState<Player | null>(null)
   const [showEditModal, setShowEditModal] = useState(false)
   const [editingTeam, setEditingTeam] = useState<Team | null>(null)
-  const [teamName, setTeamName] = useState('')
-  const [teamImage, setTeamImage] = useState('')
 
   const getRankImage = (rank: string) => {
     if (rank.includes('One Above All')) return '/One_Above_All_Rank.webp'

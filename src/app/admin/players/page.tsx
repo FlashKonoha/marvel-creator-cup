@@ -197,9 +197,11 @@ export default function AdminPlayersPage() {
             >
               <div className="flex flex-col items-center text-center mb-4 flex-1">
                 {player.twitchImage.startsWith('/api/image/') ? (
-                  <img 
+                  <Image 
                     src={player.twitchImage} 
                     alt={player.twitchName}
+                    width={80}
+                    height={80}
                     className="w-20 h-20 rounded-full mb-3 object-cover border-2 border-gray-600 flex-shrink-0"
                   />
                 ) : (
@@ -284,7 +286,9 @@ export default function AdminPlayersPage() {
                 const formData = new FormData(e.currentTarget)
                 
                 let imageUrl = editingPlayer.twitchImage
-                const imageFile = (e.currentTarget as any).imageFile.files[0]
+                const form = e.currentTarget as HTMLFormElement
+                const imageFileInput = form.elements.namedItem('imageFile') as HTMLInputElement
+                const imageFile = imageFileInput?.files?.[0]
                 
                 if (imageFile) {
                   try {
@@ -353,6 +357,24 @@ export default function AdminPlayersPage() {
                       <option value="Celestial 1">Celestial 1</option>
                       <option value="Celestial 2">Celestial 2</option>
                       <option value="Celestial 3">Celestial 3</option>
+                      <option value="Grand Master 1">Grand Master 1</option>
+                      <option value="Grand Master 2">Grand Master 2</option>
+                      <option value="Grand Master 3">Grand Master 3</option>
+                      <option value="Diamond 1">Diamond 1</option>
+                      <option value="Diamond 2">Diamond 2</option>
+                      <option value="Diamond 3">Diamond 3</option>
+                      <option value="Platinum 1">Platinum 1</option>
+                      <option value="Platinum 2">Platinum 2</option>
+                      <option value="Platinum 3">Platinum 3</option>
+                      <option value="Gold 1">Gold 1</option>
+                      <option value="Gold 2">Gold 2</option>
+                      <option value="Gold 3">Gold 3</option>
+                      <option value="Silver 1">Silver 1</option>
+                      <option value="Silver 2">Silver 2</option>
+                      <option value="Silver 3">Silver 3</option>
+                      <option value="Bronze 1">Bronze 1</option>
+                      <option value="Bronze 2">Bronze 2</option>
+                      <option value="Bronze 3">Bronze 3</option>
                     </select>
                   </div>
                   

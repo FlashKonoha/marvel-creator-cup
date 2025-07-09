@@ -41,8 +41,8 @@ export default function AdminDraftPage() {
     }
   }
 
-  const handleStateChange = async (newTeams: Team[], newPlayers: Player[]) => {
-    await updateState({ teams: newTeams, players: newPlayers })
+  const handleStateChange = (newTeams: Team[], newPlayers: Player[]) => {
+    updateState({ teams: newTeams, players: newPlayers })
   }
 
   // Show loading while checking authentication
