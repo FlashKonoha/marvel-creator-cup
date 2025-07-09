@@ -226,7 +226,7 @@ const defaultDraftData: DraftState = {
       twitchName: 'Day',
       twitchImage: '/placeholder.png',
       twitchLink: 'https://www.twitch.tv/dayy1x',
-      rank: 'OneAboveAll',
+      rank: 'One Above All',
       preferredRole: ['Duelist'],
       heroes: ['Spider-man']
     },
@@ -235,7 +235,7 @@ const defaultDraftData: DraftState = {
       twitchName: 'Feli',
       twitchImage: '/placeholder.png',
       twitchLink: 'https://www.twitch.tv/lmaofeli',
-      rank: 'eternity',
+      rank: 'Eternity',
       preferredRole: ['Strategist'],
       heroes: ['Invisible Woman']
     },
@@ -262,7 +262,7 @@ const defaultDraftData: DraftState = {
       twitchName: 'Luciyasa',
       twitchImage: '/placeholder.png',
       twitchLink: 'twitch.tv/luciyasa',
-      rank: 'OAA',
+      rank: 'One Above All',
       preferredRole: ['Strategist'],
       heroes: ['Invisible woman']
     },
@@ -280,7 +280,7 @@ const defaultDraftData: DraftState = {
       twitchName: 'Marc Deezyy',
       twitchImage: '/placeholder.png',
       twitchLink: 'https://www.twitch.tv/marcdeezyy',
-      rank: 'eternity',
+      rank: 'Eternity',
       preferredRole: ['Vanguard'],
       heroes: ['Steve Rogers']
     },
@@ -316,7 +316,7 @@ const defaultDraftData: DraftState = {
       twitchName: 'P_tatoTV',
       twitchImage: '/placeholder.png',
       twitchLink: 'https://www.twitch.tv/P_tatoTV',
-      rank: 'OAA',
+      rank: 'One Above All',
       preferredRole: ['Duelist'],
       heroes: ['Not a one trick scrub']
     },
@@ -325,7 +325,7 @@ const defaultDraftData: DraftState = {
       twitchName: 'Raging',
       twitchImage: '/placeholder.png',
       twitchLink: 'https://www.twitch.tv/therag1ng',
-      rank: 'Cel 1',
+      rank: 'Celestial 1',
       preferredRole: ['Vanguard', 'Duelist'],
       heroes: ['Captain America']
     },
@@ -343,7 +343,7 @@ const defaultDraftData: DraftState = {
       twitchName: 'Warden',
       twitchImage: '/placeholder.png',
       twitchLink: 'https://www.twitch.tv/wardensow',
-      rank: 'Cel 3',
+      rank: 'Celestial 3',
       preferredRole: ['Vanguard', 'Duelist'],
       heroes: ['Hulk', 'Thor', 'Cap']
     },
@@ -352,7 +352,7 @@ const defaultDraftData: DraftState = {
       twitchName: 'kpxchris',
       twitchImage: '/placeholder.png',
       twitchLink: 'https://www.twitch.tv/kpxchris',
-      rank: 'CEL 1',
+      rank: 'Celestial 1',
       preferredRole: ['Duelist'],
       heroes: ['BLADE']
     },
@@ -361,7 +361,7 @@ const defaultDraftData: DraftState = {
       twitchName: 'BlocBoyMo',
       twitchImage: '/placeholder.png',
       twitchLink: 'twitch.tv/blocboymo',
-      rank: 'CEL 3',
+      rank: 'Celestial 3',
       preferredRole: ["Duelist", "Strategist", "Vanguard"],
       heroes: ['Psylocke']
     },
@@ -400,7 +400,7 @@ const defaultTournamentBracketData: TournamentBracketState = {
     id: "marvel-creator-cup-2025",
     name: "Marvel Creator Cup 2025",
     status: "registration",
-    startDate: "2025-07-25",
+    startDate: "2025-07-26",
     format: "double-elimination",
     maxTeams: 8
   },
