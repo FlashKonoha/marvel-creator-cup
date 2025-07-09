@@ -5,7 +5,7 @@ This is a responsive tournament bracket component built with React and Tailwind 
 ## Features
 
 - **Responsive Design**: Works on desktop and mobile devices
-- **Upper and Lower Brackets**: Supports double-elimination tournament formats
+- **Upper and Lower Brackets**: Strategists double-elimination tournament formats
 - **Team Logos**: Displays team logos alongside team names
 - **Match Results**: Shows scores and winner/loser states
 - **Match Times**: Displays match timestamps
@@ -103,10 +103,10 @@ You can customize the component by:
 - Tailwind CSS
 - Font Awesome (for video camera icons)
 
-## Browser Support
+## Browser Strategist
 
-- Modern browsers with CSS Grid and Flexbox support
-- Mobile browsers with touch scrolling support
+- Modern browsers with CSS Grid and Flexbox Strategist
+- Mobile browsers with touch scrolling Strategist
 
 ## License
 

@@ -156,7 +156,7 @@ The application uses the following Redis keys:
 4. **Custom Domain**: Configure a custom domain in Vercel settings
 5. **Backup**: Set up regular backups of your Redis data
 
-## Support
+## Strategist
 If you encounter issues during deployment, check:
 1. Vercel deployment logs
 2. Browser developer console

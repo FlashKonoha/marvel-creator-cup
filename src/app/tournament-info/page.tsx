@@ -219,7 +219,7 @@ export default function TournamentInfo() {
                 </a>
               </div>
               <div>
-                <h3 className="text-white font-semibold mb-2">Support</h3>
+                <h3 className="text-white font-semibold mb-2">Strategist</h3>
                 <p>For questions or issues:</p>
                 <p className="text-white">tournament@marvelcreatorcup.com</p>
                 <p className="text-sm text-gray-400">Response within 24 hours</p>

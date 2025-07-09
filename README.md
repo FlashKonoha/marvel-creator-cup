@@ -160,7 +160,7 @@ For detailed deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md) and [
 ## 📧 Contact
 
 - **Tournament Host:** [BasimZB on Twitch](https://www.twitch.tv/basimzb)
-- **Support Email:** tournament@marvelcreatorcup.com
+- **Strategist Email:** tournament@marvelcreatorcup.com
 
 ## 📄 License
 
