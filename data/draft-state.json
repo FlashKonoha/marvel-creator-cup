@@ -138,7 +138,7 @@
       "twitchLink": "https://www.twitch.tv/andtgro",
       "rank": "Celestial 2",
       "preferredRole": ["Strategist", "Vanguard"],
-      "heroes": ["Any Strategist or Vanguard"]
+      "heroes": ["Any strategist or vanguard"]
     },
     {
       "id": 3,
@@ -160,6 +160,15 @@
     },
     {
       "id": 5,
+      "twitchName": "KlipzMR",
+      "twitchImage": "/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/klipzmr",
+      "rank": "Eternity",
+      "preferredRole": ["Duelist"],
+      "heroes": ["Hawkeye"]
+    },
+    {
+      "id": 6,
       "twitchName": "Feli",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/lmaofeli",
@@ -168,7 +177,7 @@
       "heroes": ["Invis"]
     },
     {
-      "id": 6,
+      "id": 7,
       "twitchName": "GragAlbert",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/GragAlbert",
@@ -177,16 +186,16 @@
       "heroes": ["Hulk", "Strange", "Mag", "Thing"]
     },
     {
-      "id": 7,
+      "id": 8,
       "twitchName": "KirkCast",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/kirkcast",
       "rank": "Celestial 3",
       "preferredRole": ["Vanguard"],
-      "heroes": ["Any Tank"]
+      "heroes": ["Any Vanguard"]
     },
     {
-      "id": 8,
+      "id": 9,
       "twitchName": "Luciyasa",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://twitch.tv/luciyasa",
@@ -195,7 +204,7 @@
       "heroes": ["Invis"]
     },
     {
-      "id": 9,
+      "id": 10,
       "twitchName": "Madlilg",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/madlilg13",
@@ -204,7 +213,7 @@
       "heroes": ["Ironfist", "magik"]
     },
     {
-      "id": 10,
+      "id": 11,
       "twitchName": "Marc Deezyy",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/marcdeezyy",
@@ -213,7 +222,16 @@
       "heroes": ["Steve Rogers"]
     },
     {
-      "id": 11,
+      "id": 12,
+      "twitchName": "Mikesaboveu",
+      "twitchImage": "/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/mikesaboveu",
+      "rank": "One Above All",
+      "preferredRole": ["Duelist"],
+      "heroes": ["Johnny Storm", "King Tchalla"]
+    },
+    {
+      "id": 13,
       "twitchName": "Nani the freak",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/nanithefreaks",
@@ -222,7 +240,7 @@
       "heroes": ["Black Panther"]
     },
     {
-      "id": 12,
+      "id": 14,
       "twitchName": "Nauti",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/nautilifts",
@@ -231,7 +249,7 @@
       "heroes": ["Doc Strange"]
     },
     {
-      "id": 13,
+      "id": 15,
       "twitchName": "NoDmgRocket",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/nodamagerocket",
@@ -240,7 +258,7 @@
       "heroes": ["Rocket"]
     },
     {
-      "id": 14,
+      "id": 16,
       "twitchName": "P_tatoTV",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/P_tatoTV",
@@ -249,7 +267,7 @@
       "heroes": ["Not a one trick scrub"]
     },
     {
-      "id": 15,
+      "id": 17,
       "twitchName": "PickNRoll",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/thep1cknroll",
@@ -258,7 +276,7 @@
       "heroes": ["magik", "psylocke"]
     },
     {
-      "id": 16,
+      "id": 18,
       "twitchName": "Raging",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/therag1ng",
@@ -267,7 +285,7 @@
       "heroes": ["Captain America"]
     },
     {
-      "id": 17,
+      "id": 19,
       "twitchName": "Swinny",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/swinnmvmt",
@@ -276,7 +294,7 @@
       "heroes": ["Spidey"]
     },
     {
-      "id": 18,
+      "id": 20,
       "twitchName": "Warden",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/wardensow",
@@ -285,7 +303,7 @@
       "heroes": ["Hulk", "Thor", "Cap"]
     },
     {
-      "id": 19,
+      "id": 21,
       "twitchName": "kpxchris",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/kpxchris",
@@ -294,7 +312,7 @@
       "heroes": ["BLADE"]
     },
     {
-      "id": 20,
+      "id": 22,
       "twitchName": "BlocBoyMo",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://twitch.tv/blocboymo",
@@ -303,7 +321,7 @@
       "heroes": ["Psylocke"]
     },
     {
-      "id": 21,
+      "id": 23,
       "twitchName": "matchuxd",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/matchuxd",
@@ -312,7 +330,7 @@
       "heroes": ["Spider-Man"]
     },
     {
-      "id": 22,
+      "id": 24,
       "twitchName": "MokeyMR",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/mokeymr",
@@ -321,13 +339,67 @@
       "heroes": ["Rocket Racoon", "Magneto"]
     },
     {
-      "id": 23,
+      "id": 25,
       "twitchName": "SamiiMariee1",
       "twitchImage": "/placeholder.png",
-      "twitchLink": "https://m.twitch.samiimariee1",
+      "twitchLink": "https://www.twitch.tv/samiimariee1",
       "rank": "Eternity",
       "preferredRole": ["Strategist"],
       "heroes": ["Any Strategist"]
+    },
+    {
+      "id": 26,
+      "twitchName": "Piratekingmomo",
+      "twitchImage": "/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/piratekingmomo",
+      "rank": "Eternity",
+      "preferredRole": ["Duelist"],
+      "heroes": ["Shotgun only punisher", "hawkeye"]
+    },
+    {
+      "id": 27,
+      "twitchName": "Persixo",
+      "twitchImage": "/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/persixo",
+      "rank": "Eternity",
+      "preferredRole": ["Vanguard"],
+      "heroes": ["Magneto"]
+    },
+    {
+      "id": 28,
+      "twitchName": "Coach Mills",
+      "twitchImage": "/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/coach_mills",
+      "rank": "Celestial 2",
+      "preferredRole": ["Vanguard", "Duelist"],
+      "heroes": []
+    },
+    {
+      "id": 29,
+      "twitchName": "iRunShibb",
+      "twitchImage": "/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/irunshibb",
+      "rank": "Eternity",
+      "preferredRole": ["Vanguard"],
+      "heroes": ["Whatever tank we need"]
+    },
+    {
+      "id": 30,
+      "twitchName": "iAmAvenue",
+      "twitchImage": "/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/iamavenue_",
+      "rank": "Eternity",
+      "preferredRole": ["Duelist"],
+      "heroes": ["Done w the one tricking"]
+    },
+    {
+      "id": 31,
+      "twitchName": "DarlingDollCraft",
+      "twitchImage": "/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/darlingdollcraft",
+      "rank": "Celestial 3",
+      "preferredRole": ["Strategist"],
+      "heroes": []
     }
   ]
 }
