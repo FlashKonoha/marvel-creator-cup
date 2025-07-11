@@ -198,7 +198,7 @@
       "id": 9,
       "twitchName": "Luciyasa",
       "twitchImage": "/placeholder.png",
-      "twitchLink": "https://twitch.tv/luciyasa",
+      "twitchLink": "https://www.twitch.tv/luciyasa",
       "rank": "One Above All",
       "preferredRole": ["Strategist"],
       "heroes": ["Invis"]
@@ -286,6 +286,15 @@
     },
     {
       "id": 19,
+      "twitchName": "SirBzrk",
+      "twitchImage": "/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/sirbzrk",
+      "rank": "Grandmaster 3",
+      "preferredRole": ["Vanguard"],
+      "heroes": ["Thor"]
+    },
+    {
+      "id": 20,
       "twitchName": "Swinny",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/swinnmvmt",
@@ -294,7 +303,7 @@
       "heroes": ["Spidey"]
     },
     {
-      "id": 20,
+      "id": 21,
       "twitchName": "Warden",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/wardensow",
@@ -303,7 +312,7 @@
       "heroes": ["Hulk", "Thor", "Cap"]
     },
     {
-      "id": 21,
+      "id": 22,
       "twitchName": "kpxchris",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/kpxchris",
@@ -312,16 +321,16 @@
       "heroes": ["BLADE"]
     },
     {
-      "id": 22,
+      "id": 23,
       "twitchName": "BlocBoyMo",
       "twitchImage": "/placeholder.png",
-      "twitchLink": "https://twitch.tv/blocboymo",
+      "twitchLink": "https://www.twitch.tv/blocboymo",
       "rank": "Celestial 3",
       "preferredRole": ["Vanguard", "Duelist", "Strategist"],
       "heroes": ["Psylocke"]
     },
     {
-      "id": 23,
+      "id": 24,
       "twitchName": "matchuxd",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/matchuxd",
@@ -330,7 +339,7 @@
       "heroes": ["Spider-Man"]
     },
     {
-      "id": 24,
+      "id": 25,
       "twitchName": "MokeyMR",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/mokeymr",
@@ -339,7 +348,7 @@
       "heroes": ["Rocket Racoon", "Magneto"]
     },
     {
-      "id": 25,
+      "id": 26,
       "twitchName": "SamiiMariee1",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/samiimariee1",
@@ -348,7 +357,7 @@
       "heroes": ["Any Strategist"]
     },
     {
-      "id": 26,
+      "id": 27,
       "twitchName": "Piratekingmomo",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/piratekingmomo",
@@ -357,7 +366,7 @@
       "heroes": ["Shotgun only punisher", "hawkeye"]
     },
     {
-      "id": 27,
+      "id": 28,
       "twitchName": "Persixo",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/persixo",
@@ -366,7 +375,7 @@
       "heroes": ["Magneto"]
     },
     {
-      "id": 28,
+      "id": 29,
       "twitchName": "Coach Mills",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/coach_mills",
@@ -375,7 +384,7 @@
       "heroes": []
     },
     {
-      "id": 29,
+      "id": 30,
       "twitchName": "iRunShibb",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/irunshibb",
@@ -384,7 +393,7 @@
       "heroes": ["Whatever tank we need"]
     },
     {
-      "id": 30,
+      "id": 31,
       "twitchName": "iAmAvenue",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/iamavenue_",
@@ -393,13 +402,22 @@
       "heroes": ["Done w the one tricking"]
     },
     {
-      "id": 31,
+      "id": 32,
       "twitchName": "DarlingDollCraft",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/darlingdollcraft",
       "rank": "Celestial 3",
       "preferredRole": ["Strategist"],
       "heroes": []
+    },
+    {
+      "id": 33,
+      "twitchName": "iFlow",
+      "twitchImage": "/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/if1oww",
+      "rank": "Celestial 1",
+      "preferredRole": ["Vanguard", "Duelist", "Strategist"],
+      "heroes": ["Any hero"]
     }
   ]
 }
