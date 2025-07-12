@@ -84,7 +84,8 @@ export async function getDraftState(): Promise<DraftState> {
   try {
     const redis = await getRedisClient()
     const data = await redis.get<DraftState>(DRAFT_STATE_KEY)
-    return data || defaultDraftData
+    // return data || defaultDraftData
+    return defaultDraftData
   } catch (error) {
     console.error('Error reading draft state from Redis:', error)
     return defaultDraftData
