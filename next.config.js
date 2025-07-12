@@ -2,7 +2,6 @@
 const nextConfig = {
   // Image optimization
   images: {
-    domains: ['picsum.photos',"static-cdn.jtvnw.net"],
     formats: ['image/webp', 'image/avif'],
     remotePatterns: [
       {

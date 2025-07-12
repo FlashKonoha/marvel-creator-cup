@@ -3,11 +3,11 @@
     {
       "id": 1,
       "name": "Avengers Assemble",
-      "image": "/placeholder.png",
+      "image": "/players/placeholder.png",
       "captain": {
         "id": 101,
         "twitchName": "CaptainAmerica",
-        "twitchImage": "/placeholder.png",
+        "twitchImage": "/players/placeholder.png",
         "twitchLink": "https://twitch.tv/captainamerica",
         "rank": "Celestial 3",
         "preferredRole": [
@@ -24,11 +24,11 @@
     {
       "id": 2,
       "name": "X-Men Elite",
-      "image": "/placeholder.png",
+      "image": "/players/placeholder.png",
       "captain": {
         "id": 102,
         "twitchName": "WolverinePro",
-        "twitchImage": "/placeholder.png",
+        "twitchImage": "/players/placeholder.png",
         "twitchLink": "https://twitch.tv/wolverinepro",
         "rank": "One Above All",
         "preferredRole": [
@@ -44,11 +44,11 @@
     {
       "id": 3,
       "name": "Guardians Galaxy",
-      "image": "/placeholder.png",
+      "image": "/players/placeholder.png",
       "captain": {
         "id": 103,
         "twitchName": "StarLord",
-        "twitchImage": "/placeholder.png",
+        "twitchImage": "/players/placeholder.png",
         "twitchLink": "https://twitch.tv/starlord",
         "rank": "Celestial 1",
         "preferredRole": [
@@ -64,11 +64,11 @@
     {
       "id": 4,
       "name": "Fantastic Four",
-      "image": "/placeholder.png",
+      "image": "/players/placeholder.png",
       "captain": {
         "id": 104,
         "twitchName": "MrFantastic",
-        "twitchImage": "/placeholder.png",
+        "twitchImage": "/players/placeholder.png",
         "twitchLink": "https://twitch.tv/mrfantastic",
         "rank": "Eternity",
         "preferredRole": [
@@ -85,11 +85,11 @@
     {
       "id": 5,
       "name": "Spider-Verse",
-      "image": "/placeholder.png",
+      "image": "/players/placeholder.png",
       "captain": {
         "id": 105,
         "twitchName": "SpiderMan",
-        "twitchImage": "/placeholder.png",
+        "twitchImage": "/players/placeholder.png",
         "twitchLink": "https://twitch.tv/spiderman",
         "rank": "Celestial 2",
         "preferredRole": [
@@ -106,11 +106,11 @@
     {
       "id": 6,
       "name": "Defenders",
-      "image": "/placeholder.png",
+      "image": "/players/placeholder.png",
       "captain": {
         "id": 106,
         "twitchName": "Daredevil",
-        "twitchImage": "/placeholder.png",
+        "twitchImage": "/players/placeholder.png",
         "twitchLink": "https://twitch.tv/daredevil",
         "rank": "Celestial 3",
         "preferredRole": [
@@ -126,11 +126,11 @@
     {
       "id": 7,
       "name": "Fantastic Six",
-      "image": "/placeholder.png",
+      "image": "/players/placeholder.png",
       "captain": {
         "id": 2,
         "twitchName": "RivalsPro",
-        "twitchImage": "/placeholder.png",
+        "twitchImage": "/players/placeholder.png",
         "twitchLink": "https://twitch.tv/daredevil",
         "rank": "Celestial 1",
         "preferredRole": [
@@ -147,11 +147,11 @@
     {
       "id": 8,
       "name": "Funtastic",
-      "image": "/placeholder.png",
+      "image": "/players/placeholder.png",
       "captain": {
         "id": 6,
         "twitchName": "StreamQueen",
-        "twitchImage": "/placeholder.png",
+        "twitchImage": "/players/placeholder.png",
         "twitchLink": "https://twitch.tv/daredevil",
         "rank": "Eternity",
         "preferredRole": [
@@ -169,7 +169,7 @@
     {
       "id": 1,
       "twitchName": "Alinee",
-      "twitchImage": "/alinee.webp",
+      "twitchImage": "/players/alinee.webp",
       "twitchLink": "https://www.twitch.tv/alineetv",
       "rank": "Eternity",
       "preferredRole": [
@@ -187,7 +187,7 @@
     {
       "id": 2,
       "twitchName": "AndTgro",
-      "twitchImage": "/andtgro.webp",
+      "twitchImage": "/players/andtgro.webp",
       "twitchLink": "https://www.twitch.tv/andtgro",
       "rank": "Celestial 2",
       "preferredRole": [
@@ -201,7 +201,7 @@
     {
       "id": 3,
       "twitchName": "Bencer",
-      "twitchImage": "/bencer.webp",
+      "twitchImage": "/players/bencer.webp",
       "twitchLink": "https://www.twitch.tv/bencerr_",
       "rank": "Celestial 2",
       "preferredRole": [
@@ -214,7 +214,7 @@
     {
       "id": 4,
       "twitchName": "Day",
-      "twitchImage": "/day.webp",
+      "twitchImage": "/players/day.webp",
       "twitchLink": "https://www.twitch.tv/dayy1x",
       "rank": "One Above All",
       "preferredRole": [
@@ -227,7 +227,7 @@
     {
       "id": 5,
       "twitchName": "KlipzMR",
-      "twitchImage": "/klipzmr.webp",
+      "twitchImage": "/players/klipzmr.webp",
       "twitchLink": "https://www.twitch.tv/klipzmr",
       "rank": "Eternity",
       "preferredRole": [
@@ -240,7 +240,7 @@
     {
       "id": 6,
       "twitchName": "Feli",
-      "twitchImage": "/feli.webp",
+      "twitchImage": "/players/feli.webp",
       "twitchLink": "https://www.twitch.tv/lmaofeli",
       "rank": "Eternity",
       "preferredRole": [
@@ -253,7 +253,7 @@
     {
       "id": 7,
       "twitchName": "GragAlbert",
-      "twitchImage": "/gragalbert.webp",
+      "twitchImage": "/players/gragalbert.webp",
       "twitchLink": "https://www.twitch.tv/GragAlbert",
       "rank": "Celestial 1",
       "preferredRole": [
@@ -269,7 +269,7 @@
     {
       "id": 8,
       "twitchName": "KirkCast",
-      "twitchImage": "/kirkcast.webp",
+      "twitchImage": "/players/kirkcast.webp",
       "twitchLink": "https://www.twitch.tv/kirkcast",
       "rank": "Celestial 3",
       "preferredRole": [
@@ -282,7 +282,7 @@
     {
       "id": 9,
       "twitchName": "Luciyasa",
-      "twitchImage": "/luciyasa.webp",
+      "twitchImage": "/players/luciyasa.webp",
       "twitchLink": "https://www.twitch.tv/luciyasa",
       "rank": "One Above All",
       "preferredRole": [
@@ -295,7 +295,7 @@
     {
       "id": 10,
       "twitchName": "Luckyzeal",
-      "twitchImage": "/luckyzeal.webp",
+      "twitchImage": "/players/luckyzeal.webp",
       "twitchLink": "https://www.twitch.tv/luckyzeal",
       "rank": "Eternity",
       "preferredRole": [
@@ -308,7 +308,7 @@
     {
       "id": 11,
       "twitchName": "Madlilg",
-      "twitchImage": "/madlilg.webp",
+      "twitchImage": "/players/madlilg.webp",
       "twitchLink": "https://www.twitch.tv/madlilg13",
       "rank": "Celestial 2",
       "preferredRole": [
@@ -322,7 +322,7 @@
     {
       "id": 12,
       "twitchName": "Marc Deezyy",
-      "twitchImage": "/marcdeezyy.webp",
+      "twitchImage": "/players/marcdeezyy.webp",
       "twitchLink": "https://www.twitch.tv/marcdeezyy",
       "rank": "Eternity",
       "preferredRole": [
@@ -335,7 +335,7 @@
     {
       "id": 13,
       "twitchName": "Mikesaboveu",
-      "twitchImage": "/mikesaboveu.webp",
+      "twitchImage": "/players/mikesaboveu.webp",
       "twitchLink": "https://www.twitch.tv/mikesaboveu",
       "rank": "One Above All",
       "preferredRole": [
@@ -349,7 +349,7 @@
     {
       "id": 14,
       "twitchName": "Nani the freak",
-      "twitchImage": "/nanithefreak.webp",
+      "twitchImage": "/players/nanithefreak.webp",
       "twitchLink": "https://www.twitch.tv/nanithefreaks",
       "rank": "Celestial 1",
       "preferredRole": [
@@ -362,7 +362,7 @@
     {
       "id": 15,
       "twitchName": "Nauti",
-      "twitchImage": "/nauti.webp",
+      "twitchImage": "/players/nauti.webp",
       "twitchLink": "https://www.twitch.tv/nautilifts",
       "rank": "Celestial 3",
       "preferredRole": [
@@ -375,7 +375,7 @@
     {
       "id": 16,
       "twitchName": "NoDmgRocket",
-      "twitchImage": "/nodmgrocket.webp",
+      "twitchImage": "/players/nodmgrocket.webp",
       "twitchLink": "https://www.twitch.tv/nodamagerocket",
       "rank": "One Above All",
       "preferredRole": [
@@ -388,7 +388,7 @@
     {
       "id": 17,
       "twitchName": "P_tatoTV",
-      "twitchImage": "/ptatotv.webp",
+      "twitchImage": "/players/ptatotv.webp",
       "twitchLink": "https://www.twitch.tv/P_tatoTV",
       "rank": "One Above All",
       "preferredRole": [
@@ -401,7 +401,7 @@
     {
       "id": 18,
       "twitchName": "PickNRoll",
-      "twitchImage": "/picknroll.webp",
+      "twitchImage": "/players/picknroll.webp",
       "twitchLink": "https://www.twitch.tv/thep1cknroll",
       "rank": "One Above All",
       "preferredRole": [
@@ -416,7 +416,7 @@
     {
       "id": 19,
       "twitchName": "Raging",
-      "twitchImage": "/raging.webp",
+      "twitchImage": "/players/raging.webp",
       "twitchLink": "https://www.twitch.tv/therag1ng",
       "rank": "Celestial 1",
       "preferredRole": [
@@ -430,7 +430,7 @@
     {
       "id": 20,
       "twitchName": "SirBzrk",
-      "twitchImage": "/sirbzrk.webp",
+      "twitchImage": "/players/sirbzrk.webp",
       "twitchLink": "https://www.twitch.tv/sirbzrk",
       "rank": "Grandmaster 3",
       "preferredRole": [
@@ -443,7 +443,7 @@
     {
       "id": 21,
       "twitchName": "Swinny",
-      "twitchImage": "/swinny.webp",
+      "twitchImage": "/players/swinny.webp",
       "twitchLink": "https://www.twitch.tv/swinnmvmt",
       "rank": "Eternity",
       "preferredRole": [
@@ -456,7 +456,7 @@
     {
       "id": 22,
       "twitchName": "Warden",
-      "twitchImage": "/warden.webp",
+      "twitchImage": "/players/warden.webp",
       "twitchLink": "https://www.twitch.tv/wardensow",
       "rank": "Celestial 3",
       "preferredRole": [
@@ -472,7 +472,7 @@
     {
       "id": 23,
       "twitchName": "kpxchris",
-      "twitchImage": "/kpxchris.webp",
+      "twitchImage": "/players/kpxchris.webp",
       "twitchLink": "https://www.twitch.tv/kpxchris",
       "rank": "Celestial 1",
       "preferredRole": [
@@ -485,7 +485,7 @@
     {
       "id": 24,
       "twitchName": "BlocBoyMo",
-      "twitchImage": "/blocboymo.webp",
+      "twitchImage": "/players/blocboymo.webp",
       "twitchLink": "https://www.twitch.tv/blocboymo",
       "rank": "Celestial 3",
       "preferredRole": [
@@ -500,7 +500,7 @@
     {
       "id": 25,
       "twitchName": "matchuxd",
-      "twitchImage": "/matchuxd.webp",
+      "twitchImage": "/players/matchuxd.webp",
       "twitchLink": "https://www.twitch.tv/matchuxd",
       "rank": "Eternity",
       "preferredRole": [
@@ -514,7 +514,7 @@
     {
       "id": 26,
       "twitchName": "MokeyMR",
-      "twitchImage": "/mokeymr.webp",
+      "twitchImage": "/players/mokeymr.webp",
       "twitchLink": "https://www.twitch.tv/mokeymr",
       "rank": "Eternity",
       "preferredRole": [
@@ -529,7 +529,7 @@
     {
       "id": 27,
       "twitchName": "SamiiMariee1",
-      "twitchImage": "/samiimariee1.webp",
+      "twitchImage": "/players/samiimariee1.webp",
       "twitchLink": "https://www.twitch.tv/samiimariee1",
       "rank": "Eternity",
       "preferredRole": [
@@ -542,7 +542,7 @@
     {
       "id": 28,
       "twitchName": "Piratekingmomo",
-      "twitchImage": "/piratekingmomo.webp",
+      "twitchImage": "/players/piratekingmomo.webp",
       "twitchLink": "https://www.twitch.tv/piratekingmomo",
       "rank": "Eternity",
       "preferredRole": [
@@ -556,7 +556,7 @@
     {
       "id": 29,
       "twitchName": "Persixo",
-      "twitchImage": "/persixo.webp",
+      "twitchImage": "/players/persixo.webp",
       "twitchLink": "https://www.twitch.tv/persixo",
       "rank": "Eternity",
       "preferredRole": [
@@ -569,7 +569,7 @@
     {
       "id": 30,
       "twitchName": "Coach Mills",
-      "twitchImage": "/coachmills.webp",
+      "twitchImage": "/players/coachmills.webp",
       "twitchLink": "https://www.twitch.tv/coach_mills",
       "rank": "Celestial 2",
       "preferredRole": [
@@ -581,7 +581,7 @@
     {
       "id": 31,
       "twitchName": "iRunShibb",
-      "twitchImage": "/irunshibb.webp",
+      "twitchImage": "/players/irunshibb.webp",
       "twitchLink": "https://www.twitch.tv/irunshibb",
       "rank": "Eternity",
       "preferredRole": [
@@ -594,7 +594,7 @@
     {
       "id": 32,
       "twitchName": "iAmAvenue",
-      "twitchImage": "/iamavenue.webp",
+      "twitchImage": "/players/iamavenue.webp",
       "twitchLink": "https://www.twitch.tv/iamavenue_",
       "rank": "Eternity",
       "preferredRole": [
@@ -607,7 +607,7 @@
     {
       "id": 33,
       "twitchName": "DarlingDollCraft",
-      "twitchImage": "/darlingdollcraft.webp",
+      "twitchImage": "/players/darlingdollcraft.webp",
       "twitchLink": "https://www.twitch.tv/darlingdollcraft",
       "rank": "Celestial 3",
       "preferredRole": [
@@ -618,7 +618,7 @@
     {
       "id": 34,
       "twitchName": "iFlow",
-      "twitchImage": "/iflow.webp",
+      "twitchImage": "/players/iflow.webp",
       "twitchLink": "https://www.twitch.tv/if1oww",
       "rank": "Celestial 1",
       "preferredRole": [
@@ -633,7 +633,7 @@
     {
       "id": 35,
       "twitchName": "Cece",
-      "twitchImage": "/cece.webp",
+      "twitchImage": "/players/cece.webp",
       "twitchLink": "https://www.twitch.tv/cecee",
       "rank": "Celestial 2",
       "preferredRole": [
@@ -648,7 +648,7 @@
     {
       "id": 36,
       "twitchName": "CaptainCoach",
-      "twitchImage": "/captaincoach.webp",
+      "twitchImage": "/players/captaincoach.webp",
       "twitchLink": "https://www.twitch.tv/captaincoach",
       "rank": "Celestial 2",
       "preferredRole": [

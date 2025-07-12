@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { getRankImage } from '@/lib/tournamentUtils'
 
 interface Player {
   id: number
@@ -17,18 +18,6 @@ interface PlayerCardProps {
 }
 
 export default function PlayerCard({ player }: PlayerCardProps) {
-  const getRankImage = (rank: string) => {
-    if (rank.includes('One Above All')) return '/One_Above_All_Rank.webp'
-    if (rank.includes('Eternity')) return '/Eternity_Rank.webp'
-    if (rank.includes('Celestial 1') || rank.includes('Celestial 2') || rank.includes('Celestial 3')) return '/Celestial_Rank.webp'
-    if (rank.includes('Grandmaster')) return '/Grandmaster_Rank.webp'
-    if (rank.includes('Diamond')) return '/Diamond_Rank.webp'
-    if (rank.includes('Platinum')) return '/Platinum_Rank.webp'
-    if (rank.includes('Gold')) return '/Gold_Rank.webp'
-    if (rank.includes('Silver')) return '/Silver_Rank.webp'
-    if (rank.includes('Bronze')) return '/Bronze_Rank.webp'
-    return '/Bronze_Rank.webp' // default
-  }
 
   const getRoleColor = (role: string) => {
     switch (role) {

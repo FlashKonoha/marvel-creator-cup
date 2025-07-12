@@ -370,4 +370,22 @@ export function createTournamentBracket(teams: Team[]): {
     upperBracket,
     lowerBracket
   }
+}
+
+/**
+ * Get the rank image path based on the rank string
+ * @param rank - The rank string (e.g., "Celestial 1", "Diamond 2", etc.)
+ * @returns The path to the rank image
+ */
+export function getRankImage(rank: string): string {
+  if (rank.includes('One Above All')) return '/ranks/One_Above_All_Rank.webp'
+  if (rank.includes('Eternity')) return '/ranks/Eternity_Rank.webp'
+  if (rank.includes('Celestial 1') || rank.includes('Celestial 2') || rank.includes('Celestial 3')) return '/ranks/Celestial_Rank.webp'
+  if (rank.includes('Grandmaster')) return '/ranks/Grandmaster_Rank.webp'
+  if (rank.includes('Diamond')) return '/ranks/Diamond_Rank.webp'
+  if (rank.includes('Platinum')) return '/ranks/Platinum_Rank.webp'
+  if (rank.includes('Gold')) return '/ranks/Gold_Rank.webp'
+  if (rank.includes('Silver')) return '/ranks/Silver_Rank.webp'
+  if (rank.includes('Bronze')) return '/ranks/Bronze_Rank.webp'
+  return '/ranks/Bronze_Rank.webp' // default
 } 
