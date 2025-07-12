@@ -205,6 +205,15 @@
     },
     {
       "id": 10,
+      "twitchName": "Luckyzeal",
+      "twitchImage": "/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/luckyzeal",
+      "rank": "Eternity",
+      "preferredRole": ["Duelist"],
+      "heroes": ["Spider Man"]
+    },
+    {
+      "id": 11,
       "twitchName": "Madlilg",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/madlilg13",
@@ -213,7 +222,7 @@
       "heroes": ["Ironfist", "magik"]
     },
     {
-      "id": 11,
+      "id": 12,
       "twitchName": "Marc Deezyy",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/marcdeezyy",
@@ -222,7 +231,7 @@
       "heroes": ["Steve Rogers"]
     },
     {
-      "id": 12,
+      "id": 13,
       "twitchName": "Mikesaboveu",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/mikesaboveu",
@@ -231,7 +240,7 @@
       "heroes": ["Johnny Storm", "King Tchalla"]
     },
     {
-      "id": 13,
+      "id": 14,
       "twitchName": "Nani the freak",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/nanithefreaks",
@@ -240,7 +249,7 @@
       "heroes": ["Black Panther"]
     },
     {
-      "id": 14,
+      "id": 15,
       "twitchName": "Nauti",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/nautilifts",
@@ -249,7 +258,7 @@
       "heroes": ["Doc Strange"]
     },
     {
-      "id": 15,
+      "id": 16,
       "twitchName": "NoDmgRocket",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/nodamagerocket",
@@ -258,7 +267,7 @@
       "heroes": ["Rocket"]
     },
     {
-      "id": 16,
+      "id": 17,
       "twitchName": "P_tatoTV",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/P_tatoTV",
@@ -267,7 +276,7 @@
       "heroes": ["Not a one trick scrub"]
     },
     {
-      "id": 17,
+      "id": 18,
       "twitchName": "PickNRoll",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/thep1cknroll",
@@ -276,7 +285,7 @@
       "heroes": ["magik", "psylocke"]
     },
     {
-      "id": 18,
+      "id": 19,
       "twitchName": "Raging",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/therag1ng",
@@ -285,7 +294,7 @@
       "heroes": ["Captain America"]
     },
     {
-      "id": 19,
+      "id": 20,
       "twitchName": "SirBzrk",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/sirbzrk",
@@ -294,7 +303,7 @@
       "heroes": ["Thor"]
     },
     {
-      "id": 20,
+      "id": 21,
       "twitchName": "Swinny",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/swinnmvmt",
@@ -303,7 +312,7 @@
       "heroes": ["Spidey"]
     },
     {
-      "id": 21,
+      "id": 22,
       "twitchName": "Warden",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/wardensow",
@@ -312,7 +321,7 @@
       "heroes": ["Hulk", "Thor", "Cap"]
     },
     {
-      "id": 22,
+      "id": 23,
       "twitchName": "kpxchris",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/kpxchris",
@@ -321,7 +330,7 @@
       "heroes": ["BLADE"]
     },
     {
-      "id": 23,
+      "id": 24,
       "twitchName": "BlocBoyMo",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/blocboymo",
@@ -330,7 +339,7 @@
       "heroes": ["Psylocke"]
     },
     {
-      "id": 24,
+      "id": 25,
       "twitchName": "matchuxd",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/matchuxd",
@@ -339,7 +348,7 @@
       "heroes": ["Spider-Man"]
     },
     {
-      "id": 25,
+      "id": 26,
       "twitchName": "MokeyMR",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/mokeymr",
@@ -348,7 +357,7 @@
       "heroes": ["Rocket Racoon", "Magneto"]
     },
     {
-      "id": 26,
+      "id": 27,
       "twitchName": "SamiiMariee1",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/samiimariee1",
@@ -357,7 +366,7 @@
       "heroes": ["Any Strategist"]
     },
     {
-      "id": 27,
+      "id": 28,
       "twitchName": "Piratekingmomo",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/piratekingmomo",
@@ -366,7 +375,7 @@
       "heroes": ["Shotgun only punisher", "hawkeye"]
     },
     {
-      "id": 28,
+      "id": 29,
       "twitchName": "Persixo",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/persixo",
@@ -375,7 +384,7 @@
       "heroes": ["Magneto"]
     },
     {
-      "id": 29,
+      "id": 30,
       "twitchName": "Coach Mills",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/coach_mills",
@@ -384,7 +393,7 @@
       "heroes": []
     },
     {
-      "id": 30,
+      "id": 31,
       "twitchName": "iRunShibb",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/irunshibb",
@@ -393,7 +402,7 @@
       "heroes": ["Whatever tank we need"]
     },
     {
-      "id": 31,
+      "id": 32,
       "twitchName": "iAmAvenue",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/iamavenue_",
@@ -402,7 +411,7 @@
       "heroes": ["Done w the one tricking"]
     },
     {
-      "id": 32,
+      "id": 33,
       "twitchName": "DarlingDollCraft",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/darlingdollcraft",
@@ -411,13 +420,31 @@
       "heroes": []
     },
     {
-      "id": 33,
+      "id": 34,
       "twitchName": "iFlow",
       "twitchImage": "/placeholder.png",
       "twitchLink": "https://www.twitch.tv/if1oww",
       "rank": "Celestial 1",
       "preferredRole": ["Vanguard", "Duelist", "Strategist"],
       "heroes": ["Any hero"]
+    },
+    {
+      "id": 35,
+      "twitchName": "Cece",
+      "twitchImage": "/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/cecee",
+      "rank": "Celestial 2",
+      "preferredRole": ["Vanguard", "Duelist", "Strategist"],
+      "heroes": ["wannabe Phoenix 1 trick"]
+    },
+    {
+      "id": 36,
+      "twitchName": "CaptainCoach",
+      "twitchImage": "/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/captaincoach",
+      "rank": "Celestial 2",
+      "preferredRole": ["Vanguard"],
+      "heroes": ["Hulk"]
     }
   ]
 }
