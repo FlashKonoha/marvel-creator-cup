@@ -3,13 +3,9 @@
 import Link from 'next/link'
 import TournamentBracket from '../components/TournamentBracket'
 import { useTournamentBracket, TournamentState } from '../hooks/useTournamentBracket'
-import { useTeams } from '../hooks/useTeams'
-import { useDraftState } from '../hooks/useDraftState'
 
 export default function Home() {
   const { bracketState, loading, error } = useTournamentBracket()
-  const { teams } = useTeams()
-  const { state: draftState } = useDraftState()
   
   // Transform bracket state into the format expected by TournamentBracket component
   const isTeam = (obj: unknown): obj is { id: number|string, name: string, image: string } => {
@@ -263,7 +259,7 @@ export default function Home() {
             <div className="grid lg:grid-cols-3 gap-20 lg:gap-40 items-center">
               {/* Number of Creators */}
               <div className="text-center">
-                <div className="text-8xl md:text-9xl font-bold text-black mb-6">{draftState.players.length}</div>
+                <div className="text-8xl md:text-9xl font-bold text-black mb-6">48</div>
                 <p className="text-xl md:text-2xl text-black font-medium">Elite Marvel Rivals creators competing for glory in this epic tournament showdown.</p>
               </div>
               
@@ -300,7 +296,7 @@ export default function Home() {
             {bracketState && (
               <div className="text-sm text-gray-400 mb-4">
                 <p>Tournament Status: {bracketState.tournament.status}</p>
-                <p>Available Teams: {teams.length}</p>
+                <p>Available Teams: 8</p>
                 <p>Last Updated: {bracketState.lastUpdated ? new Date(bracketState.lastUpdated).toLocaleString() : 'N/A'}</p>
               </div>
             )}
