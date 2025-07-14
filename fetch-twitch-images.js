@@ -31,8 +31,10 @@ async function fetchTwitchImages() {
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
   
   const updatedPlayers = [];
+
+  const playersWithPlaceholderImages = draftState.players.filter(player => player.twitchImage === '/players/placeholder.png');
   
-  for (const player of draftState.players) {
+  for (const player of playersWithPlaceholderImages) {
     try {
       console.log(`Fetching image for ${player.twitchName}...`);
       
@@ -57,7 +59,7 @@ async function fetchTwitchImages() {
       if (imageUrl) {
         // Create filename from twitch name
         const filename = `${player.twitchName.toLowerCase().replace(/[^a-z0-9]/g, '')}.webp`;
-        const filepath = path.join('./public', filename);
+        const filepath = path.join('./public/players', filename);
         
         // Download the image
         await downloadImage(imageUrl, filepath);
