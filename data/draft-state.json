@@ -429,17 +429,30 @@
     },
     {
       "id": 20,
+      "twitchName": "Raylene",
+      "twitchImage": "/players/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/raylene",
+      "rank": "Eternity 257",
+      "preferredRole": [
+        "Strategist"
+      ],
+      "heroes": [
+        "Any strat except Cnd and Jeff"
+      ]
+    },
+    {
+      "id": 21,
       "twitchName": "Sekkuun",
       "twitchImage": "/players/sekkuun.webp",
       "twitchLink": "https://www.twitch.tv/sekkun_",
-      "rank": "Rank 102",
+      "rank": "One Above All (Rank 102)",
       "preferredRole": [
         "Duelist"
       ],
       "heroes": []
     },
     {
-      "id": 21,
+      "id": 22,
       "twitchName": "Simii",
       "twitchImage": "/players/simii.webp",
       "twitchLink": "https://www.twitch.tv/simii_exe",
@@ -452,7 +465,7 @@
       ]
     },
     {
-      "id": 22,
+      "id": 23,
       "twitchName": "SirBzrk",
       "twitchImage": "/players/sirbzrk.webp",
       "twitchLink": "https://www.twitch.tv/sirbzrk",
@@ -465,7 +478,7 @@
       ]
     },
     {
-      "id": 23,
+      "id": 24,
       "twitchName": "Swinny",
       "twitchImage": "/players/swinny.webp",
       "twitchLink": "https://www.twitch.tv/swinnmvmt",
@@ -478,7 +491,7 @@
       ]
     },
     {
-      "id": 24,
+      "id": 25,
       "twitchName": "Warden",
       "twitchImage": "/players/warden.webp",
       "twitchLink": "https://www.twitch.tv/wardensow",
@@ -494,11 +507,11 @@
       ]
     },
     {
-      "id": 25,
+      "id": 26,
       "twitchName": "kpxchris",
       "twitchImage": "/players/kpxchris.webp",
       "twitchLink": "https://www.twitch.tv/kpxchris",
-      "rank": "RANK 500",
+      "rank": "One Above All (Rank 500)",
       "preferredRole": [
         "Duelist"
       ],
@@ -507,7 +520,7 @@
       ]
     },
     {
-      "id": 26,
+      "id": 27,
       "twitchName": "BlocBoyMo",
       "twitchImage": "/players/blocboymo.webp",
       "twitchLink": "https://www.twitch.tv/blocboymo",
@@ -522,7 +535,7 @@
       ]
     },
     {
-      "id": 27,
+      "id": 28,
       "twitchName": "matchuxd",
       "twitchImage": "/players/matchuxd.webp",
       "twitchLink": "https://www.twitch.tv/matchuxd",
@@ -536,7 +549,7 @@
       ]
     },
     {
-      "id": 28,
+      "id": 29,
       "twitchName": "MokeyMR",
       "twitchImage": "/players/mokeymr.webp",
       "twitchLink": "https://www.twitch.tv/mokeymr",
@@ -551,7 +564,7 @@
       ]
     },
     {
-      "id": 29,
+      "id": 30,
       "twitchName": "SamiiMariee1",
       "twitchImage": "/players/samiimariee1.webp",
       "twitchLink": "https://www.twitch.tv/samiimariee1",
@@ -564,11 +577,11 @@
       ]
     },
     {
-      "id": 30,
+      "id": 31,
       "twitchName": "Piratekingmomo",
       "twitchImage": "/players/piratekingmomo.webp",
       "twitchLink": "https://www.twitch.tv/piratekingmomo",
-      "rank": "One Above All 328 rank 198",
+      "rank": "One Above All (328 rank 198)",
       "preferredRole": [
         "Duelist"
       ],
@@ -578,7 +591,7 @@
       ]
     },
     {
-      "id": 31,
+      "id": 32,
       "twitchName": "Persixo",
       "twitchImage": "/players/persixo.webp",
       "twitchLink": "https://www.twitch.tv/persixo",
@@ -591,7 +604,7 @@
       ]
     },
     {
-      "id": 32,
+      "id": 33,
       "twitchName": "Coach Mills",
       "twitchImage": "/players/coachmills.webp",
       "twitchLink": "https://www.twitch.tv/coach_mills",
@@ -603,7 +616,7 @@
       "heroes": []
     },
     {
-      "id": 33,
+      "id": 34,
       "twitchName": "iRunShibb",
       "twitchImage": "/players/irunshibb.webp",
       "twitchLink": "https://www.twitch.tv/irunshibb",
@@ -616,7 +629,7 @@
       ]
     },
     {
-      "id": 34,
+      "id": 35,
       "twitchName": "iAmAvenue",
       "twitchImage": "/players/iamavenue.webp",
       "twitchLink": "https://www.twitch.tv/iamavenue_",
@@ -629,18 +642,18 @@
       ]
     },
     {
-      "id": 35,
+      "id": 36,
       "twitchName": "DarlingDollCraft",
       "twitchImage": "/players/darlingdollcraft.webp",
       "twitchLink": "https://www.twitch.tv/darlingdollcraft",
-      "rank": "Celetial 2",
+      "rank": "Celestial 2",
       "preferredRole": [
-        "Srategist"
+        "Strategist"
       ],
       "heroes": []
     },
     {
-      "id": 36,
+      "id": 37,
       "twitchName": "iFlow",
       "twitchImage": "/players/iflow.webp",
       "twitchLink": "https://www.twitch.tv/if1oww",
@@ -655,7 +668,7 @@
       ]
     },
     {
-      "id": 37,
+      "id": 38,
       "twitchName": "Cece",
       "twitchImage": "/players/cece.webp",
       "twitchLink": "https://www.twitch.tv/cecee",
@@ -670,7 +683,7 @@
       ]
     },
     {
-      "id": 38,
+      "id": 39,
       "twitchName": "CaptainCoach",
       "twitchImage": "/players/captaincoach.webp",
       "twitchLink": "https://www.twitch.tv/captaincoach",
@@ -683,28 +696,17 @@
       ]
     },
     {
-      "id": 39,
+      "id": 40,
       "twitchName": "JellyPeanut",
       "twitchImage": "/players/jellypeanut.webp",
       "twitchLink": "https://www.twitch.tv/jellypeanut",
-      "rank": "Eternity",
+      "rank": "One Above All",
       "preferredRole": [
         "Duelist",
         "Vanguard"
       ],
-      "heroes": []
-    },
-    {
-      "id": 40,
-      "twitchName": "Emiliath",
-      "twitchImage": "/players/emiliath.webp",
-      "twitchLink": "https://twitch.tv/emiliath",
-      "rank": "Eternity",
-      "preferredRole": [
-        "Strategist"
-      ],
       "heroes": [
-        "Cloak and dagger"
+        "Magik"
       ]
     },
     {
@@ -744,6 +746,35 @@
       ],
       "heroes": [
         "Venom"
+      ]
+    },
+    {
+      "id": 44,
+      "twitchName": "D3VINE",
+      "twitchImage": "/players/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/d3vlne",
+      "rank": "Eternity 80",
+      "preferredRole": [
+        "Strategist"
+      ],
+      "heroes": [
+        "C&D",
+        "Other support"
+      ]
+    },
+    {
+      "id": 45,
+      "twitchName": "HankDaTank",
+      "twitchImage": "/players/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/hanky",
+      "rank": "Eternity 121",
+      "preferredRole": [
+        "Vanguard",
+        "Duelist",
+        "Strategist"
+      ],
+      "heroes": [
+        "Any hero"
       ]
     }
   ]
