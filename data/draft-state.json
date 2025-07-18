@@ -774,7 +774,50 @@
         "Strategist"
       ],
       "heroes": [
-        "Any hero"
+        "Not a one trick bot ! / can play every hero"
+      ]
+    },
+    {
+      "id": 46,
+      "twitchName": "Mina",
+      "twitchImage": "/players/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/mina",
+      "rank": "Grandmaster 2",
+      "preferredRole": [
+        "Vanguard",
+        "Strategist"
+      ],
+      "heroes": [
+        "cloak and dagger"
+      ]
+    },
+    {
+      "id": 47,
+      "twitchName": "Riley",
+      "twitchImage": "/players/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/riley",
+      "rank": "Eternity",
+      "preferredRole": [
+        "Strategist"
+      ],
+      "heroes": [
+        "Invis",
+        "CND",
+        "Rocket",
+        "Ultron"
+      ]
+    },
+    {
+      "id": 48,
+      "twitchName": "Paz",
+      "twitchImage": "/players/placeholder.png",
+      "twitchLink": "https://www.twitch.tv/pazswagger",
+      "rank": "Eternity 312",
+      "preferredRole": [
+        "Strategist"
+      ],
+      "heroes": [
+        "N/A | Can play all sups + meta dps and tanks minus wolv"
       ]
     }
   ]
