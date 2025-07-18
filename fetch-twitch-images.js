@@ -30,9 +30,9 @@ async function fetchTwitchImages() {
   // Set user agent to avoid being blocked
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
   
-  const updatedPlayers = [];
-
   const playersWithPlaceholderImages = draftState.players.filter(player => player.twitchImage === '/players/placeholder.png');
+  
+  console.log(`Found ${playersWithPlaceholderImages.length} players with placeholder images`);
   
   for (const player of playersWithPlaceholderImages) {
     try {
@@ -64,8 +64,11 @@ async function fetchTwitchImages() {
         // Download the image
         await downloadImage(imageUrl, filepath);
         
-        // Update the player data
-        player.twitchImage = `/${filename}`;
+        // Update the player data in the original array
+        const playerIndex = draftState.players.findIndex(p => p.id === player.id);
+        if (playerIndex !== -1) {
+          draftState.players[playerIndex].twitchImage = `/players/${filename}`;
+        }
         
         console.log(`✓ Downloaded image for ${player.twitchName}: ${filename}`);
       } else {
@@ -79,14 +82,9 @@ async function fetchTwitchImages() {
       console.error(`Error fetching image for ${player.twitchName}:`, error.message);
       // Keep the placeholder image if there's an error
     }
-    
-    updatedPlayers.push(player);
   }
   
   await browser.close();
-  
-  // Update the draft state with new image paths
-  draftState.players = updatedPlayers;
   
   // Write the updated data back to the file
   fs.writeFileSync('./data/draft-state.json', JSON.stringify(draftState, null, 2));

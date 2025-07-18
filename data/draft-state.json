@@ -780,7 +780,7 @@
     {
       "id": 46,
       "twitchName": "Mina",
-      "twitchImage": "/players/placeholder.png",
+      "twitchImage": "/players/mina.webp",
       "twitchLink": "https://www.twitch.tv/mina",
       "rank": "Grandmaster 2",
       "preferredRole": [
@@ -794,7 +794,7 @@
     {
       "id": 47,
       "twitchName": "Riley",
-      "twitchImage": "/players/placeholder.png",
+      "twitchImage": "/players/riley.webp",
       "twitchLink": "https://www.twitch.tv/riley",
       "rank": "Eternity",
       "preferredRole": [
@@ -810,7 +810,7 @@
     {
       "id": 48,
       "twitchName": "Paz",
-      "twitchImage": "/players/placeholder.png",
+      "twitchImage": "/players/paz.webp",
       "twitchLink": "https://www.twitch.tv/pazswagger",
       "rank": "Eternity 312",
       "preferredRole": [
