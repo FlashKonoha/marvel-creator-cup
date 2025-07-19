@@ -206,19 +206,6 @@
       ]
     },
     {
-      "id": 4,
-      "twitchName": "Day",
-      "twitchImage": "/players/day.webp",
-      "twitchLink": "https://www.twitch.tv/dayy1x",
-      "rank": "One Above All (rank 12)",
-      "preferredRole": [
-        "Duelist"
-      ],
-      "heroes": [
-        "Spider-man"
-      ]
-    },
-    {
       "id": 5,
       "twitchName": "KlipzMR",
       "twitchImage": "/players/klipzmr.webp",
@@ -245,22 +232,6 @@
       ]
     },
     {
-      "id": 7,
-      "twitchName": "GragAlbert",
-      "twitchImage": "/players/gragalbert.webp",
-      "twitchLink": "https://www.twitch.tv/GragAlbert",
-      "rank": "Eternity 222",
-      "preferredRole": [
-        "Vanguard"
-      ],
-      "heroes": [
-        "Hulk",
-        "Strange",
-        "Mag",
-        "Thing"
-      ]
-    },
-    {
       "id": 8,
       "twitchName": "KirkCast",
       "twitchImage": "/players/kirkcast.webp",
@@ -284,19 +255,6 @@
       ],
       "heroes": [
         "Invis"
-      ]
-    },
-    {
-      "id": 10,
-      "twitchName": "Luckyzeal",
-      "twitchImage": "/players/luckyzeal.webp",
-      "twitchLink": "https://www.twitch.tv/luckyzeal",
-      "rank": "One Above All 372",
-      "preferredRole": [
-        "Duelist"
-      ],
-      "heroes": [
-        "Spider Man"
       ]
     },
     {
@@ -435,30 +393,6 @@
       ]
     },
     {
-      "id": 21,
-      "twitchName": "Sekkuun",
-      "twitchImage": "/players/sekkuun.webp",
-      "twitchLink": "https://www.twitch.tv/sekkun_",
-      "rank": "One Above All (Rank 102)",
-      "preferredRole": [
-        "Duelist"
-      ],
-      "heroes": []
-    },
-    {
-      "id": 22,
-      "twitchName": "Simii",
-      "twitchImage": "/players/simii.webp",
-      "twitchLink": "https://www.twitch.tv/simii_exe",
-      "rank": "Eternity",
-      "preferredRole": [
-        "Duelist"
-      ],
-      "heroes": [
-        "Spiderman"
-      ]
-    },
-    {
       "id": 23,
       "twitchName": "SirBzrk",
       "twitchImage": "/players/sirbzrk.webp",
@@ -482,22 +416,6 @@
       ],
       "heroes": [
         "Spidey"
-      ]
-    },
-    {
-      "id": 25,
-      "twitchName": "Warden",
-      "twitchImage": "/players/warden.webp",
-      "twitchLink": "https://www.twitch.tv/wardensow",
-      "rank": "Celestial 1",
-      "preferredRole": [
-        "Vanguard",
-        "Duelist"
-      ],
-      "heroes": [
-        "Hulk",
-        "Thor",
-        "Cap"
       ]
     },
     {
@@ -659,34 +577,6 @@
       ],
       "heroes": [
         "Any hero"
-      ]
-    },
-    {
-      "id": 38,
-      "twitchName": "Cece",
-      "twitchImage": "/players/cece.webp",
-      "twitchLink": "https://www.twitch.tv/cecee",
-      "rank": "Celestial 1",
-      "preferredRole": [
-        "Vanguard",
-        "Duelist",
-        "Strategist"
-      ],
-      "heroes": [
-        "wannabe Phoenix 1 trick"
-      ]
-    },
-    {
-      "id": 39,
-      "twitchName": "CaptainCoach",
-      "twitchImage": "/players/captaincoach.webp",
-      "twitchLink": "https://www.twitch.tv/captaincoach",
-      "rank": "Eternity",
-      "preferredRole": [
-        "Vanguard"
-      ],
-      "heroes": [
-        "Hulk"
       ]
     },
     {
