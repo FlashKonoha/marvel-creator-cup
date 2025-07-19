@@ -54,7 +54,7 @@ function updateBracketProgression(bracketState: TournamentBracketState) {
     brackets.upper.final[0].team2 = brackets.upper.semifinals[1].winner
   }
 
-  // Upper Final -> Grand Final
+  // Upper Final -> Grand Final (winner goes to team1)
   if (brackets.upper.final[0].winner) {
     grandFinal.team1 = brackets.upper.final[0].winner
   }
@@ -96,17 +96,17 @@ function updateBracketProgression(bracketState: TournamentBracketState) {
     brackets.lower.round3[0].team2 = brackets.lower.round2[1].winner
   }
 
-  // Lower final
+  // Lower final - winner from lower round 3 goes to team1
   if (brackets.lower.round3[0].winner) {
     brackets.lower.final[0].team1 = brackets.lower.round3[0].winner
   }
 
-  // Loser from upper final goes to lower final
+  // Loser from upper final goes to lower final (team2)
   if (brackets.upper.final[0].loser) {
     brackets.lower.final[0].team2 = brackets.upper.final[0].loser
   }
 
-  // Lower final winner goes to grand final
+  // Lower final winner goes to grand final (team2)
   if (brackets.lower.final[0].winner) {
     grandFinal.team2 = brackets.lower.final[0].winner
   }
