@@ -2,164 +2,158 @@
   "teams": [
     {
       "id": 1,
-      "name": "Avengers Assemble",
+      "name": "Team A",
       "image": "/players/placeholder.png",
       "captain": {
-        "id": 101,
-        "twitchName": "CaptainAmerica",
-        "twitchImage": "/players/placeholder.png",
-        "twitchLink": "https://twitch.tv/captainamerica",
-        "rank": "Celestial 3",
+        "id": 39,
+        "twitchName": "CaptainCoach",
+        "twitchImage": "/players/captaincoach.webp",
+        "twitchLink": "https://www.twitch.tv/captaincoach",
+        "rank": "Eternity",
         "preferredRole": [
-          "Strategist",
           "Vanguard"
         ],
         "heroes": [
-          "Iron Man",
-          "Captain America"
+          "Hulk"
         ]
       },
       "players": []
     },
     {
       "id": 2,
-      "name": "X-Men Elite",
+      "name": "Team B",
       "image": "/players/placeholder.png",
-      "captain": {
-        "id": 102,
-        "twitchName": "WolverinePro",
-        "twitchImage": "/players/placeholder.png",
-        "twitchLink": "https://twitch.tv/wolverinepro",
-        "rank": "One Above All",
+      "captain":  {
+        "id": 38,
+        "twitchName": "Cece",
+        "twitchImage": "/players/cece.webp",
+        "twitchLink": "https://www.twitch.tv/cecee",
+        "rank": "Celestial 1",
         "preferredRole": [
-          "Duelist"
+          "Vanguard",
+          "Duelist",
+          "Strategist"
         ],
         "heroes": [
-          "Wolverine",
-          "Storm"
+          "wannabe Phoenix 1 trick"
         ]
       },
       "players": []
     },
     {
       "id": 3,
-      "name": "Guardians Galaxy",
+      "name": "Team C",
       "image": "/players/placeholder.png",
       "captain": {
-        "id": 103,
-        "twitchName": "StarLord",
-        "twitchImage": "/players/placeholder.png",
-        "twitchLink": "https://twitch.tv/starlord",
-        "rank": "Celestial 1",
+        "id": 4,
+        "twitchName": "Day",
+        "twitchImage": "/players/day.webp",
+        "twitchLink": "https://www.twitch.tv/dayy1x",
+        "rank": "One Above All (rank 12)",
         "preferredRole": [
-          "Strategist"
+          "Duelist"
         ],
         "heroes": [
-          "Star-Lord",
-          "Gamora"
+          "Spider-man"
         ]
       },
       "players": []
     },
     {
       "id": 4,
-      "name": "Fantastic Four",
+      "name": "Team D",
       "image": "/players/placeholder.png",
-      "captain": {
-        "id": 104,
-        "twitchName": "MrFantastic",
-        "twitchImage": "/players/placeholder.png",
-        "twitchLink": "https://twitch.tv/mrfantastic",
-        "rank": "Eternity",
+      "captain":  {
+        "id": 7,
+        "twitchName": "GragAlbert",
+        "twitchImage": "/players/gragalbert.webp",
+        "twitchLink": "https://www.twitch.tv/GragAlbert",
+        "rank": "Eternity 222",
         "preferredRole": [
-          "Strategist",
           "Vanguard"
         ],
         "heroes": [
-          "Mr. Fantastic",
-          "Invisible Woman"
+          "Hulk",
+          "Strange",
+          "Mag",
+          "Thing"
         ]
       },
       "players": []
     },
     {
       "id": 5,
-      "name": "Spider-Verse",
+      "name": "Team E",
       "image": "/players/placeholder.png",
       "captain": {
-        "id": 105,
-        "twitchName": "SpiderMan",
-        "twitchImage": "/players/placeholder.png",
-        "twitchLink": "https://twitch.tv/spiderman",
-        "rank": "Celestial 2",
+        "id": 10,
+        "twitchName": "Luckyzeal",
+        "twitchImage": "/players/luckyzeal.webp",
+        "twitchLink": "https://www.twitch.tv/luckyzeal",
+        "rank": "One Above All 372",
         "preferredRole": [
-          "Duelist",
-          "Vanguard"
+          "Duelist"
         ],
         "heroes": [
-          "Spider-Man",
-          "Miles Morales"
+          "Spider Man"
         ]
       },
       "players": []
     },
     {
       "id": 6,
-      "name": "Defenders",
+      "name": "Team F",
       "image": "/players/placeholder.png",
       "captain": {
-        "id": 106,
-        "twitchName": "Daredevil",
-        "twitchImage": "/players/placeholder.png",
-        "twitchLink": "https://twitch.tv/daredevil",
-        "rank": "Celestial 3",
+        "id": 21,
+        "twitchName": "Sekkuun",
+        "twitchImage": "/players/sekkuun.webp",
+        "twitchLink": "https://www.twitch.tv/sekkun_",
+        "rank": "One Above All (Rank 102)",
         "preferredRole": [
           "Duelist"
         ],
-        "heroes": [
-          "Daredevil",
-          "Luke Cage"
-        ]
+        "heroes": []
       },
       "players": []
     },
     {
       "id": 7,
-      "name": "Fantastic Six",
+      "name": "Team G",
       "image": "/players/placeholder.png",
       "captain": {
-        "id": 2,
-        "twitchName": "RivalsPro",
-        "twitchImage": "/players/placeholder.png",
-        "twitchLink": "https://twitch.tv/daredevil",
-        "rank": "Celestial 1",
+        "id": 22,
+        "twitchName": "Simii",
+        "twitchImage": "/players/simii.webp",
+        "twitchLink": "https://www.twitch.tv/simii_exe",
+        "rank": "Eternity",
         "preferredRole": [
-          "Strategist",
           "Duelist"
         ],
         "heroes": [
-          "Black Panther",
-          "Shuri"
+          "Spiderman"
         ]
       },
       "players": []
     },
     {
       "id": 8,
-      "name": "Funtastic",
+      "name": "Team H",
       "image": "/players/placeholder.png",
       "captain": {
-        "id": 6,
-        "twitchName": "StreamQueen",
-        "twitchImage": "/players/placeholder.png",
-        "twitchLink": "https://twitch.tv/daredevil",
-        "rank": "Eternity",
+        "id": 25,
+        "twitchName": "Warden",
+        "twitchImage": "/players/warden.webp",
+        "twitchLink": "https://www.twitch.tv/wardensow",
+        "rank": "Celestial 1",
         "preferredRole": [
-          "Vanguard"
+          "Vanguard",
+          "Duelist"
         ],
         "heroes": [
           "Hulk",
-          "She-Hulk"
+          "Thor",
+          "Cap"
         ]
       },
       "players": []
