@@ -78,7 +78,7 @@ export default function TournamentInfo() {
               <div className="border-l-4 border-white/30 pl-4">
                 <h3 className="text-white font-semibold mb-2">Draft Overview</h3>
                 <ul className="space-y-2 text-sm">
-                  <li>• Draft Date: July 18, 2025 (One week before tournament)</li>
+                  <li>• Draft Date: July 21, 2025 (One week before tournament)</li>
                   <li>• Team captains will select their 5 additional players</li>
                   <li>• Each team will have exactly 6 players total</li>
                   <li>• Draft order will be determined by random selection</li>
@@ -91,7 +91,6 @@ export default function TournamentInfo() {
                   <li>• 6-8 teams total (depending on registration)</li>
                   <li>• Each team: 1 captain + 5 drafted players</li>
                   <li>• Teams will compete in 6v6 format</li>
-                  <li>• Substitutions allowed between matches</li>
                   <li>• Team captains responsible for coordination</li>
                 </ul>
               </div>
@@ -124,7 +123,7 @@ export default function TournamentInfo() {
               <div className="border-l-4 border-white/30 pl-4">
                 <h3 className="text-white font-semibold mb-2">Tournament Format</h3>
                 <ul className="space-y-2 text-sm">
-                  <li>• Double Elimination: Winners and Losers Bracket</li>
+                  <li>• Group Stage followed by top 3 seeds advancing to Final Stage</li>
                   <li>• All matches are Best of 3 (Bo3)</li>
                   <li>• Grand Finals: Best of 5 (Bo5)</li>
                   <li>• 6-8 teams with 6 players each (including team captain)</li>
