@@ -3,10 +3,9 @@ import { verify } from 'jsonwebtoken'
 import { broadcastTournamentUpdate } from '../../../lib/sse-broadcast'
 import { 
   getTournamentBracketState, 
-  setTournamentBracketState, 
-  type TournamentBracketState, 
-  type Match 
+  setTournamentBracketState
 } from '../../../lib/database'
+import type { TournamentState, Group, GroupMatch } from '../../../data/tournamentBracketData'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production'
 // Rate limiting for admin actions
@@ -30,88 +29,130 @@ function checkRateLimit(ip: string): boolean {
   return true
 }
 
-function updateBracketProgression(bracketState: TournamentBracketState) {
-  const { brackets, grandFinal } = bracketState
+// Helper function to generate round-robin matches for a group
+function generateRoundRobinMatches(teams: { id: string; name: string; logo?: string }[], groupId: string): GroupMatch[] {
+  const matches: GroupMatch[] = []
+  const teamIds = teams.map(team => team.id)
+  
+  // Generate all possible pairs
+  for (let i = 0; i < teamIds.length; i++) {
+    for (let j = i + 1; j < teamIds.length; j++) {
+      const match: GroupMatch = {
+        id: `${groupId}-match-${matches.length + 1}`,
+        title: `${teams[i].name} vs ${teams[j].name}`,
+        team1: {
+          id: teams[i].id,
+          name: teams[i].name,
+          logo: teams[i].logo || '/logo.png',
+          score: 0,
+          isWinner: false,
+          isLoser: false
+        },
+        team2: {
+          id: teams[j].id,
+          name: teams[j].name,
+          logo: teams[j].logo || '/logo.png',
+          score: 0,
+          isWinner: false,
+          isLoser: false
+        },
+        team1MapWins: 0,
+        team2MapWins: 0,
+        status: 'pending',
+        scheduledTime: null,
+        completedTime: null
+      }
+      matches.push(match)
+    }
+  }
+  
+  return matches
+}
 
-  // Update upper bracket progression
-  // Quarterfinals -> Semifinals
-  if (brackets.upper.quarterfinals[0].winner) {
-    brackets.upper.semifinals[0].team1 = brackets.upper.quarterfinals[0].winner
-  }
-  if (brackets.upper.quarterfinals[1].winner) {
-    brackets.upper.semifinals[0].team2 = brackets.upper.quarterfinals[1].winner
-  }
-  if (brackets.upper.quarterfinals[2].winner) {
-    brackets.upper.semifinals[1].team1 = brackets.upper.quarterfinals[2].winner
-  }
-  if (brackets.upper.quarterfinals[3].winner) {
-    brackets.upper.semifinals[1].team2 = brackets.upper.quarterfinals[3].winner
-  }
+// Helper function to calculate group standings
+function calculateGroupStandings(group: Group): Group['standings'] {
+  const teamStats = new Map<string, {
+    team: { id: string; name: string; logo: string; score: number; isWinner: boolean; isLoser: boolean };
+    matchesPlayed: number;
+    mapWins: number;
+    mapLosses: number;
+    totalScore: number;
+  }>()
 
-  // Semifinals -> Final
-  if (brackets.upper.semifinals[0].winner && brackets.upper.semifinals[1].winner) {
-    brackets.upper.final[0].team1 = brackets.upper.semifinals[0].winner
-    brackets.upper.final[0].team2 = brackets.upper.semifinals[1].winner
-  }
+  // Initialize stats for all teams
+  group.teams.forEach(team => {
+    teamStats.set(team.id, {
+      team,
+      matchesPlayed: 0,
+      mapWins: 0,
+      mapLosses: 0,
+      totalScore: 0
+    })
+  })
 
-  // Upper Final -> Grand Final (winner goes to team1)
-  if (brackets.upper.final[0].winner) {
-    grandFinal.team1 = brackets.upper.final[0].winner
-  }
+  // Calculate stats from completed matches
+  group.matches.forEach(match => {
+    if (match.status === 'completed') {
+      const team1Stats = teamStats.get(match.team1.id)!
+      const team2Stats = teamStats.get(match.team2.id)!
 
-  // Update lower bracket progression
-  // Losers from upper quarterfinals go to lower round 1
-  const upperLosers = brackets.upper.quarterfinals
-    .filter((match: Match) => match.loser)
-    .map((match: Match) => match.loser)
+      team1Stats.matchesPlayed++
+      team2Stats.matchesPlayed++
+      team1Stats.mapWins += match.team1MapWins
+      team1Stats.mapLosses += match.team2MapWins
+      team2Stats.mapWins += match.team2MapWins
+      team2Stats.mapLosses += match.team1MapWins
+      team1Stats.totalScore += match.team1MapWins
+      team2Stats.totalScore += match.team2MapWins
+    }
+  })
 
-  if (upperLosers.length >= 2) {
-    brackets.lower.round1[0].team1 = upperLosers[0]
-    brackets.lower.round1[0].team2 = upperLosers[1]
-  }
-  if (upperLosers.length >= 4) {
-    brackets.lower.round1[1].team1 = upperLosers[2]
-    brackets.lower.round1[1].team2 = upperLosers[3]
-  }
+  // Convert to standings array and sort
+  const standings = Array.from(teamStats.values())
+    .map((stats, index) => ({
+      team: stats.team,
+      matchesPlayed: stats.matchesPlayed,
+      mapWins: stats.mapWins,
+      mapLosses: stats.mapLosses,
+      totalScore: stats.totalScore,
+      rank: index + 1
+    }))
+    .sort((a, b) => {
+      // Sort by total score (descending), then by map wins (descending)
+      if (a.totalScore !== b.totalScore) {
+        return b.totalScore - a.totalScore
+      }
+      return b.mapWins - a.mapWins
+    })
+    .map((standing, index) => ({
+      ...standing,
+      rank: index + 1
+    }))
 
-  // Update lower bracket progression based on completed matches
-  if (brackets.lower.round1[0].winner && brackets.lower.round1[1].winner) {
-    brackets.lower.round2[0].team1 = brackets.lower.round1[0].winner
-    brackets.lower.round2[0].team2 = brackets.lower.round1[1].winner
-  }
+  return standings
+}
 
-  // Losers from upper semifinals go to lower bracket
-  const semifinalLosers = brackets.upper.semifinals
-    .filter((match: Match) => match.loser)
-    .map((match: Match) => match.loser)
+// Helper function to advance teams to final stage
+function advanceTeamsToFinalStage(tournamentState: TournamentState): TournamentState {
+  const { groupStage } = tournamentState
+  
+  // Get top 3 teams from each group
+  const groupAStandings = groupStage.groups[0].standings.slice(0, 3)
+  const groupBStandings = groupStage.groups[1].standings.slice(0, 3)
 
-  if (semifinalLosers.length >= 2) {
-    brackets.lower.round2[1].team1 = semifinalLosers[0]
-    brackets.lower.round2[1].team2 = semifinalLosers[1]
-  }
+  // Update semifinal (Seed 1A vs Seed 1B)
+  tournamentState.finalStage.semifinal.team1 = groupAStandings[0].team
+  tournamentState.finalStage.semifinal.team2 = groupBStandings[0].team
 
-  // Lower bracket progression continues...
-  if (brackets.lower.round2[0].winner && brackets.lower.round2[1].winner) {
-    brackets.lower.round3[0].team1 = brackets.lower.round2[0].winner
-    brackets.lower.round3[0].team2 = brackets.lower.round2[1].winner
-  }
+  // Update seed 2 match (Seed 2A vs Seed 2B)
+  tournamentState.finalStage.seed2Match.team1 = groupAStandings[1].team
+  tournamentState.finalStage.seed2Match.team2 = groupBStandings[1].team
 
-  // Lower final - winner from lower round 3 goes to team1
-  if (brackets.lower.round3[0].winner) {
-    brackets.lower.final[0].team1 = brackets.lower.round3[0].winner
-  }
+  // Update seed 3 match (Seed 3A vs Seed 3B)
+  tournamentState.finalStage.seed3Match.team1 = groupAStandings[2].team
+  tournamentState.finalStage.seed3Match.team2 = groupBStandings[2].team
 
-  // Loser from upper final goes to lower final (team2)
-  if (brackets.upper.final[0].loser) {
-    brackets.lower.final[0].team2 = brackets.upper.final[0].loser
-  }
-
-  // Lower final winner goes to grand final (team2)
-  if (brackets.lower.final[0].winner) {
-    grandFinal.team2 = brackets.lower.final[0].winner
-  }
-
-  return bracketState
+  return tournamentState
 }
 
 export async function GET() {
@@ -158,63 +199,173 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Action is required' }, { status: 400 })
     }
 
-    let bracketState = await getTournamentBracketState()
+    let tournamentState = await getTournamentBracketState()
 
     switch (action) {
-      case 'initialize_bracket':
-        // Initialize bracket with teams
+      case 'initialize_tournament':
+        // Initialize tournament with teams
         const { teams } = data
-        if (!teams || !Array.isArray(teams) || teams.length < 4) {
-          return NextResponse.json({ error: 'At least 4 teams required' }, { status: 400 })
+        if (!teams || !Array.isArray(teams) || teams.length < 6) {
+          return NextResponse.json({ error: 'At least 6 teams required' }, { status: 400 })
         }
 
-        // Assign teams to quarterfinal matches
-        for (let i = 0; i < Math.min(teams.length, 8); i += 2) {
-          const matchIndex = Math.floor(i / 2)
-          if (matchIndex < bracketState.brackets.upper.quarterfinals.length) {
-            bracketState.brackets.upper.quarterfinals[matchIndex].team1 = teams[i]
-            if (i + 1 < teams.length) {
-              bracketState.brackets.upper.quarterfinals[matchIndex].team2 = teams[i + 1]
+        // Split teams into 2 groups
+        const midPoint = Math.ceil(teams.length / 2)
+        const groupATeams = teams.slice(0, midPoint)
+        const groupBTeams = teams.slice(midPoint)
+
+        // Generate round-robin matches for each group
+        const groupAMatches = generateRoundRobinMatches(groupATeams, 'group-a')
+        const groupBMatches = generateRoundRobinMatches(groupBTeams, 'group-b')
+
+        // Create new tournament state
+        tournamentState = {
+          tournament: {
+            id: "marvel-creator-cup-2024",
+            name: "Marvel Creator Cup 2024",
+            status: "group_stage",
+            format: "Group Stage + Final Stage",
+            startDate: new Date().toISOString(),
+            lastUpdated: new Date().toISOString()
+          },
+          groupStage: {
+            isCompleted: false,
+            groups: [
+              {
+                id: "group-a",
+                name: "Group A",
+                teams: groupATeams.map(team => ({
+                  id: team.id,
+                  name: team.name,
+                  logo: team.logo || '/logo.png',
+                  score: 0,
+                  isWinner: false,
+                  isLoser: false
+                })),
+                matches: groupAMatches,
+                standings: []
+              },
+              {
+                id: "group-b",
+                name: "Group B",
+                teams: groupBTeams.map(team => ({
+                  id: team.id,
+                  name: team.name,
+                  logo: team.logo || '/logo.png',
+                  score: 0,
+                  isWinner: false,
+                  isLoser: false
+                })),
+                matches: groupBMatches,
+                standings: []
+              }
+            ]
+          },
+          finalStage: {
+            isCompleted: false,
+            semifinal: {
+              id: "semifinal",
+              title: "Seed 1A vs Seed 1B",
+              team1: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team2: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team1Score: 0,
+              team2Score: 0,
+              status: "pending",
+              scheduledTime: null,
+              completedTime: null,
+              stage: "semifinal"
+            },
+            seed2Match: {
+              id: "seed2-match",
+              title: "Seed 2A vs Seed 2B",
+              team1: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team2: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team1Score: 0,
+              team2Score: 0,
+              status: "pending",
+              scheduledTime: null,
+              completedTime: null,
+              stage: "seed2"
+            },
+            seed3Match: {
+              id: "seed3-match",
+              title: "Seed 3A vs Seed 3B",
+              team1: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team2: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team1Score: 0,
+              team2Score: 0,
+              status: "pending",
+              scheduledTime: null,
+              completedTime: null,
+              stage: "seed3"
+            },
+            playoffMatch: {
+              id: "playoff-match",
+              title: "Seed 2 Winner vs Seed 3 Winner",
+              team1: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team2: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team1Score: 0,
+              team2Score: 0,
+              status: "pending",
+              scheduledTime: null,
+              completedTime: null,
+              stage: "playoff"
+            },
+            grandFinal: {
+              id: "grand-final",
+              title: "Semifinal Winner vs Playoff Winner",
+              team1: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team2: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team1Score: 0,
+              team2Score: 0,
+              status: "pending",
+              scheduledTime: null,
+              completedTime: null,
+              stage: "grandfinal"
             }
           }
         }
-
-        bracketState.tournament.status = 'active'
         break
 
-      case 'update_match_result':
-        // Update match result and progress bracket
-        const { matchId, team1Score, team2Score, matchTime } = data
+      case 'update_group_match':
+        // Update group match result
+        const { matchId, team1MapWins, team2MapWins, matchTime } = data
         
-        if (!matchId || typeof team1Score !== 'number' || typeof team2Score !== 'number') {
+        if (!matchId || typeof team1MapWins !== 'number' || typeof team2MapWins !== 'number') {
           return NextResponse.json({ error: 'Invalid match data' }, { status: 400 })
         }
 
         // Find and update the match
         let matchFound = false
-        
-        // Search in upper bracket
-        for (const round of Object.values(bracketState.brackets.upper) as Match[][]) {
-          for (const match of round) {
+        for (const group of tournamentState.groupStage.groups) {
+          for (const match of group.matches) {
             if (match.id === matchId) {
-              match.team1Score = team1Score
-              match.team2Score = team2Score
+              match.team1MapWins = team1MapWins
+              match.team2MapWins = team2MapWins
               match.scheduledTime = matchTime || null
               
-              // Determine winner based on Best of X logic
-              const maxScore = Math.max(team1Score, team2Score)
-              const requiredWins = Math.ceil(match.bestOf / 2)
-              
-              if (maxScore >= requiredWins) {
-                match.winner = team1Score > team2Score ? match.team1 : match.team2
-                match.loser = team1Score > team2Score ? match.team2 : match.team1
+              // Determine winner (best of 3 maps)
+              if (team1MapWins > team2MapWins) {
+                match.team1.isWinner = true
+                match.team1.isLoser = false
+                match.team2.isWinner = false
+                match.team2.isLoser = true
+                match.status = 'completed'
+                match.completedTime = new Date().toISOString()
+              } else if (team2MapWins > team1MapWins) {
+                match.team1.isWinner = false
+                match.team1.isLoser = true
+                match.team2.isWinner = true
+                match.team2.isLoser = false
                 match.status = 'completed'
                 match.completedTime = new Date().toISOString()
               } else {
-                // Match is still ongoing (tied or not enough games played)
-                match.winner = null
-                match.loser = null
-                match.status = 'pending'
+                // Match is still ongoing (tied)
+                match.team1.isWinner = false
+                match.team1.isLoser = false
+                match.team2.isWinner = false
+                match.team2.isLoser = false
+                match.status = 'ongoing'
                 match.completedTime = null
               }
               
@@ -225,305 +376,224 @@ export async function POST(request: NextRequest) {
           if (matchFound) break
         }
 
-        // Search in lower bracket
-        if (!matchFound) {
-          for (const round of Object.values(bracketState.brackets.lower) as Match[][]) {
-            for (const match of round) {
-              if (match.id === matchId) {
-                match.team1Score = team1Score
-                match.team2Score = team2Score
-                match.scheduledTime = matchTime || null
-                
-                // Determine winner based on Best of X logic
-                const maxScore = Math.max(team1Score, team2Score)
-                const requiredWins = Math.ceil(match.bestOf / 2)
-                
-                if (maxScore >= requiredWins) {
-                  match.winner = team1Score > team2Score ? match.team1 : match.team2
-                  match.loser = team1Score > team2Score ? match.team2 : match.team1
-                  match.status = 'completed'
-                  match.completedTime = new Date().toISOString()
-                } else {
-                  // Match is still ongoing (tied or not enough games played)
-                  match.winner = null
-                  match.loser = null
-                  match.status = 'pending'
-                  match.completedTime = null
-                }
-                
-                matchFound = true
-                break
-              }
-            }
-            if (matchFound) break
-          }
-        }
-
-        // Search in grand final
-        if (!matchFound && bracketState.grandFinal.id === matchId) {
-          bracketState.grandFinal.team1Score = team1Score
-          bracketState.grandFinal.team2Score = team2Score
-          bracketState.grandFinal.scheduledTime = matchTime || null
-          
-          // Determine winner based on Best of X logic
-          const maxScore = Math.max(team1Score, team2Score)
-          const requiredWins = Math.ceil(bracketState.grandFinal.bestOf / 2)
-          
-          if (maxScore >= requiredWins) {
-            bracketState.grandFinal.winner = team1Score > team2Score ? bracketState.grandFinal.team1 : bracketState.grandFinal.team2
-            bracketState.grandFinal.loser = team1Score > team2Score ? bracketState.grandFinal.team2 : bracketState.grandFinal.team1
-            bracketState.grandFinal.status = 'completed'
-            bracketState.grandFinal.completedTime = new Date().toISOString()
-          } else {
-            // Match is still ongoing (tied or not enough games played)
-            bracketState.grandFinal.winner = null
-            bracketState.grandFinal.loser = null
-            bracketState.grandFinal.status = 'pending'
-            bracketState.grandFinal.completedTime = null
-          }
-          
-          matchFound = true
-        }
-
         if (!matchFound) {
           return NextResponse.json({ error: 'Match not found' }, { status: 404 })
         }
 
-        // Update bracket progression
-        bracketState = updateBracketProgression(bracketState)
+        // Recalculate standings for all groups
+        for (const group of tournamentState.groupStage.groups) {
+          group.standings = calculateGroupStandings(group)
+        }
+
+        // Check if all group matches are completed
+        const allMatchesCompleted = tournamentState.groupStage.groups.every(group =>
+          group.matches.every(match => match.status === 'completed')
+        )
+
+        if (allMatchesCompleted) {
+          tournamentState.groupStage.isCompleted = true
+        }
         break
 
-      case 'reset_bracket':
-        // Reset bracket to initial state
-        const initialBracketState = {
-          tournament: {
-            id: "marvel-creator-cup-2025",
-            name: "Marvel Creator Cup 2025",
-            status: "registration",
-            startDate: "2025-07-25",
-            format: "double-elimination",
-            maxTeams: 8
-          },
-          brackets: {
-            upper: {
-              quarterfinals: [
-                {
-                  id: "uf-qf-1",
-                  team1: null,
-                  team2: null,
-                  team1Score: 0,
-                  team2Score: 0,
-                  winner: null,
-                  loser: null,
-                  status: "pending",
-                  bestOf: 3,
-                  scheduledTime: null,
-                  completedTime: null
-                },
-                {
-                  id: "uf-qf-2",
-                  team1: null,
-                  team2: null,
-                  team1Score: 0,
-                  team2Score: 0,
-                  winner: null,
-                  loser: null,
-                  status: "pending",
-                  bestOf: 3,
-                  scheduledTime: null,
-                  completedTime: null
-                },
-                {
-                  id: "uf-qf-3",
-                  team1: null,
-                  team2: null,
-                  team1Score: 0,
-                  team2Score: 0,
-                  winner: null,
-                  loser: null,
-                  status: "pending",
-                  bestOf: 3,
-                  scheduledTime: null,
-                  completedTime: null
-                },
-                {
-                  id: "uf-qf-4",
-                  team1: null,
-                  team2: null,
-                  team1Score: 0,
-                  team2Score: 0,
-                  winner: null,
-                  loser: null,
-                  status: "pending",
-                  bestOf: 3,
-                  scheduledTime: null,
-                  completedTime: null
-                }
-              ],
-              semifinals: [
-                {
-                  id: "uf-sf-1",
-                  team1: null,
-                  team2: null,
-                  team1Score: 0,
-                  team2Score: 0,
-                  winner: null,
-                  loser: null,
-                  status: "pending",
-                  bestOf: 3,
-                  scheduledTime: null,
-                  completedTime: null
-                },
-                {
-                  id: "uf-sf-2",
-                  team1: null,
-                  team2: null,
-                  team1Score: 0,
-                  team2Score: 0,
-                  winner: null,
-                  loser: null,
-                  status: "pending",
-                  bestOf: 3,
-                  scheduledTime: null,
-                  completedTime: null
-                }
-              ],
-              final: [
-                {
-                  id: "uf-final",
-                  team1: null,
-                  team2: null,
-                  team1Score: 0,
-                  team2Score: 0,
-                  winner: null,
-                  loser: null,
-                  status: "pending",
-                  bestOf: 3,
-                  scheduledTime: null,
-                  completedTime: null
-                }
-              ]
-            },
-            lower: {
-              round1: [
-                {
-                  id: "lf-r1-1",
-                  team1: null,
-                  team2: null,
-                  team1Score: 0,
-                  team2Score: 0,
-                  winner: null,
-                  loser: null,
-                  status: "pending",
-                  bestOf: 3,
-                  scheduledTime: null,
-                  completedTime: null
-                },
-                {
-                  id: "lf-r1-2",
-                  team1: null,
-                  team2: null,
-                  team1Score: 0,
-                  team2Score: 0,
-                  winner: null,
-                  loser: null,
-                  status: "pending",
-                  bestOf: 3,
-                  scheduledTime: null,
-                  completedTime: null
-                }
-              ],
-              round2: [
-                {
-                  id: "lf-r2-1",
-                  team1: null,
-                  team2: null,
-                  team1Score: 0,
-                  team2Score: 0,
-                  winner: null,
-                  loser: null,
-                  status: "pending",
-                  bestOf: 3,
-                  scheduledTime: null,
-                  completedTime: null
-                },
-                {
-                  id: "lf-r2-2",
-                  team1: null,
-                  team2: null,
-                  team1Score: 0,
-                  team2Score: 0,
-                  winner: null,
-                  loser: null,
-                  status: "pending",
-                  bestOf: 3,
-                  scheduledTime: null,
-                  completedTime: null
-                }
-              ],
-              round3: [
-                {
-                  id: "lf-r3-1",
-                  team1: null,
-                  team2: null,
-                  team1Score: 0,
-                  team2Score: 0,
-                  winner: null,
-                  loser: null,
-                  status: "pending",
-                  bestOf: 3,
-                  scheduledTime: null,
-                  completedTime: null
-                }
-              ],
-              final: [
-                {
-                  id: "lf-final",
-                  team1: null,
-                  team2: null,
-                  team1Score: 0,
-                  team2Score: 0,
-                  winner: null,
-                  loser: null,
-                  status: "pending",
-                  bestOf: 3,
-                  scheduledTime: null,
-                  completedTime: null
-                }
-              ]
+      case 'update_final_match':
+        // Update final stage match result
+        const { matchId: finalMatchId, team1Score, team2Score, matchTime: finalMatchTime } = data
+        
+        if (!finalMatchId || typeof team1Score !== 'number' || typeof team2Score !== 'number') {
+          return NextResponse.json({ error: 'Invalid match data' }, { status: 400 })
+        }
+
+        // Find and update the match
+        let finalMatchFound = false
+        const finalMatches = [
+          tournamentState.finalStage.semifinal,
+          tournamentState.finalStage.seed2Match,
+          tournamentState.finalStage.seed3Match,
+          tournamentState.finalStage.playoffMatch,
+          tournamentState.finalStage.grandFinal
+        ]
+
+        for (const match of finalMatches) {
+          if (match.id === finalMatchId) {
+            match.team1Score = team1Score
+            match.team2Score = team2Score
+            match.scheduledTime = finalMatchTime || null
+            
+            // Determine winner (best of 3)
+            const maxScore = Math.max(team1Score, team2Score)
+            const requiredWins = 2 // Best of 3
+            
+            if (maxScore >= requiredWins) {
+              if (team1Score > team2Score) {
+                match.team1.isWinner = true
+                match.team1.isLoser = false
+                match.team2.isWinner = false
+                match.team2.isLoser = true
+              } else {
+                match.team1.isWinner = false
+                match.team1.isLoser = true
+                match.team2.isWinner = true
+                match.team2.isLoser = false
+              }
+              match.status = 'completed'
+              match.completedTime = new Date().toISOString()
+            } else {
+              // Match is still ongoing
+              match.team1.isWinner = false
+              match.team1.isLoser = false
+              match.team2.isWinner = false
+              match.team2.isLoser = false
+              match.status = 'ongoing'
+              match.completedTime = null
             }
-          },
-          grandFinal: {
-            id: "grand-final",
-            team1: null,
-            team2: null,
-            team1Score: 0,
-            team2Score: 0,
-            winner: null,
-            loser: null,
-            status: "pending",
-            bestOf: 5,
-            scheduledTime: null,
-            completedTime: null
+            
+            finalMatchFound = true
+            break
           }
         }
-        bracketState = initialBracketState as TournamentBracketState
+
+        if (!finalMatchFound) {
+          return NextResponse.json({ error: 'Match not found' }, { status: 404 })
+        }
+
+        // Update playoff match teams when seed matches are completed
+        if (finalMatchId === 'seed2-match' && tournamentState.finalStage.seed2Match.status === 'completed') {
+          tournamentState.finalStage.playoffMatch.team1 = tournamentState.finalStage.seed2Match.team1.isWinner 
+            ? tournamentState.finalStage.seed2Match.team1 
+            : tournamentState.finalStage.seed2Match.team2
+        }
+
+        if (finalMatchId === 'seed3-match' && tournamentState.finalStage.seed3Match.status === 'completed') {
+          tournamentState.finalStage.playoffMatch.team2 = tournamentState.finalStage.seed3Match.team1.isWinner 
+            ? tournamentState.finalStage.seed3Match.team1 
+            : tournamentState.finalStage.seed3Match.team2
+        }
+
+        // Update grand final teams when semifinal and playoff are completed
+        if (finalMatchId === 'semifinal' && tournamentState.finalStage.semifinal.status === 'completed') {
+          tournamentState.finalStage.grandFinal.team1 = tournamentState.finalStage.semifinal.team1.isWinner 
+            ? tournamentState.finalStage.semifinal.team1 
+            : tournamentState.finalStage.semifinal.team2
+        }
+
+        if (finalMatchId === 'playoff-match' && tournamentState.finalStage.playoffMatch.status === 'completed') {
+          tournamentState.finalStage.grandFinal.team2 = tournamentState.finalStage.playoffMatch.team1.isWinner 
+            ? tournamentState.finalStage.playoffMatch.team1 
+            : tournamentState.finalStage.playoffMatch.team2
+        }
+
+        // Check if tournament is completed
+        if (tournamentState.finalStage.grandFinal.status === 'completed') {
+          tournamentState.tournament.status = 'completed'
+          tournamentState.finalStage.isCompleted = true
+        }
+        break
+
+      case 'advance_to_final_stage':
+        // Advance teams from group stage to final stage
+        if (!tournamentState.groupStage.isCompleted) {
+          return NextResponse.json({ error: 'Group stage must be completed first' }, { status: 400 })
+        }
+
+        tournamentState = advanceTeamsToFinalStage(tournamentState)
+        tournamentState.tournament.status = 'final_stage'
+        break
+
+      case 'reset_tournament':
+        // Reset tournament to initial state
+        tournamentState = {
+          tournament: {
+            id: "marvel-creator-cup-2024",
+            name: "Marvel Creator Cup 2024",
+            status: "pending",
+            format: "Group Stage + Final Stage",
+            startDate: new Date().toISOString(),
+            lastUpdated: new Date().toISOString()
+          },
+          groupStage: {
+            isCompleted: false,
+            groups: []
+          },
+          finalStage: {
+            isCompleted: false,
+            semifinal: {
+              id: "semifinal",
+              title: "Seed 1A vs Seed 1B",
+              team1: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team2: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team1Score: 0,
+              team2Score: 0,
+              status: "pending",
+              scheduledTime: null,
+              completedTime: null,
+              stage: "semifinal"
+            },
+            seed2Match: {
+              id: "seed2-match",
+              title: "Seed 2A vs Seed 2B",
+              team1: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team2: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team1Score: 0,
+              team2Score: 0,
+              status: "pending",
+              scheduledTime: null,
+              completedTime: null,
+              stage: "seed2"
+            },
+            seed3Match: {
+              id: "seed3-match",
+              title: "Seed 3A vs Seed 3B",
+              team1: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team2: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team1Score: 0,
+              team2Score: 0,
+              status: "pending",
+              scheduledTime: null,
+              completedTime: null,
+              stage: "seed3"
+            },
+            playoffMatch: {
+              id: "playoff-match",
+              title: "Seed 2 Winner vs Seed 3 Winner",
+              team1: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team2: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team1Score: 0,
+              team2Score: 0,
+              status: "pending",
+              scheduledTime: null,
+              completedTime: null,
+              stage: "playoff"
+            },
+            grandFinal: {
+              id: "grand-final",
+              title: "Semifinal Winner vs Playoff Winner",
+              team1: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team2: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+              team1Score: 0,
+              team2Score: 0,
+              status: "pending",
+              scheduledTime: null,
+              completedTime: null,
+              stage: "grandfinal"
+            }
+          }
+        }
         break
 
       default:
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
     }
 
-    // Save updated state
-    const success = await setTournamentBracketState(bracketState)
-    
-    if (success) {
-      // Broadcast update to connected clients
-      await broadcastTournamentUpdate()
-      return NextResponse.json({ success: true, data: bracketState })
-    } else {
-      return NextResponse.json({ error: 'Failed to save bracket state' }, { status: 500 })
-    }
+    // Update last updated timestamp
+    tournamentState.tournament.lastUpdated = new Date().toISOString()
+
+    // Save to database
+    await setTournamentBracketState(tournamentState)
+
+    // Broadcast update
+    await broadcastTournamentUpdate(tournamentState)
+
+    return NextResponse.json({ data: tournamentState })
 
   } catch (error) {
     console.error('Error in POST /api/tournament-bracket:', error)

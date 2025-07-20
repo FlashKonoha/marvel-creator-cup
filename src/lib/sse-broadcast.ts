@@ -6,7 +6,7 @@ export const broadcastUpdate = async () => {
   console.log('Draft update broadcast (timestamp-based polling will detect this)')
 }
 
-export const broadcastTournamentUpdate = async () => {
+export const broadcastTournamentUpdate = async (tournamentState?: unknown) => {
   // No-op for now - updates are detected via timestamp polling
-  console.log('Tournament update broadcast (timestamp-based polling will detect this)')
+  console.log('Tournament update broadcast (timestamp-based polling will detect this)', tournamentState ? 'with state' : '')
 } 

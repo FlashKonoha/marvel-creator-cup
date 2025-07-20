@@ -13,7 +13,7 @@ export async function GET() {
         lastUpdated: draftState.lastUpdated || new Date().toISOString()
       },
       tournament: {
-        lastUpdated: tournamentState.lastUpdated || new Date().toISOString()
+        lastUpdated: tournamentState.tournament?.lastUpdated || new Date().toISOString()
       }
     })
   } catch (error) {

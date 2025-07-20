@@ -1,20 +1,34 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useTournamentBracket, TournamentMatch } from '../hooks/useTournamentBracket'
+import { useTournamentBracket } from '../hooks/useTournamentBracket'
 import { useTeams } from '../hooks/useTeams'
 import Link from 'next/link'
 import Image from 'next/image'
+import type { GroupMatch, FinalMatch } from '../data/tournamentBracketData'
 
 export default function AdminTournamentBracket() {
-  const { bracketState, loading, error, updating, initializeBracket, updateMatchResult, resetBracket } = useTournamentBracket()
+  const { 
+    bracketState, 
+    loading, 
+    error, 
+    updating, 
+    initializeTournament, 
+    updateGroupMatch, 
+    updateFinalMatch, 
+    advanceToFinalStage,
+    resetTournament 
+  } = useTournamentBracket()
   const { teams } = useTeams()
   
   const [selectedTeams, setSelectedTeams] = useState<number[]>([])
   const [showInitializeModal, setShowInitializeModal] = useState(false)
-  const [showMatchModal, setShowMatchModal] = useState(false)
-  const [selectedMatch, setSelectedMatch] = useState<TournamentMatch | null>(null)
-  const [matchScore, setMatchScore] = useState({ team1: 0, team2: 0 })
+  const [showGroupMatchModal, setShowGroupMatchModal] = useState(false)
+  const [showFinalMatchModal, setShowFinalMatchModal] = useState(false)
+  const [selectedGroupMatch, setSelectedGroupMatch] = useState<GroupMatch | null>(null)
+  const [selectedFinalMatch, setSelectedFinalMatch] = useState<FinalMatch | null>(null)
+  const [groupMatchScore, setGroupMatchScore] = useState({ team1: 0, team2: 0 })
+  const [finalMatchScore, setFinalMatchScore] = useState({ team1: 0, team2: 0 })
   const [matchTime, setMatchTime] = useState('')
 
   const handleTeamSelection = (teamId: number) => {
@@ -22,7 +36,7 @@ export default function AdminTournamentBracket() {
       if (prev.includes(teamId)) {
         return prev.filter(id => id !== teamId)
       } else {
-        if (prev.length < 8) {
+        if (prev.length < 12) {
           return [...prev, teamId]
         }
         return prev
@@ -30,14 +44,14 @@ export default function AdminTournamentBracket() {
     })
   }
 
-  const handleInitializeBracket = async () => {
-    if (selectedTeams.length < 4) {
-      alert('Please select at least 4 teams')
+  const handleInitializeTournament = async () => {
+    if (selectedTeams.length < 6) {
+      alert('Please select at least 6 teams')
       return
     }
 
     const selectedTeamData = teams.filter(team => selectedTeams.includes(team.id))
-    const result = await initializeBracket(selectedTeamData)
+    const result = await initializeTournament(selectedTeamData)
     
     if (result.success) {
       setShowInitializeModal(false)
@@ -45,50 +59,87 @@ export default function AdminTournamentBracket() {
     }
   }
 
-  const handleUpdateMatch = async () => {
-    if (!selectedMatch) return
+  const handleUpdateGroupMatch = async () => {
+    if (!selectedGroupMatch) return
 
-    // Convert local datetime string to UTC ISO string
     let matchTimeUTC = matchTime
     if (matchTime) {
       const localDate = new Date(matchTime)
       matchTimeUTC = localDate.toISOString()
     }
 
-    const result = await updateMatchResult(
-      selectedMatch.id,
-      matchScore.team1,
-      matchScore.team2,
+    const result = await updateGroupMatch(
+      selectedGroupMatch.id,
+      groupMatchScore.team1,
+      groupMatchScore.team2,
       matchTimeUTC
     )
 
     if (result.success) {
-      setShowMatchModal(false)
-      setSelectedMatch(null)
-      setMatchScore({ team1: 0, team2: 0 })
+      setShowGroupMatchModal(false)
+      setSelectedGroupMatch(null)
+      setGroupMatchScore({ team1: 0, team2: 0 })
       setMatchTime('')
     }
   }
 
-  const openMatchModal = (match: TournamentMatch) => {
-    setSelectedMatch(match)
-    setMatchScore({
+  const handleUpdateFinalMatch = async () => {
+    if (!selectedFinalMatch) return
+
+    let matchTimeUTC = matchTime
+    if (matchTime) {
+      const localDate = new Date(matchTime)
+      matchTimeUTC = localDate.toISOString()
+    }
+
+    const result = await updateFinalMatch(
+      selectedFinalMatch.id,
+      finalMatchScore.team1,
+      finalMatchScore.team2,
+      matchTimeUTC
+    )
+
+    if (result.success) {
+      setShowFinalMatchModal(false)
+      setSelectedFinalMatch(null)
+      setFinalMatchScore({ team1: 0, team2: 0 })
+      setMatchTime('')
+    }
+  }
+
+  const openGroupMatchModal = (match: GroupMatch) => {
+    setSelectedGroupMatch(match)
+    setGroupMatchScore({
+      team1: match.team1MapWins || 0,
+      team2: match.team2MapWins || 0
+    })
+    setMatchTime(match.scheduledTime || '')
+    setShowGroupMatchModal(true)
+  }
+
+  const openFinalMatchModal = (match: FinalMatch) => {
+    setSelectedFinalMatch(match)
+    setFinalMatchScore({
       team1: match.team1Score || 0,
       team2: match.team2Score || 0
     })
     setMatchTime(match.scheduledTime || '')
-    setShowMatchModal(true)
+    setShowFinalMatchModal(true)
   }
 
-  // Add type guard
-  function isTeam(obj: unknown): obj is { name: string; image: string } {
-    return !!obj && typeof obj === 'object' && 'name' in obj && 'image' in obj;
+  const handleAdvanceToFinalStage = async () => {
+    const result = await advanceToFinalStage()
+    if (result.success) {
+      // Successfully advanced to final stage
+    }
   }
 
-  const renderMatch = (match: TournamentMatch, roundName: string): React.JSX.Element => (
+
+
+  const renderGroupMatch = (match: GroupMatch, groupName: string): React.JSX.Element => (
     <div key={match.id} className="bg-gray-800/50 border border-white/10 rounded-lg p-4 mb-4">
       <div className="flex justify-between items-center mb-2">
-        <span className="text-sm font-semibold text-white">{roundName}</span>
+        <span className="text-sm font-semibold text-white">{groupName}</span>
         <span className="text-xs text-gray-500 bg-gray-700 px-2 py-1 rounded">{match.id}</span>
       </div>
       
@@ -96,17 +147,97 @@ export default function AdminTournamentBracket() {
         <div className="flex justify-between items-center p-2 rounded bg-gray-700/50">
           <div className="flex items-center space-x-2">
             <Image 
-              src={isTeam(match.team1) ? match.team1.image : 'https://picsum.photos/200/200'} 
-              alt={isTeam(match.team1) ? match.team1.name : 'TBD'}
+              src={match.team1.logo} 
+              alt={match.team1.name}
               width={24}
               height={24}
               className="w-6 h-6 rounded object-cover"
             />
             <span className="text-white font-medium">
-              {isTeam(match.team1) ? match.team1.name : 'TBD'}
+              {match.team1.name}
             </span>
           </div>
-          <span className={`font-bold text-lg ${match.winner === match.team1 ? 'text-white' : 'text-gray-400'}`}>
+          <span className={`font-bold text-lg ${match.team1.isWinner ? 'text-white' : 'text-gray-400'}`}>
+            {match.team1MapWins}
+          </span>
+        </div>
+        
+        <div className="text-center text-gray-400 text-sm font-semibold">VS</div>
+        
+        <div className="flex justify-between items-center p-2 rounded bg-gray-700/50">
+          <div className="flex items-center space-x-2">
+            <Image 
+              src={match.team2.logo} 
+              alt={match.team2.name}
+              width={24}
+              height={24}
+              className="w-6 h-6 rounded object-cover"
+            />
+            <span className="text-white font-medium">
+              {match.team2.name}
+            </span>
+          </div>
+          <span className={`font-bold text-lg ${match.team2.isWinner ? 'text-white' : 'text-gray-400'}`}>
+            {match.team2MapWins}
+          </span>
+        </div>
+      </div>
+
+      <div className="mt-3 space-y-2">
+        <div className="flex justify-between items-center">
+          <span className={`text-xs px-2 py-1 rounded ${
+            match.status === 'completed' 
+              ? 'bg-green-900 text-green-300' 
+              : match.status === 'ongoing'
+              ? 'bg-yellow-900 text-yellow-300'
+              : 'bg-gray-900 text-gray-300'
+          }`}>
+            {match.status === 'completed' ? 'Completed' : match.status === 'ongoing' ? 'Live' : 'Pending'}
+          </span>
+          
+          <button
+            onClick={() => openGroupMatchModal(match)}
+            className={`px-3 py-1 rounded text-sm transition-colors ${
+              match.status === 'completed' 
+                ? 'bg-orange-600 hover:bg-orange-700 text-white' 
+                : 'bg-blue-600 hover:bg-blue-700 text-white'
+            }`}
+          >
+            {match.status === 'completed' ? 'Edit Result' : 'Update Result'}
+          </button>
+        </div>
+        
+        {match.scheduledTime && (
+          <div className="text-xs text-gray-400">
+            Scheduled: {new Date(match.scheduledTime).toLocaleString()} ({Intl.DateTimeFormat().resolvedOptions().timeZone})
+          </div>
+        )}
+      </div>
+    </div>
+  )
+
+  const renderFinalMatch = (match: FinalMatch, stageName: string): React.JSX.Element => (
+    <div key={match.id} className="bg-gray-800/50 border border-white/10 rounded-lg p-4 mb-4">
+      <div className="flex justify-between items-center mb-2">
+        <span className="text-sm font-semibold text-white">{stageName}</span>
+        <span className="text-xs text-gray-500 bg-gray-700 px-2 py-1 rounded">{match.id}</span>
+      </div>
+      
+      <div className="space-y-3">
+        <div className="flex justify-between items-center p-2 rounded bg-gray-700/50">
+          <div className="flex items-center space-x-2">
+            <Image 
+              src={match.team1.logo} 
+              alt={match.team1.name}
+              width={24}
+              height={24}
+              className="w-6 h-6 rounded object-cover"
+            />
+            <span className="text-white font-medium">
+              {match.team1.name}
+            </span>
+          </div>
+          <span className={`font-bold text-lg ${match.team1.isWinner ? 'text-white' : 'text-gray-400'}`}>
             {match.team1Score}
           </span>
         </div>
@@ -116,17 +247,17 @@ export default function AdminTournamentBracket() {
         <div className="flex justify-between items-center p-2 rounded bg-gray-700/50">
           <div className="flex items-center space-x-2">
             <Image 
-              src={isTeam(match.team2) ? match.team2.image : 'https://picsum.photos/200/200'} 
-              alt={isTeam(match.team2) ? match.team2.name : 'TBD'}
+              src={match.team2.logo} 
+              alt={match.team2.name}
               width={24}
               height={24}
               className="w-6 h-6 rounded object-cover"
             />
             <span className="text-white font-medium">
-              {isTeam(match.team2) ? match.team2.name : 'TBD'}
+              {match.team2.name}
             </span>
           </div>
-          <span className={`font-bold text-lg ${match.winner === match.team2 ? 'text-white' : 'text-gray-400'}`}>
+          <span className={`font-bold text-lg ${match.team2.isWinner ? 'text-white' : 'text-gray-400'}`}>
             {match.team2Score}
           </span>
         </div>
@@ -137,23 +268,23 @@ export default function AdminTournamentBracket() {
           <span className={`text-xs px-2 py-1 rounded ${
             match.status === 'completed' 
               ? 'bg-green-900 text-green-300' 
-              : 'bg-yellow-900 text-yellow-300'
+              : match.status === 'ongoing'
+              ? 'bg-yellow-900 text-yellow-300'
+              : 'bg-gray-900 text-gray-300'
           }`}>
-            {match.status === 'completed' ? 'Completed' : 'Pending'}
+            {match.status === 'completed' ? 'Completed' : match.status === 'ongoing' ? 'Live' : 'Pending'}
           </span>
           
-          {isTeam(match.team1) && isTeam(match.team2) && (
-            <button
-              onClick={() => openMatchModal(match)}
-              className={`px-3 py-1 rounded text-sm transition-colors ${
-                match.status === 'completed' 
-                  ? 'bg-orange-600 hover:bg-orange-700 text-white' 
-                  : 'bg-blue-600 hover:bg-blue-700 text-white'
-              }`}
-            >
-              {match.status === 'completed' ? 'Edit Result' : 'Update Result'}
-            </button>
-          )}
+          <button
+            onClick={() => openFinalMatchModal(match)}
+            className={`px-3 py-1 rounded text-sm transition-colors ${
+              match.status === 'completed' 
+                ? 'bg-orange-600 hover:bg-orange-700 text-white' 
+                : 'bg-blue-600 hover:bg-blue-700 text-white'
+            }`}
+          >
+            {match.status === 'completed' ? 'Edit Result' : 'Update Result'}
+          </button>
         </div>
         
         {match.scheduledTime && (
@@ -161,46 +292,6 @@ export default function AdminTournamentBracket() {
             Scheduled: {new Date(match.scheduledTime).toLocaleString()} ({Intl.DateTimeFormat().resolvedOptions().timeZone})
           </div>
         )}
-        
-        <div className="flex justify-between items-center">
-          <a 
-            href="https://www.twitch.tv/basimzb" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-xs text-purple-400 hover:text-purple-300 transition-colors flex items-center space-x-1"
-          >
-            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/>
-            </svg>
-            <span>Watch on Twitch</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  )
-
-  const renderBracketSection = (bracket: Record<string, TournamentMatch[]>, title: string) => (
-    <div className="mb-8">
-      <h3 className="text-xl font-bold text-white mb-4">{title}</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {Object.entries(bracket).map(([roundName, matches]) => (
-          <div key={roundName}>
-            <h4 className="text-lg font-semibold text-gray-300 mb-3 capitalize">
-              {roundName.replace(/([A-Z])/g, ' $1').trim()}
-            </h4>
-            <div className="space-y-2">
-              {(matches as TournamentMatch[]).map((match, index) => (
-                <div key={match.id}>
-                  {renderMatch(match, `${roundName} ${index + 1}`)}
-                  {/* Add connecting lines for visual flow */}
-                  {index < (matches as TournamentMatch[]).length - 1 && (
-                    <div className="h-4 border-l-2 border-gray-600 ml-4"></div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   )
@@ -250,17 +341,26 @@ export default function AdminTournamentBracket() {
           <div className="flex gap-4">
             <button
               onClick={() => setShowInitializeModal(true)}
-              disabled={updating || bracketState?.tournament.status === 'active'}
+              disabled={updating || bracketState?.tournament.status !== 'pending'}
               className="bg-white hover:bg-gray-200 disabled:bg-gray-600 text-black px-4 py-2 rounded transition-colors"
             >
-              Initialize Bracket
+              Initialize Tournament
             </button>
+            {bracketState?.groupStage.isCompleted && bracketState?.tournament.status === 'group_stage' && (
+              <button
+                onClick={handleAdvanceToFinalStage}
+                disabled={updating}
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition-colors"
+              >
+                Advance to Final Stage
+              </button>
+            )}
             <button
-              onClick={resetBracket}
+              onClick={resetTournament}
               disabled={updating}
               className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded transition-colors border border-white/20"
             >
-              Reset Bracket
+              Reset Tournament
             </button>
           </div>
         </div>
@@ -278,8 +378,7 @@ export default function AdminTournamentBracket() {
                 <p className="text-gray-400">Start Date: {bracketState.tournament.startDate}</p>
               </div>
               <div>
-                <p className="text-gray-400">Max Teams: {bracketState.tournament.maxTeams}</p>
-                <p className="text-gray-400">Last Updated: {bracketState.lastUpdated ? new Date(bracketState.lastUpdated).toLocaleString() : 'N/A'}</p>
+                <p className="text-gray-400">Last Updated: {bracketState.tournament.lastUpdated ? new Date(bracketState.tournament.lastUpdated).toLocaleString() : 'N/A'}</p>
               </div>
               <div>
                 <p className="text-gray-400">Available Teams: {teams.length}</p>
@@ -289,50 +388,85 @@ export default function AdminTournamentBracket() {
           </div>
         )}
 
-        {/* Bracket Display */}
+        {/* Tournament Display */}
         {bracketState && (
           <div>
-            {/* Visual Bracket Structure */}
+            {/* Tournament Flow */}
             <div className="mb-8 p-6 bg-gray-800/50 border border-white/10 rounded-lg">
               <h3 className="text-lg font-semibold text-white mb-4">Tournament Flow</h3>
               <div className="text-sm text-gray-300 space-y-2">
                 <div className="flex items-center space-x-2">
                   <span className="w-3 h-3 bg-white rounded-full"></span>
-                  <span>Upper Bracket: Winners advance, losers drop to Lower Bracket</span>
+                  <span>Group Stage: Round-robin matches, top 3 teams from each group advance</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <span className="w-3 h-3 bg-gray-400 rounded-full"></span>
-                  <span>Lower Bracket: Losers are eliminated, winners advance</span>
+                  <span>Final Stage: Seed 1s → Semifinal, Seed 2s & 3s → Playoff</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <span className="w-3 h-3 bg-gray-600 rounded-full"></span>
-                  <span>Grand Final: Upper Bracket Winner vs Lower Bracket Winner</span>
+                  <span>Grand Final: Semifinal winner vs Playoff winner</span>
                 </div>
               </div>
             </div>
 
-            {renderBracketSection(bracketState.brackets.upper, 'Upper Bracket')}
-            {renderBracketSection(bracketState.brackets.lower, 'Lower Bracket')}
-            
-            {/* Grand Final */}
-            <div className="mb-8">
-              <h3 className="text-xl font-bold text-white mb-4">Grand Final</h3>
-              <div className="max-w-md">
-                {renderMatch(bracketState.grandFinal, 'Grand Final')}
+            {/* Group Stage */}
+            {bracketState.tournament.status === 'group_stage' && (
+              <div className="mb-8">
+                <h3 className="text-xl font-bold text-white mb-4">Group Stage</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {bracketState.groupStage.groups.map((group) => (
+                    <div key={group.id}>
+                      <h4 className="text-lg font-semibold text-gray-300 mb-4">{group.name}</h4>
+                      <div className="space-y-2">
+                        {group.matches.map((match) => renderGroupMatch(match, group.name))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
+
+            {/* Final Stage */}
+            {(bracketState.tournament.status === 'final_stage' || bracketState.groupStage.isCompleted) && (
+              <div className="mb-8">
+                <h3 className="text-xl font-bold text-white mb-4">Final Stage</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-300 mb-4">Semifinal</h4>
+                    {renderFinalMatch(bracketState.finalStage.semifinal, 'Semifinal')}
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-300 mb-4">Seed 2 Match</h4>
+                    {renderFinalMatch(bracketState.finalStage.seed2Match, 'Seed 2')}
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-300 mb-4">Seed 3 Match</h4>
+                    {renderFinalMatch(bracketState.finalStage.seed3Match, 'Seed 3')}
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-300 mb-4">Playoff</h4>
+                    {renderFinalMatch(bracketState.finalStage.playoffMatch, 'Playoff')}
+                  </div>
+                  <div className="lg:col-span-2 xl:col-span-2">
+                    <h4 className="text-lg font-semibold text-gray-300 mb-4">Grand Final</h4>
+                    {renderFinalMatch(bracketState.finalStage.grandFinal, 'Grand Final')}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
-        {/* Initialize Bracket Modal */}
+        {/* Initialize Tournament Modal */}
         {showInitializeModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-gray-900 border border-gray-700 rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto">
-              <h2 className="text-2xl font-bold text-white mb-4">Initialize Tournament Bracket</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">Initialize Tournament</h2>
               
               <div className="mb-6">
                 <p className="text-gray-300 mb-4">
-                  Select teams to participate in the tournament (4-8 teams required):
+                  Select teams to participate in the tournament (6-12 teams required):
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mb-6">
                   {teams.map(team => (
@@ -349,39 +483,39 @@ export default function AdminTournamentBracket() {
                   ))}
                 </div>
 
-                {/* Preview Bracket */}
-                {selectedTeams.length >= 4 && (
+                {/* Preview Groups */}
+                {selectedTeams.length >= 6 && (
                   <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-                    <h3 className="text-lg font-semibold text-white mb-4">Bracket Preview</h3>
+                    <h3 className="text-lg font-semibold text-white mb-4">Group Preview</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {Array.from({ length: Math.ceil(selectedTeams.length / 2) }, (_, i) => {
-                        const team1 = teams.find(t => t.id === selectedTeams[i * 2])
-                        const team2 = teams.find(t => t.id === selectedTeams[i * 2 + 1])
-                        return (
-                          <div key={i} className="bg-gray-700 rounded-lg p-3">
-                            <div className="text-sm text-gray-400 mb-2">Match {i + 1}</div>
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center space-x-2">
-                                {team1 && isTeam(team1) ? (
-                                  <Image src={team1.image} alt={team1.name} width={24} height={24} className="w-6 h-6 rounded object-cover" />
-                                ) : (
-                                  <div className="w-6 h-6 rounded bg-gray-600"></div>
-                                )}
-                                <span className="text-white text-sm">{team1 && isTeam(team1) ? team1.name : 'TBD'}</span>
+                      <div>
+                        <h4 className="text-md font-semibold text-gray-300 mb-2">Group A</h4>
+                        <div className="space-y-2">
+                          {selectedTeams.slice(0, Math.ceil(selectedTeams.length / 2)).map((teamId) => {
+                            const team = teams.find(t => t.id === teamId)
+                            return (
+                              <div key={teamId} className="flex items-center space-x-2 bg-gray-700 rounded-lg p-2">
+                                <Image src={team?.image || '/logo.png'} alt={team?.name || 'TBD'} width={24} height={24} className="w-6 h-6 rounded object-cover" />
+                                <span className="text-white text-sm">{team?.name || 'TBD'}</span>
                               </div>
-                              <span className="text-gray-400 text-sm">vs</span>
-                              <div className="flex items-center space-x-2">
-                                <span className="text-white text-sm">{team2 && isTeam(team2) ? team2.name : 'TBD'}</span>
-                                {team2 && isTeam(team2) ? (
-                                  <Image src={team2.image} alt={team2.name} width={24} height={24} className="w-6 h-6 rounded object-cover" />
-                                ) : (
-                                  <div className="w-6 h-6 rounded bg-gray-600"></div>
-                                )}
+                            )
+                          })}
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="text-md font-semibold text-gray-300 mb-2">Group B</h4>
+                        <div className="space-y-2">
+                          {selectedTeams.slice(Math.ceil(selectedTeams.length / 2)).map((teamId) => {
+                            const team = teams.find(t => t.id === teamId)
+                            return (
+                              <div key={teamId} className="flex items-center space-x-2 bg-gray-700 rounded-lg p-2">
+                                <Image src={team?.image || '/logo.png'} alt={team?.name || 'TBD'} width={24} height={24} className="w-6 h-6 rounded object-cover" />
+                                <span className="text-white text-sm">{team?.name || 'TBD'}</span>
                               </div>
-                            </div>
-                          </div>
-                        )
-                      })}
+                            )
+                          })}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -399,11 +533,11 @@ export default function AdminTournamentBracket() {
                     Cancel
                   </button>
                   <button
-                    onClick={handleInitializeBracket}
-                    disabled={updating || selectedTeams.length < 4}
+                    onClick={handleInitializeTournament}
+                    disabled={updating || selectedTeams.length < 6}
                     className="bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white px-4 py-2 rounded transition-colors"
                   >
-                    {updating ? 'Initializing...' : 'Initialize Bracket'}
+                    {updating ? 'Initializing...' : 'Initialize Tournament'}
                   </button>
                 </div>
               </div>
@@ -411,39 +545,39 @@ export default function AdminTournamentBracket() {
           </div>
         )}
 
-        {/* Update Match Result Modal */}
-        {showMatchModal && selectedMatch && (
+        {/* Update Group Match Result Modal */}
+        {showGroupMatchModal && selectedGroupMatch && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-gray-900 border border-gray-700 rounded-lg p-6 max-w-md w-full mx-4">
-              <h2 className="text-2xl font-bold text-white mb-4">Update Match Result</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">Update Group Match Result</h2>
               
               <div className="mb-4">
                 <p className="text-gray-300 mb-4">
-                  {isTeam(selectedMatch.team1) ? selectedMatch.team1.name : 'TBD'} vs {isTeam(selectedMatch.team2) ? selectedMatch.team2.name : 'TBD'}
+                  {selectedGroupMatch.team1.name} vs {selectedGroupMatch.team2.name}
                 </p>
-                <p className="text-gray-400 mb-4">Best of {selectedMatch.bestOf}</p>
+                <p className="text-gray-400 mb-4">Best of 3 Maps</p>
                 
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-white">{isTeam(selectedMatch.team1) ? selectedMatch.team1.name : 'TBD'}</span>
+                    <span className="text-white">{selectedGroupMatch.team1.name}</span>
                     <input
                       type="number"
                       min="0"
-                      max={selectedMatch.bestOf}
-                      value={matchScore.team1}
-                      onChange={(e) => setMatchScore(prev => ({ ...prev, team1: parseInt(e.target.value) || 0 }))}
+                      max="3"
+                      value={groupMatchScore.team1}
+                      onChange={(e) => setGroupMatchScore(prev => ({ ...prev, team1: parseInt(e.target.value) || 0 }))}
                       className="w-20 px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white text-center"
                     />
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-white">{isTeam(selectedMatch.team2) ? selectedMatch.team2.name : 'TBD'}</span>
+                    <span className="text-white">{selectedGroupMatch.team2.name}</span>
                     <input
                       type="number"
                       min="0"
-                      max={selectedMatch.bestOf}
-                      value={matchScore.team2}
-                      onChange={(e) => setMatchScore(prev => ({ ...prev, team2: parseInt(e.target.value) || 0 }))}
+                      max="3"
+                      value={groupMatchScore.team2}
+                      onChange={(e) => setGroupMatchScore(prev => ({ ...prev, team2: parseInt(e.target.value) || 0 }))}
                       className="w-20 px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white text-center"
                     />
                   </div>
@@ -460,37 +594,126 @@ export default function AdminTournamentBracket() {
                   </div>
                 </div>
 
-                {matchScore.team1 === matchScore.team2 && matchScore.team1 > 0 && (
+                {groupMatchScore.team1 === groupMatchScore.team2 && groupMatchScore.team1 > 0 && (
                   <p className="text-blue-400 text-sm mt-2">
-                    Match is tied - both teams have {matchScore.team1} wins
+                    Match is tied - both teams have {groupMatchScore.team1} map wins
                   </p>
                 )}
                 
-                {matchScore.team1 + matchScore.team2 > selectedMatch.bestOf && (
+                {groupMatchScore.team1 + groupMatchScore.team2 > 5 && (
                   <p className="text-red-400 text-sm mt-2">
-                    Total games cannot exceed {selectedMatch.bestOf} in a Best of {selectedMatch.bestOf} match
+                    Total maps cannot exceed 5 in a Best of 3 match
                   </p>
                 )}
                 
-                {Math.max(matchScore.team1, matchScore.team2) > Math.ceil(selectedMatch.bestOf / 2) && (
+                {Math.max(groupMatchScore.team1, groupMatchScore.team2) >= 2 && (
                   <p className="text-green-400 text-sm mt-2">
-                    {matchScore.team1 > matchScore.team2 ? isTeam(selectedMatch.team1) ? selectedMatch.team1.name : 'TBD' : isTeam(selectedMatch.team2) ? selectedMatch.team2.name : 'TBD'} wins the series!
+                    {groupMatchScore.team1 > groupMatchScore.team2 ? selectedGroupMatch.team1.name : selectedGroupMatch.team2.name} wins the match!
                   </p>
                 )}
               </div>
 
               <div className="flex justify-end space-x-4">
                 <button
-                  onClick={() => setShowMatchModal(false)}
+                  onClick={() => setShowGroupMatchModal(false)}
                   className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded transition-colors"
                 >
                   Cancel
                 </button>
                 <button
-                  onClick={handleUpdateMatch}
+                  onClick={handleUpdateGroupMatch}
                   disabled={updating || 
-                    (matchScore.team1 + matchScore.team2 > selectedMatch.bestOf) ||
-                    (Math.max(matchScore.team1, matchScore.team2) > Math.ceil(selectedMatch.bestOf / 2) && matchScore.team1 !== matchScore.team2)
+                    (groupMatchScore.team1 + groupMatchScore.team2 > 5)
+                  }
+                  className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-4 py-2 rounded transition-colors"
+                >
+                  {updating ? 'Updating...' : 'Update Result'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Update Final Match Result Modal */}
+        {showFinalMatchModal && selectedFinalMatch && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-gray-900 border border-gray-700 rounded-lg p-6 max-w-md w-full mx-4">
+              <h2 className="text-2xl font-bold text-white mb-4">Update Final Match Result</h2>
+              
+              <div className="mb-4">
+                <p className="text-gray-300 mb-4">
+                  {selectedFinalMatch.team1.name} vs {selectedFinalMatch.team2.name}
+                </p>
+                <p className="text-gray-400 mb-4">Best of 3</p>
+                
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-white">{selectedFinalMatch.team1.name}</span>
+                    <input
+                      type="number"
+                      min="0"
+                      max="3"
+                      value={finalMatchScore.team1}
+                      onChange={(e) => setFinalMatchScore(prev => ({ ...prev, team1: parseInt(e.target.value) || 0 }))}
+                      className="w-20 px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white text-center"
+                    />
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <span className="text-white">{selectedFinalMatch.team2.name}</span>
+                    <input
+                      type="number"
+                      min="0"
+                      max="3"
+                      value={finalMatchScore.team2}
+                      onChange={(e) => setFinalMatchScore(prev => ({ ...prev, team2: parseInt(e.target.value) || 0 }))}
+                      className="w-20 px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white text-center"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-300">Match Time</label>
+                    <input
+                      type="datetime-local"
+                      value={matchTime}
+                      onChange={(e) => setMatchTime(e.target.value)}
+                      className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+                      placeholder="Select match time"
+                    />
+                  </div>
+                </div>
+
+                {finalMatchScore.team1 === finalMatchScore.team2 && finalMatchScore.team1 > 0 && (
+                  <p className="text-blue-400 text-sm mt-2">
+                    Match is tied - both teams have {finalMatchScore.team1} wins
+                  </p>
+                )}
+                
+                {finalMatchScore.team1 + finalMatchScore.team2 > 3 && (
+                  <p className="text-red-400 text-sm mt-2">
+                    Total games cannot exceed 3 in a Best of 3 match
+                  </p>
+                )}
+                
+                {Math.max(finalMatchScore.team1, finalMatchScore.team2) >= 2 && (
+                  <p className="text-green-400 text-sm mt-2">
+                    {finalMatchScore.team1 > finalMatchScore.team2 ? selectedFinalMatch.team1.name : selectedFinalMatch.team2.name} wins the series!
+                  </p>
+                )}
+              </div>
+
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={() => setShowFinalMatchModal(false)}
+                  className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleUpdateFinalMatch}
+                  disabled={updating || 
+                    (finalMatchScore.team1 + finalMatchScore.team2 > 3) ||
+                    (Math.max(finalMatchScore.team1, finalMatchScore.team2) >= 2 && finalMatchScore.team1 !== finalMatchScore.team2)
                   }
                   className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-4 py-2 rounded transition-colors"
                 >

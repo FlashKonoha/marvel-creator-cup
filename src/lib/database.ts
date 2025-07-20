@@ -1,6 +1,7 @@
 import { getRedisClient } from './redis-pool'
 import draftStateJson from '../../data/draft-state.json'
-import tournamentBracketStateJson from '../../data/tournament-bracket-state.json'
+
+import type { TournamentState } from '../data/tournamentBracketData'
 
 // Database keys
 const DRAFT_STATE_KEY = 'draft-state'
@@ -45,6 +46,7 @@ export interface Match {
   completedTime: string | null
 }
 
+// Legacy tournament bracket state (for backward compatibility)
 export interface TournamentBracketState {
   tournament: {
     id: string
@@ -77,7 +79,84 @@ const defaultDraftData: DraftState = {
   players: draftStateJson.players
 }
 
-const defaultTournamentBracketData: TournamentBracketState = tournamentBracketStateJson as TournamentBracketState;
+// Default tournament state for the new format
+const defaultTournamentState: TournamentState = {
+  tournament: {
+    id: "marvel-creator-cup-2024",
+    name: "Marvel Creator Cup 2024",
+    status: "pending",
+    format: "Group Stage + Final Stage",
+    startDate: new Date().toISOString(),
+    lastUpdated: new Date().toISOString()
+  },
+  groupStage: {
+    isCompleted: false,
+    groups: []
+  },
+  finalStage: {
+    isCompleted: false,
+    semifinal: {
+      id: "semifinal",
+      title: "Seed 1A vs Seed 1B",
+      team1: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+      team2: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+      team1Score: 0,
+      team2Score: 0,
+      status: "pending",
+      scheduledTime: null,
+      completedTime: null,
+      stage: "semifinal"
+    },
+    seed2Match: {
+      id: "seed2-match",
+      title: "Seed 2A vs Seed 2B",
+      team1: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+      team2: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+      team1Score: 0,
+      team2Score: 0,
+      status: "pending",
+      scheduledTime: null,
+      completedTime: null,
+      stage: "seed2"
+    },
+    seed3Match: {
+      id: "seed3-match",
+      title: "Seed 3A vs Seed 3B",
+      team1: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+      team2: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+      team1Score: 0,
+      team2Score: 0,
+      status: "pending",
+      scheduledTime: null,
+      completedTime: null,
+      stage: "seed3"
+    },
+    playoffMatch: {
+      id: "playoff-match",
+      title: "Seed 2 Winner vs Seed 3 Winner",
+      team1: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+      team2: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+      team1Score: 0,
+      team2Score: 0,
+      status: "pending",
+      scheduledTime: null,
+      completedTime: null,
+      stage: "playoff"
+    },
+    grandFinal: {
+      id: "grand-final",
+      title: "Semifinal Winner vs Playoff Winner",
+      team1: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+      team2: { id: "tbd", name: "TBD", logo: "/logo.png", score: 0, isWinner: false, isLoser: false },
+      team1Score: 0,
+      team2Score: 0,
+      status: "pending",
+      scheduledTime: null,
+      completedTime: null,
+      stage: "grandfinal"
+    }
+  }
+}
 
 // Draft state operations
 export async function getDraftState(): Promise<DraftState> {
@@ -106,24 +185,27 @@ export async function setDraftState(state: DraftState): Promise<boolean> {
   }
 }
 
-// Tournament bracket state operations
-export async function getTournamentBracketState(): Promise<TournamentBracketState> {
+// Tournament bracket state operations (updated for new format)
+export async function getTournamentBracketState(): Promise<TournamentState> {
   try {
     const redis = await getRedisClient()
-    const data = await redis.get<TournamentBracketState>(TOURNAMENT_BRACKET_STATE_KEY)
-    return data || defaultTournamentBracketData
+    const data = await redis.get<TournamentState>(TOURNAMENT_BRACKET_STATE_KEY)
+    return data || defaultTournamentState
   } catch (error) {
     console.error('Error reading tournament bracket state from Redis:', error)
-    return defaultTournamentBracketData
+    return defaultTournamentState
   }
 }
 
-export async function setTournamentBracketState(state: TournamentBracketState): Promise<boolean> {
+export async function setTournamentBracketState(state: TournamentState): Promise<boolean> {
   try {
     const redis = await getRedisClient()
     const stateWithTimestamp = {
       ...state,
-      lastUpdated: new Date().toISOString()
+      tournament: {
+        ...state.tournament,
+        lastUpdated: new Date().toISOString()
+      }
     }
     await redis.set(TOURNAMENT_BRACKET_STATE_KEY, stateWithTimestamp)
     return true
@@ -146,7 +228,7 @@ export async function initializeDefaultData(): Promise<void> {
     }
     
     if (!bracketExists) {
-      await redis.set(TOURNAMENT_BRACKET_STATE_KEY, defaultTournamentBracketData)
+      await redis.set(TOURNAMENT_BRACKET_STATE_KEY, defaultTournamentState)
       console.log('Initialized default tournament bracket state')
     }
   } catch (error) {

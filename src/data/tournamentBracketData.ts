@@ -1,387 +1,372 @@
-export const tournamentBracketData = {
-  upperBracket: [
-    {
-      label: "Upper Quarterfinals",
-      matches: [
-        {
-          id: "498621",
-          title: "Xi Lai Gaming vs. Sentinels",
-          href: "/498621/xi-lai-gaming-vs-sentinels-valorant-masters-toronto-2025-ubqf",
-          team1: {
-            id: "13581",
-            name: "Xi Lai Gaming",
-            logo: "//owcdn.net/img/671742f863b9b.png",
+export interface Team {
+  id: string;
+  name: string;
+  logo: string;
+  score: number;
+  isWinner: boolean;
+  isLoser: boolean;
+}
+
+export interface GroupMatch {
+  id: string;
+  title: string;
+  team1: Team;
+  team2: Team;
+  team1MapWins: number;
+  team2MapWins: number;
+  status: 'pending' | 'completed' | 'ongoing';
+  scheduledTime: string | null;
+  completedTime: string | null;
+}
+
+export interface GroupStanding {
+  team: Team;
+  matchesPlayed: number;
+  mapWins: number;
+  mapLosses: number;
+  totalScore: number;
+  rank: number;
+}
+
+export interface Group {
+  id: string;
+  name: string;
+  teams: Team[];
+  matches: GroupMatch[];
+  standings: GroupStanding[];
+}
+
+export interface FinalMatch {
+  id: string;
+  title: string;
+  team1: Team;
+  team2: Team;
+  team1Score: number;
+  team2Score: number;
+  status: 'pending' | 'completed' | 'ongoing';
+  scheduledTime: string | null;
+  completedTime: string | null;
+  stage: 'semifinal' | 'seed2' | 'seed3' | 'playoff' | 'grandfinal';
+}
+
+export interface TournamentState {
+  tournament: {
+    id: string;
+    name: string;
+    status: 'pending' | 'group_stage' | 'final_stage' | 'completed';
+    format: string;
+    startDate: string;
+    lastUpdated: string;
+  };
+  groupStage: {
+    groups: Group[];
+    isCompleted: boolean;
+  };
+  finalStage: {
+    semifinal: FinalMatch;
+    seed2Match: FinalMatch;
+    seed3Match: FinalMatch;
+    playoffMatch: FinalMatch;
+    grandFinal: FinalMatch;
+    isCompleted: boolean;
+  };
+}
+
+// Sample data for the new tournament format
+export const tournamentBracketData: TournamentState = {
+  tournament: {
+    id: "marvel-creator-cup-2024",
+    name: "Marvel Creator Cup 2024",
+    status: "group_stage",
+    format: "Group Stage + Final Stage",
+    startDate: "2024-12-01T00:00:00Z",
+    lastUpdated: new Date().toISOString()
+  },
+  groupStage: {
+    isCompleted: false,
+    groups: [
+      {
+        id: "group-a",
+        name: "Group A",
+        teams: [
+          {
+            id: "team1",
+            name: "Team Alpha",
+            logo: "/logo.png",
             score: 0,
             isWinner: false,
-            isLoser: true
-          },
-          team2: {
-            id: "2",
-            name: "Sentinels",
-            logo: "//owcdn.net/img/62875027c8e06.png",
-            score: 2,
-            isWinner: true,
             isLoser: false
           },
-          time: "11:25 am PDT, Jun 13",
-          hasVideo: true,
-          lineDirection: "down" as const
-        },
-        {
-          id: "498622",
-          title: "G2 Esports vs. Paper Rex",
-          href: "/498622/g2-esports-vs-paper-rex-valorant-masters-toronto-2025-ubqf",
-          team1: {
-            id: "11058",
-            name: "G2 Esports",
-            logo: "//owcdn.net/img/633822848a741.png",
+          {
+            id: "team2", 
+            name: "Team Beta",
+            logo: "/logo.png",
             score: 0,
             isWinner: false,
-            isLoser: true
-          },
-          team2: {
-            id: "624",
-            name: "Paper Rex",
-            logo: "//owcdn.net/img/62bbeba74d5cb.png",
-            score: 2,
-            isWinner: true,
             isLoser: false
           },
-          time: "9:00 am PDT, Jun 13",
-          hasVideo: true,
-          lineDirection: "up" as const
-        },
-        {
-          id: "498623",
-          title: "Rex Regum Qeon vs. Wolves Esports",
-          href: "/498623/rex-regum-qeon-vs-wolves-esports-valorant-masters-toronto-2025-ubqf",
-          team1: {
-            id: "878",
-            name: "Rex Regum Qeon",
-            logo: "//owcdn.net/img/629f17f51e7a3.png",
+          {
+            id: "team3",
+            name: "Team Gamma", 
+            logo: "/logo.png",
             score: 0,
             isWinner: false,
-            isLoser: true
-          },
-          team2: {
-            id: "13790",
-            name: "Wolves Esports",
-            logo: "//owcdn.net/img/651d33f8e6a1f.png",
-            score: 2,
-            isWinner: true,
             isLoser: false
           },
-          time: "9:00 am PDT, Jun 14",
-          hasVideo: true,
-          lineDirection: "down" as const
-        },
-        {
-          id: "498624",
-          title: "FNATIC vs. Gen.G",
-          href: "/498624/fnatic-vs-gen-g-valorant-masters-toronto-2025-ubqf",
-          team1: {
-            id: "2593",
-            name: "FNATIC",
-            logo: "//owcdn.net/img/62a40cc2b5e29.png",
-            score: 1,
+          {
+            id: "team4",
+            name: "Team Delta",
+            logo: "/logo.png", 
+            score: 0,
             isWinner: false,
-            isLoser: true
+            isLoser: false
+          }
+        ],
+        matches: [
+          {
+            id: "group-a-match-1",
+            title: "Team Alpha vs Team Beta",
+            team1: {
+              id: "team1",
+              name: "Team Alpha",
+              logo: "/logo.png",
+              score: 0,
+              isWinner: false,
+              isLoser: false
+            },
+            team2: {
+              id: "team2",
+              name: "Team Beta", 
+              logo: "/logo.png",
+              score: 0,
+              isWinner: false,
+              isLoser: false
+            },
+            team1MapWins: 0,
+            team2MapWins: 0,
+            status: "pending",
+            scheduledTime: null,
+            completedTime: null
           },
-          team2: {
-            id: "17",
-            name: "Gen.G",
-            logo: "//owcdn.net/img/654cc858ea9f5.png",
-            score: 2,
-            isWinner: true,
+          {
+            id: "group-a-match-2",
+            title: "Team Gamma vs Team Delta",
+            team1: {
+              id: "team3",
+              name: "Team Gamma",
+              logo: "/logo.png",
+              score: 0,
+              isWinner: false,
+              isLoser: false
+            },
+            team2: {
+              id: "team4",
+              name: "Team Delta",
+              logo: "/logo.png",
+              score: 0,
+              isWinner: false,
+              isLoser: false
+            },
+            team1MapWins: 0,
+            team2MapWins: 0,
+            status: "pending",
+            scheduledTime: null,
+            completedTime: null
+          }
+          // More matches would be generated for round-robin
+        ],
+        standings: [
+          {
+            team: {
+              id: "team1",
+              name: "Team Alpha",
+              logo: "/logo.png",
+              score: 0,
+              isWinner: false,
+              isLoser: false
+            },
+            matchesPlayed: 0,
+            mapWins: 0,
+            mapLosses: 0,
+            totalScore: 0,
+            rank: 1
+          }
+          // More standings would be calculated
+        ]
+      },
+      {
+        id: "group-b",
+        name: "Group B", 
+        teams: [
+          {
+            id: "team5",
+            name: "Team Echo",
+            logo: "/logo.png",
+            score: 0,
+            isWinner: false,
             isLoser: false
           },
-          time: "11:30 am PDT, Jun 14",
-          hasVideo: true,
-          lineDirection: "up" as const,
-          isLast: true
-        }
-      ]
+          {
+            id: "team6",
+            name: "Team Foxtrot",
+            logo: "/logo.png",
+            score: 0,
+            isWinner: false,
+            isLoser: false
+          },
+          {
+            id: "team7",
+            name: "Team Golf",
+            logo: "/logo.png",
+            score: 0,
+            isWinner: false,
+            isLoser: false
+          },
+          {
+            id: "team8",
+            name: "Team Hotel",
+            logo: "/logo.png",
+            score: 0,
+            isWinner: false,
+            isLoser: false
+          }
+        ],
+        matches: [],
+        standings: []
+      }
+    ]
+  },
+  finalStage: {
+    isCompleted: false,
+    semifinal: {
+      id: "semifinal",
+      title: "Seed 1A vs Seed 1B",
+      team1: {
+        id: "tbd",
+        name: "TBD",
+        logo: "/logo.png",
+        score: 0,
+        isWinner: false,
+        isLoser: false
+      },
+      team2: {
+        id: "tbd",
+        name: "TBD", 
+        logo: "/logo.png",
+        score: 0,
+        isWinner: false,
+        isLoser: false
+      },
+      team1Score: 0,
+      team2Score: 0,
+      status: "pending",
+      scheduledTime: null,
+      completedTime: null,
+      stage: "semifinal"
     },
-    {
-      label: "Upper Semifinals",
-      matches: [
-        {
-          id: "498625",
-          title: "Sentinels vs. Paper Rex",
-          href: "/498625/sentinels-vs-paper-rex-valorant-masters-toronto-2025-ubsf",
-          team1: {
-            id: "2",
-            name: "Sentinels",
-            logo: "//owcdn.net/img/62875027c8e06.png",
-            score: 0,
-            isWinner: false,
-            isLoser: true
-          },
-          team2: {
-            id: "624",
-            name: "Paper Rex",
-            logo: "//owcdn.net/img/62bbeba74d5cb.png",
-            score: 2,
-            isWinner: true,
-            isLoser: false
-          },
-          time: "11:30 am PDT, Jun 16",
-          hasVideo: true,
-          lineDirection: "down" as const
-        },
-        {
-          id: "498626",
-          title: "Wolves Esports vs. Gen.G",
-          href: "/498626/wolves-esports-vs-gen-g-valorant-masters-toronto-2025-ubsf",
-          team1: {
-            id: "13790",
-            name: "Wolves Esports",
-            logo: "//owcdn.net/img/651d33f8e6a1f.png",
-            score: 2,
-            isWinner: true,
-            isLoser: false
-          },
-          team2: {
-            id: "17",
-            name: "Gen.G",
-            logo: "//owcdn.net/img/654cc858ea9f5.png",
-            score: 0,
-            isWinner: false,
-            isLoser: true
-          },
-          time: "9:00 am PDT, Jun 16",
-          hasVideo: true,
-          lineDirection: "up" as const,
-          isLast: true
-        }
-      ]
+    seed2Match: {
+      id: "seed2-match",
+      title: "Seed 2A vs Seed 2B",
+      team1: {
+        id: "tbd",
+        name: "TBD",
+        logo: "/logo.png",
+        score: 0,
+        isWinner: false,
+        isLoser: false
+      },
+      team2: {
+        id: "tbd",
+        name: "TBD",
+        logo: "/logo.png",
+        score: 0,
+        isWinner: false,
+        isLoser: false
+      },
+      team1Score: 0,
+      team2Score: 0,
+      status: "pending",
+      scheduledTime: null,
+      completedTime: null,
+      stage: "seed2"
     },
-    {
-      label: "Upper Final",
-      matches: [
-        {
-          id: "498627",
-          title: "Paper Rex vs. Wolves Esports",
-          href: "/498627/paper-rex-vs-wolves-esports-valorant-masters-toronto-2025-ubf",
-          team1: {
-            id: "624",
-            name: "Paper Rex",
-            logo: "//owcdn.net/img/62bbeba74d5cb.png",
-            score: 2,
-            isWinner: true,
-            isLoser: false
-          },
-          team2: {
-            id: "13790",
-            name: "Wolves Esports",
-            logo: "//owcdn.net/img/651d33f8e6a1f.png",
-            score: 0,
-            isWinner: false,
-            isLoser: true
-          },
-          time: "9:00 am PDT, Jun 20",
-          hasVideo: true,
-          isLast: true
-        }
-      ]
+    seed3Match: {
+      id: "seed3-match",
+      title: "Seed 3A vs Seed 3B",
+      team1: {
+        id: "tbd",
+        name: "TBD",
+        logo: "/logo.png",
+        score: 0,
+        isWinner: false,
+        isLoser: false
+      },
+      team2: {
+        id: "tbd",
+        name: "TBD",
+        logo: "/logo.png",
+        score: 0,
+        isWinner: false,
+        isLoser: false
+      },
+      team1Score: 0,
+      team2Score: 0,
+      status: "pending",
+      scheduledTime: null,
+      completedTime: null,
+      stage: "seed3"
     },
-    {
-      label: "Grand Final",
-      matches: [
-        {
-          id: "498628",
-          title: "Paper Rex vs. FNATIC",
-          href: "/498628/paper-rex-vs-fnatic-valorant-masters-toronto-2025-gf",
-          team1: {
-            id: "624",
-            name: "Paper Rex",
-            logo: "//owcdn.net/img/62bbeba74d5cb.png",
-            score: 3,
-            isWinner: true,
-            isLoser: false
-          },
-          team2: {
-            id: "2593",
-            name: "FNATIC",
-            logo: "//owcdn.net/img/62a40cc2b5e29.png",
-            score: 1,
-            isWinner: false,
-            isLoser: true
-          },
-          time: "10:15 am PDT, Jun 22",
-          hasVideo: true,
-          isLast: true
-        }
-      ]
+    playoffMatch: {
+      id: "playoff-match",
+      title: "Seed 2 Winner vs Seed 3 Winner",
+      team1: {
+        id: "tbd",
+        name: "TBD",
+        logo: "/logo.png",
+        score: 0,
+        isWinner: false,
+        isLoser: false
+      },
+      team2: {
+        id: "tbd",
+        name: "TBD",
+        logo: "/logo.png",
+        score: 0,
+        isWinner: false,
+        isLoser: false
+      },
+      team1Score: 0,
+      team2Score: 0,
+      status: "pending",
+      scheduledTime: null,
+      completedTime: null,
+      stage: "playoff"
+    },
+    grandFinal: {
+      id: "grand-final",
+      title: "Semifinal Winner vs Playoff Winner",
+      team1: {
+        id: "tbd",
+        name: "TBD",
+        logo: "/logo.png",
+        score: 0,
+        isWinner: false,
+        isLoser: false
+      },
+      team2: {
+        id: "tbd",
+        name: "TBD",
+        logo: "/logo.png",
+        score: 0,
+        isWinner: false,
+        isLoser: false
+      },
+      team1Score: 0,
+      team2Score: 0,
+      status: "pending",
+      scheduledTime: null,
+      completedTime: null,
+      stage: "grandfinal"
     }
-  ],
-  lowerBracket: [
-    {
-      label: "Lower Round 1",
-      matches: [
-        {
-          id: "498629",
-          title: "Xi Lai Gaming vs. G2 Esports",
-          href: "/498629/xi-lai-gaming-vs-g2-esports-valorant-masters-toronto-2025-lr1",
-          team1: {
-            id: "13581",
-            name: "Xi Lai Gaming",
-            logo: "//owcdn.net/img/671742f863b9b.png",
-            score: 0,
-            isWinner: false,
-            isLoser: true
-          },
-          team2: {
-            id: "11058",
-            name: "G2 Esports",
-            logo: "//owcdn.net/img/633822848a741.png",
-            score: 2,
-            isWinner: true,
-            isLoser: false
-          },
-          time: "9:00 am PDT, Jun 15",
-          hasVideo: true,
-          lineDirection: "up" as const
-        },
-        {
-          id: "498630",
-          title: "Rex Regum Qeon vs. FNATIC",
-          href: "/498630/rex-regum-qeon-vs-fnatic-valorant-masters-toronto-2025-lr1",
-          team1: {
-            id: "878",
-            name: "Rex Regum Qeon",
-            logo: "//owcdn.net/img/629f17f51e7a3.png",
-            score: 1,
-            isWinner: false,
-            isLoser: true
-          },
-          team2: {
-            id: "2593",
-            name: "FNATIC",
-            logo: "//owcdn.net/img/62a40cc2b5e29.png",
-            score: 2,
-            isWinner: true,
-            isLoser: false
-          },
-          time: "11:10 am PDT, Jun 15",
-          hasVideo: true,
-          lineDirection: "up" as const,
-          isLast: true
-        }
-      ]
-    },
-    {
-      label: "Lower Round 2",
-      matches: [
-        {
-          id: "498631",
-          title: "Gen.G vs. G2 Esports",
-          href: "/498631/gen-g-vs-g2-esports-valorant-masters-toronto-2025-lr2",
-          team1: {
-            id: "17",
-            name: "Gen.G",
-            logo: "//owcdn.net/img/654cc858ea9f5.png",
-            score: 1,
-            isWinner: false,
-            isLoser: true
-          },
-          team2: {
-            id: "11058",
-            name: "G2 Esports",
-            logo: "//owcdn.net/img/633822848a741.png",
-            score: 2,
-            isWinner: true,
-            isLoser: false
-          },
-          time: "9:00 am PDT, Jun 17",
-          hasVideo: true,
-          lineDirection: "down" as const
-        },
-        {
-          id: "498632",
-          title: "Sentinels vs. FNATIC",
-          href: "/498632/sentinels-vs-fnatic-valorant-masters-toronto-2025-lr2",
-          team1: {
-            id: "2",
-            name: "Sentinels",
-            logo: "//owcdn.net/img/62875027c8e06.png",
-            score: 1,
-            isWinner: false,
-            isLoser: true
-          },
-          team2: {
-            id: "2593",
-            name: "FNATIC",
-            logo: "//owcdn.net/img/62a40cc2b5e29.png",
-            score: 2,
-            isWinner: true,
-            isLoser: false
-          },
-          time: "12:35 pm PDT, Jun 17",
-          hasVideo: true,
-          lineDirection: "up" as const,
-          isLast: true
-        }
-      ]
-    },
-    {
-      label: "Lower Round 3",
-      matches: [
-        {
-          id: "498633",
-          title: "G2 Esports vs. FNATIC",
-          href: "/498633/g2-esports-vs-fnatic-valorant-masters-toronto-2025-lr3",
-          team1: {
-            id: "11058",
-            name: "G2 Esports",
-            logo: "//owcdn.net/img/633822848a741.png",
-            score: 0,
-            isWinner: false,
-            isLoser: true
-          },
-          team2: {
-            id: "2593",
-            name: "FNATIC",
-            logo: "//owcdn.net/img/62a40cc2b5e29.png",
-            score: 2,
-            isWinner: true,
-            isLoser: false
-          },
-          time: "11:40 am PDT, Jun 20",
-          hasVideo: true,
-          lineDirection: "up" as const,
-          isLast: true
-        }
-      ]
-    },
-    {
-      label: "Lower Final",
-      matches: [
-        {
-          id: "498634",
-          title: "Wolves Esports vs. FNATIC",
-          href: "/498634/wolves-esports-vs-fnatic-valorant-masters-toronto-2025-lbf",
-          team1: {
-            id: "13790",
-            name: "Wolves Esports",
-            logo: "//owcdn.net/img/651d33f8e6a1f.png",
-            score: 1,
-            isWinner: false,
-            isLoser: true
-          },
-          team2: {
-            id: "2593",
-            name: "FNATIC",
-            logo: "//owcdn.net/img/62a40cc2b5e29.png",
-            score: 3,
-            isWinner: true,
-            isLoser: false
-          },
-          time: "9:00 am PDT, Jun 21",
-          hasVideo: true,
-          isLast: true
-        }
-      ]
-    }
-  ]
+  }
 }; 

@@ -1,46 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-
-export interface TournamentMatch {
-  id: string
-  team1: unknown
-  team2: unknown
-  team1Score: number
-  team2Score: number
-  winner: unknown
-  loser: unknown
-  status: 'pending' | 'completed'
-  bestOf: number
-  scheduledTime: string | null
-  completedTime: string | null
-}
-
-export interface TournamentBracket {
-  upper: {
-    quarterfinals: TournamentMatch[]
-    semifinals: TournamentMatch[]
-    final: TournamentMatch[]
-  }
-  lower: {
-    round1: TournamentMatch[]
-    round2: TournamentMatch[]
-    round3: TournamentMatch[]
-    final: TournamentMatch[]
-  }
-}
-
-export interface TournamentState {
-  tournament: {
-    id: string
-    name: string
-    status: string
-    startDate: string
-    format: string
-    maxTeams: number
-  }
-  brackets: TournamentBracket
-  grandFinal: TournamentMatch
-  lastUpdated?: string
-}
+import type { TournamentState } from '../data/tournamentBracketData'
 
 export function useTournamentBracket() {
   const [bracketState, setBracketState] = useState<TournamentState | null>(null)
@@ -61,7 +20,7 @@ export function useTournamentBracket() {
       
       if (response.ok) {
         setBracketState(data)
-        lastUpdateRef.current = data.lastUpdated
+        lastUpdateRef.current = data.tournament.lastUpdated
         return true
       } else {
         setError(data.error || 'Failed to fetch bracket state')
@@ -88,7 +47,7 @@ export function useTournamentBracket() {
           if (tournamentResponse.ok) {
             const tournamentData = await tournamentResponse.json()
             setBracketState(tournamentData)
-            lastUpdateRef.current = tournamentData.lastUpdated
+            lastUpdateRef.current = tournamentData.tournament.lastUpdated
             console.log('Tournament state updated via polling')
           }
         }
@@ -133,7 +92,7 @@ export function useTournamentBracket() {
     }
   }, [startPolling, stopPolling])
 
-  const initializeBracket = async (teams: unknown[]) => {
+  const initializeTournament = async (teams: unknown[]) => {
     try {
       setUpdating(true)
       setError(null)
@@ -144,7 +103,7 @@ export function useTournamentBracket() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          action: 'initialize_bracket',
+          action: 'initialize_tournament',
           data: { teams }
         }),
       })
@@ -153,10 +112,10 @@ export function useTournamentBracket() {
       
       if (response.ok) {
         setBracketState(result.data)
-        lastUpdateRef.current = result.data.lastUpdated
+        lastUpdateRef.current = result.data.tournament.lastUpdated
         return { success: true }
       } else {
-        setError(result.error || 'Failed to initialize bracket')
+        setError(result.error || 'Failed to initialize tournament')
         return { success: false, error: result.error }
       }
     } catch {
@@ -168,7 +127,7 @@ export function useTournamentBracket() {
     }
   }
 
-  const updateMatchResult = async (matchId: string, team1Score: number, team2Score: number, matchTime?: string) => {
+  const updateGroupMatch = async (matchId: string, team1MapWins: number, team2MapWins: number, matchTime?: string) => {
     try {
       setUpdating(true)
       setError(null)
@@ -179,7 +138,42 @@ export function useTournamentBracket() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          action: 'update_match_result',
+          action: 'update_group_match',
+          data: { matchId, team1MapWins, team2MapWins, matchTime }
+        }),
+      })
+      
+      const result = await response.json()
+      
+      if (response.ok) {
+        setBracketState(result.data)
+        lastUpdateRef.current = result.data.tournament.lastUpdated
+        return { success: true }
+      } else {
+        setError(result.error || 'Failed to update group match')
+        return { success: false, error: result.error }
+      }
+    } catch {
+      const errorMsg = 'Network error. Please try again.'
+      setError(errorMsg)
+      return { success: false, error: errorMsg }
+    } finally {
+      setUpdating(false)
+    }
+  }
+
+  const updateFinalMatch = async (matchId: string, team1Score: number, team2Score: number, matchTime?: string) => {
+    try {
+      setUpdating(true)
+      setError(null)
+      
+      const response = await fetch('/api/tournament-bracket', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'update_final_match',
           data: { matchId, team1Score, team2Score, matchTime }
         }),
       })
@@ -188,10 +182,10 @@ export function useTournamentBracket() {
       
       if (response.ok) {
         setBracketState(result.data)
-        lastUpdateRef.current = result.data.lastUpdated
+        lastUpdateRef.current = result.data.tournament.lastUpdated
         return { success: true }
       } else {
-        setError(result.error || 'Failed to update match result')
+        setError(result.error || 'Failed to update final match')
         return { success: false, error: result.error }
       }
     } catch {
@@ -203,7 +197,7 @@ export function useTournamentBracket() {
     }
   }
 
-  const resetBracket = async () => {
+  const advanceToFinalStage = async () => {
     try {
       setUpdating(true)
       setError(null)
@@ -214,7 +208,7 @@ export function useTournamentBracket() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          action: 'reset_bracket'
+          action: 'advance_to_final_stage'
         }),
       })
       
@@ -222,10 +216,44 @@ export function useTournamentBracket() {
       
       if (response.ok) {
         setBracketState(result.data)
-        lastUpdateRef.current = result.data.lastUpdated
+        lastUpdateRef.current = result.data.tournament.lastUpdated
         return { success: true }
       } else {
-        setError(result.error || 'Failed to reset bracket')
+        setError(result.error || 'Failed to advance to final stage')
+        return { success: false, error: result.error }
+      }
+    } catch {
+      const errorMsg = 'Network error. Please try again.'
+      setError(errorMsg)
+      return { success: false, error: errorMsg }
+    } finally {
+      setUpdating(false)
+    }
+  }
+
+  const resetTournament = async () => {
+    try {
+      setUpdating(true)
+      setError(null)
+      
+      const response = await fetch('/api/tournament-bracket', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'reset_tournament'
+        }),
+      })
+      
+      const result = await response.json()
+      
+      if (response.ok) {
+        setBracketState(result.data)
+        lastUpdateRef.current = result.data.tournament.lastUpdated
+        return { success: true }
+      } else {
+        setError(result.error || 'Failed to reset tournament')
         return { success: false, error: result.error }
       }
     } catch {
@@ -244,8 +272,10 @@ export function useTournamentBracket() {
     updating,
     isConnected,
     fetchBracketState,
-    initializeBracket,
-    updateMatchResult,
-    resetBracket
+    initializeTournament,
+    updateGroupMatch,
+    updateFinalMatch,
+    advanceToFinalStage,
+    resetTournament
   }
 } 
