@@ -149,26 +149,6 @@ const FinalStage: React.FC<FinalStageProps> = ({
         </div>
       </div>
 
-      {/* Tournament Flow Diagram */}
-      <div className="mt-12">
-        <div className="glass-card rounded-lg p-6 depth-1">
-          <h3 className="text-xl font-bold text-white mb-6 text-center">Tournament Flow</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div className="space-y-2">
-              <div className="text-sm text-gray-400">Group Stage</div>
-              <div className="text-xs text-gray-500">Top 3 teams from each group advance</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-sm text-gray-400">Final Stage</div>
-              <div className="text-xs text-gray-500">Seed 1s → Semifinal<br/>Seed 2s & 3s → Playoff</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-sm text-gray-400">Grand Final</div>
-              <div className="text-xs text-gray-500">Semifinal winner vs Playoff winner</div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
