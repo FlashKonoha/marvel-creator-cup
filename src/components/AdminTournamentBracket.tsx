@@ -602,7 +602,7 @@ export default function AdminTournamentBracket() {
                 
                 {groupMatchScore.team1 + groupMatchScore.team2 > 5 && (
                   <p className="text-red-400 text-sm mt-2">
-                    Total maps cannot exceed 5 in a Best of 3 match
+                    Total maps cannot exceed 5 in a Best of 3(5) match
                   </p>
                 )}
                 
@@ -712,8 +712,7 @@ export default function AdminTournamentBracket() {
                 <button
                   onClick={handleUpdateFinalMatch}
                   disabled={updating || 
-                    (finalMatchScore.team1 + finalMatchScore.team2 > 3) ||
-                    (Math.max(finalMatchScore.team1, finalMatchScore.team2) >= 2 && finalMatchScore.team1 !== finalMatchScore.team2)
+                    (finalMatchScore.team1 + finalMatchScore.team2 > 5)
                   }
                   className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-4 py-2 rounded transition-colors"
                 >

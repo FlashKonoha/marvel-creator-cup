@@ -77,15 +77,20 @@ export default function TournamentBracketPage() {
           <GroupStage groups={bracketState.groupStage.groups} />
         )}
 
-        {/* Final Stage */}
+        {/* Final Stage - Show at top when tournament is in final stage */}
         {bracketState.tournament.status === 'final_stage' && (
-          <FinalStage 
-            semifinal={bracketState.finalStage.semifinal}
-            seed2Match={bracketState.finalStage.seed2Match}
-            seed3Match={bracketState.finalStage.seed3Match}
-            playoffMatch={bracketState.finalStage.playoffMatch}
-            grandFinal={bracketState.finalStage.grandFinal}
-          />
+          <>
+            <FinalStage 
+              semifinal={bracketState.finalStage.semifinal}
+              seed2Match={bracketState.finalStage.seed2Match}
+              seed3Match={bracketState.finalStage.seed3Match}
+              playoffMatch={bracketState.finalStage.playoffMatch}
+              grandFinal={bracketState.finalStage.grandFinal}
+            />
+            <div className="mt-12">
+              <GroupStage groups={bracketState.groupStage.groups} />
+            </div>
+          </>
         )}
 
         {/* Show both stages if group stage is completed but final stage hasn't started */}

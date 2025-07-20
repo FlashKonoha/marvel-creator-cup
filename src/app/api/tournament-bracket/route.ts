@@ -392,6 +392,12 @@ export async function POST(request: NextRequest) {
 
         if (allMatchesCompleted) {
           tournamentState.groupStage.isCompleted = true
+          
+          // Automatically populate final stage games when group stage is completed
+          if (tournamentState.tournament.status === 'group_stage') {
+            tournamentState = advanceTeamsToFinalStage(tournamentState)
+            tournamentState.tournament.status = 'final_stage'
+          }
         }
         break
 
