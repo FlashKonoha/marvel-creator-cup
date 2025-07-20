@@ -121,17 +121,18 @@
       "id": 7,
       "name": "Team G",
       "image": "/players/placeholder.png",
-      "captain": {
-        "id": 22,
-        "twitchName": "Simii",
-        "twitchImage": "/players/simii.webp",
-        "twitchLink": "https://www.twitch.tv/simii_exe",
-        "rank": "Eternity",
+      "captain": 
+      {
+        "id": 8,
+        "twitchName": "KirkCast",
+        "twitchImage": "/players/kirkcast.webp",
+        "twitchLink": "https://www.twitch.tv/kirkcast",
+        "rank": "Celestial 1",
         "preferredRole": [
-          "Duelist"
+          "Vanguard"
         ],
         "heroes": [
-          "Spiderman"
+          "Any Vanguard"
         ]
       },
       "players": []
@@ -229,19 +230,6 @@
       ],
       "heroes": [
         "Invis"
-      ]
-    },
-    {
-      "id": 8,
-      "twitchName": "KirkCast",
-      "twitchImage": "/players/kirkcast.webp",
-      "twitchLink": "https://www.twitch.tv/kirkcast",
-      "rank": "Celestial 1",
-      "preferredRole": [
-        "Vanguard"
-      ],
-      "heroes": [
-        "Any Vanguard"
       ]
     },
     {
@@ -390,6 +378,19 @@
       ],
       "heroes": [
         "Any strat except Cnd and Jeff"
+      ]
+    },
+    {
+      "id": 22,
+      "twitchName": "Simii",
+      "twitchImage": "/players/simii.webp",
+      "twitchLink": "https://www.twitch.tv/simii_exe",
+      "rank": "Eternity",
+      "preferredRole": [
+        "Duelist"
+      ],
+      "heroes": [
+        "Spiderman"
       ]
     },
     {
