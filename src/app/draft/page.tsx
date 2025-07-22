@@ -41,7 +41,7 @@ export default function DraftPage() {
   }
 
   // Calculate draft statistics
-  const totalPlayers = players.length
+  const totalPlayers = 40
   const draftedPlayers = teams.reduce((total, team) => total + team.players.length, 0)
   const remainingPlayers = totalPlayers - draftedPlayers
   const draftProgress = totalPlayers > 0 ? Math.round((draftedPlayers / totalPlayers) * 100) : 0
