@@ -31,6 +31,9 @@ export default function NavBar() {
               <Link href="/draft" className="text-gray-400 hover:text-white transition-colors">
                 Draft
               </Link>
+              <Link href="/sponsors" className="text-yellow-400 hover:text-white transition-colors font-bold animate-pulse">
+                Sponsors
+              </Link>
               <a 
                 href="https://www.twitch.tv/basimzb" 
                 target="_blank" 
@@ -84,6 +87,9 @@ export default function NavBar() {
             </Link>
             <Link href="/draft" className="text-gray-200 hover:text-white text-lg mb-6" onClick={() => setMobileMenuOpen(false)}>
               Draft
+            </Link>
+            <Link href="/sponsors" className="text-yellow-400 hover:text-white text-lg mb-6 font-bold animate-pulse" onClick={() => setMobileMenuOpen(false)}>
+              Sponsors
             </Link>
             <a 
               href="https://www.twitch.tv/basimzb" 

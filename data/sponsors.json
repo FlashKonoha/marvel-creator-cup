@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Stark Industries",
+    "image": "/logo.png",
+    "link": "https://starkindustries.com"
+  },
+  {
+    "name": "Oscorp",
+    "image": "/icon/icon.png",
+    "link": "https://oscorp.com"
+  },
+  {
+    "name": "Pym Technologies",
+    "image": "/public/icon/icon.png",
+    "link": "https://pymtech.com"
+  }
+] 

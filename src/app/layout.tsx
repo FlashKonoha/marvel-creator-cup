@@ -63,6 +63,9 @@ export default function RootLayout({
                   <Link href="/draft" className="block text-gray-400 hover:text-white transition-colors">
                     Draft
                   </Link>
+                  <Link href="/sponsors" className="block text-yellow-400 hover:text-white font-bold animate-pulse transition-colors">
+                    Sponsors
+                  </Link>
                 </div>
               </div>
               <div>
