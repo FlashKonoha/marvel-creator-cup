@@ -13,7 +13,7 @@ export default function SponsorsPage() {
           Sponsors
         </h1>
         {/* DSB Media Section - Minimal, Monotone, Large Logo with Solid Black Background */}
-        <section className="max-w-5xl mx-auto flex flex-col md:flex-row items-stretch gap-10 mb-16">
+        <section className="max-w-5xl mx-auto flex flex-col md:flex-row items-stretch gap-10 mb-16 md:mb-24">
           {/* Left: Large Logo with Solid Black Background */}
           <div className="flex-shrink-0 flex items-center justify-center md:justify-start w-full md:w-[340px] md:h-auto relative">
             <div className="w-full md:w-[340px] h-[180px] md:h-full flex items-center justify-center relative">
@@ -69,6 +69,31 @@ export default function SponsorsPage() {
             >
               Visit DSB Media
             </a>
+          </div>
+        </section>
+        {/* BasimZB Quote Section - Emphasized */}
+        <section className="w-screen relative left-1/2 right-1/2 -mx-[50vw] px-0 bg-white py-16 flex justify-center items-center md:mb-24">
+          <div className="w-full max-w-5xl mx-auto flex flex-col items-center px-4">
+            {/* Large quote icon */}
+            <svg className="w-16 h-16 md:w-24 md:h-24 text-gray-900 mb-8 self-start" fill="none" viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M16 32c0-8.837 7.163-16 16-16v8c-4.418 0-8 3.582-8 8h8v16H16V32zm24 0c0-8.837 7.163-16 16-16v8c-4.418 0-8 3.582-8 8h8v16H40V32z" fill="currentColor"/>
+            </svg>
+            <blockquote className="text-3xl md:text-5xl font-extrabold italic text-gray-700 mb-10 leading-tight text-left md:pl-5 max-w-5xl">
+              DSB Media has been instrumental in elevating the Marvel Creator Cup. Their support and expertise empower creators to reach new heights.
+            </blockquote>
+            <div className="flex items-center justify-start gap-4 mt-2 w-full md:pl-5">
+              <Image
+                src="/logo.png"
+                alt="BasimZB Logo"
+                width={48}
+                height={48}
+                className="rounded-full bg-black border border-gray-700"
+              />
+              <div className="text-left">
+                <span className="block text-xl font-bold text-gray-600">BasimZB</span>
+                <span className="block text-base text-gray-500">Host and Organizer, Marvel Creator Cup</span>
+              </div>
+            </div>
           </div>
         </section>
         {/* Production Partner Placeholder - Minimal */}
