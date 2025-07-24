@@ -2,8 +2,8 @@
   "teams": [
     {
       "id": 1,
-      "name": "Team A",
-      "image": "/players/placeholder.png",
+      "name": "Bubble Buddies",
+      "image": "/teams/bubblebuddies.png",
       "captain": {
         "id": 39,
         "twitchName": "CaptainCoach",
@@ -179,8 +179,8 @@
     },
     {
       "id": 3,
-      "name": "Team C",
-      "image": "/players/placeholder.png",
+      "name": "The Dayvengers",
+      "image": "/teams/thedayvengers.png",
       "captain": {
         "id": 4,
         "twitchName": "Day",

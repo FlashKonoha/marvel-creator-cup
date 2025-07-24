@@ -79,7 +79,7 @@ export default function SponsorsPage() {
               <path d="M16 32c0-8.837 7.163-16 16-16v8c-4.418 0-8 3.582-8 8h8v16H16V32zm24 0c0-8.837 7.163-16 16-16v8c-4.418 0-8 3.582-8 8h8v16H40V32z" fill="currentColor"/>
             </svg>
             <blockquote className="text-3xl md:text-5xl font-extrabold italic text-gray-700 mb-10 leading-tight text-left md:pl-5 max-w-5xl">
-              DSB Media has been instrumental in elevating the Marvel Creator Cup. Their support and expertise empower creators to reach new heights.
+              The Marvel Creator Cup was made possible through the generous financial support of DSB Media. Their commitment to empowering creators is deeply appreciated.
             </blockquote>
             <div className="flex items-center justify-start gap-4 mt-2 w-full md:pl-5">
               <Image
