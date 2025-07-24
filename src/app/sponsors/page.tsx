@@ -4,57 +4,91 @@ import Image from "next/image";
 import sponsors from "@/lib/sponsors";
 
 export default function SponsorsPage() {
+  const dsb = sponsors[0];
+  const partner = sponsors[1];
   return (
     <main className="min-h-screen bg-black bg-gradient-to-b from-black via-gray-900 to-gray-950 py-16 px-4 flex flex-col items-center">
       <div className="container mx-auto px-4">
-        <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-8 text-center leading-tight">
-          <span className="bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-500 bg-clip-text text-transparent drop-shadow-lg">
-            Sponsors
-          </span>
+        <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-12 md:mb-24 text-left leading-tight">
+          Sponsors
         </h1>
-        <div className="max-w-3xl mx-auto mb-16">
-          <div className="glass-card rounded-2xl depth-2 overflow-hidden flex flex-col items-center border-2 border-yellow-400/60 shadow-lg p-8">
-            <Image
-              src={sponsors[0].image}
-              alt={sponsors[0].name}
-              width={320}
-              height={120}
-              className="object-contain mb-6 drop-shadow-lg"
-              style={{ background: '#111' }}
-            />
-            <h2 className="text-3xl font-bold text-yellow-300 mb-2 text-center drop-shadow-lg">
-              {sponsors[0].name}
+        {/* DSB Media Section - Minimal, Monotone, Large Logo with Solid Black Background */}
+        <section className="max-w-5xl mx-auto flex flex-col md:flex-row items-stretch gap-10 mb-16">
+          {/* Left: Large Logo with Solid Black Background */}
+          <div className="flex-shrink-0 flex items-center justify-center md:justify-start w-full md:w-[340px] md:h-auto relative">
+            <div className="w-full md:w-[340px] h-[180px] md:h-full flex items-center justify-center relative">
+              {/* Solid black background */}
+              <div
+                className="absolute inset-0 z-0 pointer-events-none"
+                style={{ background: 'black' }}
+              />
+              <Image
+                src={dsb.image}
+                alt={dsb.name}
+                fill={false}
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="object-contain w-full h-full max-h-[340px] md:max-h-none md:h-full md:w-full z-10"
+                style={{ aspectRatio: '1/1', minHeight: '180px', minWidth: '180px' }}
+                priority
+              />
+            </div>
+          </div>
+          {/* Right: Description & Stats */}
+          <div className="flex-1 flex flex-col justify-center">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              {dsb.name}
             </h2>
-            <p className="text-lg text-gray-200 mb-4 text-center">
-              {sponsors[0].description}
+            <p className="text-lg text-gray-300 mb-8 leading-relaxed">
+              {dsb.description}
             </p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+              <div className="flex flex-col items-start">
+                <span className="text-2xl font-extrabold text-white">$2.2M+</span>
+                <span className="text-xs text-gray-500 uppercase tracking-wider">Earned for Creators</span>
+              </div>
+              <div className="flex flex-col items-start">
+                <span className="text-2xl font-extrabold text-white">1,500+</span>
+                <span className="text-xs text-gray-500 uppercase tracking-wider">Creators</span>
+              </div>
+              <div className="flex flex-col items-start">
+                <span className="text-2xl font-extrabold text-white">8.5M+</span>
+                <span className="text-xs text-gray-500 uppercase tracking-wider">Followers Gained</span>
+              </div>
+              <div className="flex flex-col items-start">
+                <span className="text-2xl font-extrabold text-white">10,000+</span>
+                <span className="text-xs text-gray-500 uppercase tracking-wider">Streams</span>
+              </div>
+            </div>
             <a
-              href={sponsors[0].link}
+              href={dsb.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block mt-2 px-6 py-2 bg-yellow-400 text-black font-bold rounded-full shadow-lg hover:bg-yellow-300 transition-colors"
+              className="inline-block mt-8 px-6 py-2 bg-white text-black font-semibold rounded shadow hover:bg-gray-200 transition-colors text-base"
             >
               Visit DSB Media
             </a>
           </div>
-        </div>
-        <div className="max-w-2xl mx-auto mt-12">
-          <div className="glass-card rounded-2xl overflow-hidden flex flex-col items-center border-2 border-white/10 shadow p-6 opacity-60">
+        </section>
+        {/* Production Partner Placeholder - Minimal */}
+        <section className="max-w-2xl mx-auto flex flex-col items-start mt-8">
+          <div className="flex items-center mb-2">
             <Image
-              src={sponsors[1].image}
-              alt={sponsors[1].name}
-              width={80}
-              height={80}
-              className="object-contain mb-4"
+              src={partner.image}
+              alt={partner.name}
+              width={40}
+              height={40}
+              className="object-contain mr-3 bg-[#111] rounded"
             />
-            <h3 className="text-xl font-semibold text-gray-300 mb-2 text-center">
-              {sponsors[1].name}
+            <h3 className="text-lg font-semibold text-gray-300">
+              {partner.name}
             </h3>
-            <p className="text-gray-400 text-center">
-              {sponsors[1].description}
-            </p>
           </div>
-        </div>
+          <p className="text-gray-500 text-base">
+            {partner.description}
+          </p>
+        </section>
       </div>
     </main>
   );
