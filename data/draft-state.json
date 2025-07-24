@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Bubble Buddies",
-      "image": "/teams/bubblebuddies.png",
+      "image": "/players/placeholder.png",
       "captain": {
         "id": 39,
         "twitchName": "CaptainCoach",
@@ -180,7 +180,7 @@
     {
       "id": 3,
       "name": "The Dayvengers",
-      "image": "/teams/thedayvengers.png",
+      "image": "/players/placeholder.png",
       "captain": {
         "id": 4,
         "twitchName": "Day",
