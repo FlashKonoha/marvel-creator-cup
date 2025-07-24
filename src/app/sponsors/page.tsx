@@ -12,36 +12,48 @@ export default function SponsorsPage() {
             Sponsors
           </span>
         </h1>
-        <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto text-center">
-          Huge thanks to our amazing sponsors for making the Marvel Creator Cup possible!
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 w-full max-w-6xl mx-auto">
-          {sponsors.map((sponsor) => (
+        <div className="max-w-3xl mx-auto mb-16">
+          <div className="glass-card rounded-2xl depth-2 overflow-hidden flex flex-col items-center border-2 border-yellow-400/60 shadow-lg p-8">
+            <Image
+              src={sponsors[0].image}
+              alt={sponsors[0].name}
+              width={320}
+              height={120}
+              className="object-contain mb-6 drop-shadow-lg"
+              style={{ background: '#111' }}
+            />
+            <h2 className="text-3xl font-bold text-yellow-300 mb-2 text-center drop-shadow-lg">
+              {sponsors[0].name}
+            </h2>
+            <p className="text-lg text-gray-200 mb-4 text-center">
+              {sponsors[0].description}
+            </p>
             <a
-              key={sponsor.name}
-              href={sponsor.link}
+              href={sponsors[0].link}
               target="_blank"
               rel="noopener noreferrer"
-              className="glass-card rounded-2xl depth-2 p-8 flex flex-col items-center group transition-all duration-300 hover:scale-105 hover:border-yellow-400/60 border-2 border-white/10 shadow-lg hover:shadow-yellow-400/20 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="inline-block mt-2 px-6 py-2 bg-yellow-400 text-black font-bold rounded-full shadow-lg hover:bg-yellow-300 transition-colors"
             >
-              <div className="relative mb-6">
-                <Image
-                  src={sponsor.image}
-                  alt={sponsor.name}
-                  width={120}
-                  height={120}
-                  className="rounded-full border-4 border-yellow-400 shadow-xl bg-white/80 object-cover"
-                />
-                <div className="absolute -inset-2 rounded-full pointer-events-none animate-pulse group-hover:animate-none group-hover:shadow-yellow-400/40" style={{boxShadow: '0 0 32px 8px #fde04733'}} />
-              </div>
-              <h2 className="text-2xl font-bold text-white mb-2 drop-shadow-lg group-hover:text-yellow-300 transition-colors duration-200 text-center">
-                {sponsor.name}
-              </h2>
-              <span className="inline-block px-4 py-2 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-500 text-black font-semibold rounded-full text-sm shadow-md group-hover:bg-yellow-400 group-hover:text-purple-900 transition-colors duration-200 mt-2">
-                Visit Website
-              </span>
+              Visit DSB Media
             </a>
-          ))}
+          </div>
+        </div>
+        <div className="max-w-2xl mx-auto mt-12">
+          <div className="glass-card rounded-2xl overflow-hidden flex flex-col items-center border-2 border-white/10 shadow p-6 opacity-60">
+            <Image
+              src={sponsors[1].image}
+              alt={sponsors[1].name}
+              width={80}
+              height={80}
+              className="object-contain mb-4"
+            />
+            <h3 className="text-xl font-semibold text-gray-300 mb-2 text-center">
+              {sponsors[1].name}
+            </h3>
+            <p className="text-gray-400 text-center">
+              {sponsors[1].description}
+            </p>
+          </div>
         </div>
       </div>
     </main>

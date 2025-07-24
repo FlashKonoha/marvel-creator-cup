@@ -86,6 +86,12 @@ export default function RootLayout({
               </div>
             </div>
             <div className="border-t border-white/10 mt-8 pt-8 text-center">
+              <p className="text-gray-400 text-sm mb-2">
+                Headline Sponsor: <a href="https://www.dsbagency.com/" target="_blank" rel="noopener noreferrer" className="text-yellow-400 font-bold hover:underline">DSB Media</a> — Management for creators, built by creators.
+              </p>
+              <p className="text-gray-400 text-sm mb-2">
+                <span className="italic">Production Partner: [Coming Soon]</span>
+              </p>
               <p className="text-gray-400 text-sm">
                 © 2025 Marvel Creator Cup. All rights reserved.
               </p>
