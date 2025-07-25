@@ -477,7 +477,7 @@ export default function AdminTournamentBracket() {
                         onChange={() => handleTeamSelection(team.id)}
                         className="rounded border-gray-600 bg-gray-700 text-blue-600 focus:ring-blue-500"
                       />
-                      <Image src={team.image} alt={team.name} width={32} height={32} className="w-8 h-8 rounded object-cover" />
+                      <Image src={team.logo} alt={team.name} width={32} height={32} className="w-8 h-8 rounded object-cover" />
                       <span className="text-white">{team.name}</span>
                     </label>
                   ))}
@@ -495,7 +495,7 @@ export default function AdminTournamentBracket() {
                             const team = teams.find(t => t.id === teamId)
                             return (
                               <div key={teamId} className="flex items-center space-x-2 bg-gray-700 rounded-lg p-2">
-                                <Image src={team?.image || '/logo.png'} alt={team?.name || 'TBD'} width={24} height={24} className="w-6 h-6 rounded object-cover" />
+                                <Image src={team?.logo || '/logo.png'} alt={team?.name || 'TBD'} width={24} height={24} className="w-6 h-6 rounded object-cover" />
                                 <span className="text-white text-sm">{team?.name || 'TBD'}</span>
                               </div>
                             )
@@ -509,7 +509,7 @@ export default function AdminTournamentBracket() {
                             const team = teams.find(t => t.id === teamId)
                             return (
                               <div key={teamId} className="flex items-center space-x-2 bg-gray-700 rounded-lg p-2">
-                                <Image src={team?.image || '/logo.png'} alt={team?.name || 'TBD'} width={24} height={24} className="w-6 h-6 rounded object-cover" />
+                                <Image src={team?.logo || '/logo.png'} alt={team?.name || 'TBD'} width={24} height={24} className="w-6 h-6 rounded object-cover" />
                                 <span className="text-white text-sm">{team?.name || 'TBD'}</span>
                               </div>
                             )

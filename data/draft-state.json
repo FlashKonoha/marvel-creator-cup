@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Bubble Buddies",
-      "image": "/players/placeholder.png",
+      "logo": "/players/placeholder.png",
       "captain": {
         "id": 39,
         "twitchName": "CaptainCoach",
@@ -91,7 +91,7 @@
     {
       "id": 2,
       "name": "Team B",
-      "image": "/players/placeholder.png",
+      "logo": "/players/placeholder.png",
       "captain": {
         "id": 38,
         "twitchName": "Cece",
@@ -180,7 +180,7 @@
     {
       "id": 3,
       "name": "The Dayvengers",
-      "image": "/players/placeholder.png",
+      "logo": "/players/placeholder.png",
       "captain": {
         "id": 4,
         "twitchName": "Day",
@@ -267,7 +267,7 @@
     {
       "id": 4,
       "name": "Team D",
-      "image": "/players/placeholder.png",
+      "logo": "/players/placeholder.png",
       "captain": {
         "id": 7,
         "twitchName": "GragAlbert",
@@ -360,7 +360,7 @@
     {
       "id": 5,
       "name": "Team E",
-      "image": "/players/placeholder.png",
+      "logo": "/players/placeholder.png",
       "captain": {
         "id": 10,
         "twitchName": "Luckyzeal",
@@ -447,7 +447,7 @@
     {
       "id": 6,
       "name": "Team F",
-      "image": "/players/placeholder.png",
+      "logo": "/players/placeholder.png",
       "captain": {
         "id": 21,
         "twitchName": "Sekkuun",
@@ -540,7 +540,7 @@
     {
       "id": 7,
       "name": "Team G",
-      "image": "/players/placeholder.png",
+      "logo": "/players/placeholder.png",
       "captain": {
         "id": 8,
         "twitchName": "KirkCast",
@@ -626,7 +626,7 @@
     {
       "id": 8,
       "name": "Team H",
-      "image": "/players/placeholder.png",
+      "logo": "/players/placeholder.png",
       "captain": {
         "id": 25,
         "twitchName": "Warden",

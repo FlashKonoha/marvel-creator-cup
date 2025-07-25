@@ -3,7 +3,7 @@ import { useDraftState } from './useDraftState'
 export interface Team {
   id: number
   name: string
-  image: string
+  logo: string
   captain: {
     id: number
     twitchName: string
