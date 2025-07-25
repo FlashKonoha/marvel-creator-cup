@@ -53,7 +53,7 @@ export function createTournamentBracket(teams: Team[]): {
         team1: {
           id: team1.id.toString(),
           name: team1.name,
-          logo: team1.image,
+          logo: team1.logo,
           score: 0,
           isWinner: false,
           isLoser: false
@@ -61,7 +61,7 @@ export function createTournamentBracket(teams: Team[]): {
         team2: {
           id: team2.id.toString(),
           name: team2.name,
-          logo: team2.image,
+          logo: team2.logo,
           score: 0,
           isWinner: false,
           isLoser: false
