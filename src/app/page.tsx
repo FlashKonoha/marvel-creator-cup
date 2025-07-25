@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black">
       {/* Hero Section */}
-      <section className="relative overflow-hidden h-[180svh] flex items-start pt-50 md:-mb-360">
+      <section className="relative overflow-hidden h-[100svh] md:h-[180svh] flex items-start pt-50 md:-mb-360">
         {/* Smooth gradient background */}
         <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 via-gray-800 to-gray-900 to-transparent h-[100%]"></div>
         

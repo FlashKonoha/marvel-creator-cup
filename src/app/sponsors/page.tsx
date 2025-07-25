@@ -72,7 +72,7 @@ export default function SponsorsPage() {
           </div>
         </section>
         {/* BasimZB Quote Section - Emphasized */}
-        <section className="w-screen relative left-1/2 right-1/2 -mx-[50vw] px-0 bg-white py-16 flex justify-center items-center md:mb-24">
+        <section className="w-screen relative left-1/2 right-1/2 -mx-[50vw] px-0 bg-white py-16 flex justify-center items-center mb-16 md:mb-24">
           <div className="w-full max-w-5xl mx-auto flex flex-col items-center px-4">
             {/* Large quote icon */}
             <svg className="w-16 h-16 md:w-24 md:h-24 text-gray-900 mb-8 self-start" fill="none" viewBox="0 0 64 64" aria-hidden="true">
