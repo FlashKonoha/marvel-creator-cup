@@ -121,14 +121,28 @@ export default function TournamentInfo() {
               </div>
 
               <div className="border-l-4 border-white/30 pl-4">
-                <h3 className="text-white font-semibold mb-2">Tournament Format</h3>
+                <h3 className="text-white font-semibold mb-2">Tournament Format: Group Stage</h3>
                 <ul className="space-y-2 text-sm">
-                  <li>• Group Stage followed by top 3 seeds advancing to Final Stage</li>
-                  <li>• All matches are Best of 3 (Bo3)</li>
-                  <li>• Grand Finals: Best of 5 (Bo5)</li>
-                  <li>• 6-8 teams with 6 players each (including team captain)</li>
-                  <li>• Team captains draft their players one week before tournament</li>
-                  <li>• 6v6 game mode with no pick/bans - free hero selection</li>
+                  <li>• 2 groups of 4 teams play in a round robin format</li>
+                  <li>• Each match is 3 maps, each win is 1 point</li>
+                  <li>• Map Order: Domination, Convoy, Convergence</li>
+                  <li>• Top 3 teams from each group advance to the final stage</li>
+                </ul>
+              </div>
+
+              <div className="border-l-4 border-white/30 pl-4">
+                <h3 className="text-white font-semibold mb-2">Tournament Format: Final Stage</h3>
+                <ul className="space-y-2 text-sm">
+                  <li>• Seed 1s from groups advance to the semifinal in a Best of 3 games</li>
+                  <li>• Seed 2 and 3 would battle each other in single elimination games in Best of 3 games</li>
+                  <li>• Winners of seed 2 and 3 then battle each other in a Best of 3 games to determine the playoff winner</li>
+                </ul>
+              </div>
+
+              <div className="border-l-4 border-white/30 pl-4">
+                <h3 className="text-white font-semibold mb-2">Tournament Format: Grand Finals</h3>
+                <ul className="space-y-2 text-sm">
+                  <li>• Semifinal winner vs Playoff winner in a Best of 5 games</li>
                 </ul>
               </div>
 
@@ -138,6 +152,7 @@ export default function TournamentInfo() {
                   <li>• No pick/bans system - players choose any hero freely</li>
                   <li>• All players can select their preferred heroes</li>
                   <li>• No hero restrictions or limitations</li>
+                  <li>• <b><u>Wolverene is banned</u></b></li>
                   <li>• Map selection: Random or mutual agreement</li>
                   <li>• No intentional disconnections or game throwing</li>
                 </ul>

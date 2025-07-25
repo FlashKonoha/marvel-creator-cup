@@ -79,15 +79,24 @@ export default function TournamentBracketPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
             <div className="space-y-2">
               <div className="text-sm text-gray-400">Group Stage</div>
-              <div className="text-xs text-gray-500">Top 3 teams from each group advance</div>
+              <div className="text-xs text-gray-500 flex flex-col items-center">
+                <p>2 groups of 4 teams play in a round robin format</p>
+                <p>Each match is 3 maps, each win is 1 point</p>
+                <p>Map Order: Domination, Convoy, Convergence</p>
+                <p>Top 3 teams from each group advance to the final stage</p>
+              </div>
             </div>
             <div className="space-y-2">
               <div className="text-sm text-gray-400">Final Stage</div>
-              <div className="text-xs text-gray-500">Seed 1s → Semifinal<br/>Seed 2s & 3s → Playoff</div>
+              <div className="text-xs text-gray-500 flex flex-col items-center">
+                <p>Seed 1s from groups advance to the semifinal in a Best of 3 games</p>
+                <p>Seed 2 and 3 would battle each other in single elimination games in Best of 3 games</p>
+                <p>Winners of seed 2 and 3 then battle each other in a Best of 3 games to determine the playoff winner</p>
+              </div>
             </div>
             <div className="space-y-2">
               <div className="text-sm text-gray-400">Grand Final</div>
-              <div className="text-xs text-gray-500">Semifinal winner vs Playoff winner</div>
+              <div className="text-xs text-gray-500">Semifinal winner vs Playoff winner in a Best of 5 games</div>
             </div>
           </div>
         </div>
