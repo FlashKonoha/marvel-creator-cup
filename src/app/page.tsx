@@ -9,12 +9,12 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black">
       {/* Hero Section */}
-      <section className="relative overflow-hidden h-[100svh] md:h-[180svh] flex items-start pt-50 md:-mb-360">
+      <section className="relative overflow-hidden min-h-[900px] max-h-[1900px] h-screen flex items-start pt-50">
         {/* Smooth gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 via-gray-800 to-gray-900 to-transparent h-[100%]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 via-gray-800 to-gray-900 to-transparent h-full"></div>
         
         {/* Subtle radial overlay for depth */}
-        <div className="absolute inset-0 bg-radial-gradient from-white/5 via-transparent to-transparent h-[100%]"></div>
+        <div className="absolute inset-0 bg-radial-gradient from-white/5 via-transparent to-transparent h-full"></div>
         
         <div className="relative container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto">
@@ -52,7 +52,7 @@ export default function Home() {
       </section>
 
       {/* Tournament Details */}
-      <section className="relative pt-40 -mt-150 md:-mt-240">
+      <section className="relative pt-40 md:-mt-[40svh]">
         <div className="w-full bg-white text-black py-20">
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-3 gap-20 lg:gap-40 items-center">
