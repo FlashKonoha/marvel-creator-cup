@@ -105,15 +105,9 @@ export default function Home() {
             <div className="glass-card p-6 rounded-lg depth-2">
               <div className="text-center">
                 <h3 className="text-2xl font-bold text-white mb-4">Tournament in Progress</h3>
-                <p className="text-gray-300 mb-6">
-                  The tournament is currently in the {bracketState.tournament.status === 'group_stage' ? 'group stage' : 'final stage'}.
-                </p>
-                <Link 
-                  href="/tournament-bracket" 
-                  className="glass-button text-white px-6 py-3 rounded-lg font-semibold"
-                >
+                <a href="https://challonge.com/BasimZBCreatorCup" target="_blank" rel="noopener noreferrer" className="glass-button text-white px-6 py-3 rounded-lg font-semibold"> 
                   View Live Bracket
-                </Link>
+                </a>
               </div>
             </div>
           )}
@@ -138,12 +132,9 @@ export default function Home() {
           )}
           
           <div className="text-center mt-22">
-            <Link 
-              href="/tournament-bracket" 
-              className="glass-button text-white px-8 py-4 rounded-lg font-semibold text-lg"
-            >
+            <a href="https://challonge.com/BasimZBCreatorCup" target="_blank" rel="noopener noreferrer" className="glass-button text-white px-6 py-3 rounded-lg font-semibold"> 
               View Full Bracket
-            </Link>
+            </a>
           </div>
         </div>
       </section>

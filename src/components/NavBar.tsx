@@ -25,9 +25,9 @@ export default function NavBar() {
               <Link href="/tournament-info" className="text-gray-400 hover:text-white transition-colors">
                 Tournament Info
               </Link>
-              <Link href="/tournament-bracket" className="text-gray-400 hover:text-white transition-colors">
+              <a href="https://challonge.com/BasimZBCreatorCup" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                 Bracket
-              </Link>
+              </a>
               <Link href="/draft" className="text-gray-400 hover:text-white transition-colors">
                 Draft
               </Link>
@@ -82,9 +82,9 @@ export default function NavBar() {
             <Link href="/tournament-info" className="text-gray-200 hover:text-white text-lg mb-6" onClick={() => setMobileMenuOpen(false)}>
               Tournament Info
             </Link>
-            <Link href="/tournament-bracket" className="text-gray-200 hover:text-white text-lg mb-6" onClick={() => setMobileMenuOpen(false)}>
+            <a href="https://challonge.com/BasimZBCreatorCup" target="_blank" rel="noopener noreferrer" className="text-gray-200 hover:text-white text-lg mb-6">
               Bracket
-            </Link>
+            </a>
             <Link href="/draft" className="text-gray-200 hover:text-white text-lg mb-6" onClick={() => setMobileMenuOpen(false)}>
               Draft
             </Link>

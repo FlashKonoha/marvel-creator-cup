@@ -135,14 +135,17 @@ export default function TournamentInfo() {
                 <ul className="space-y-2 text-sm">
                   <li>• Seed 1s from groups advance to the semifinal in a Best of 3 games</li>
                   <li>• Seed 2 and 3 would battle each other in single elimination games in Best of 3 games</li>
-                  <li>• Winners of seed 2 and 3 then battle each other in a Best of 3 games to determine the playoff winner</li>
+                  <li>• Seed 2 Group A vs. Seed 3 Group B and Seed 2 Group B vs. Seed 3 Group A</li>
+                  <li>• Winners of seed 2 and 3 then battle Seed 1 in a Best of 3 games</li>
+                  <li>• Seed 2 Group B vs. Seed 3 Group A winner takes on See 1 of Group A in a Best of 3 games</li>
+                  <li>• Seed 2 Group A vs. Seed 3 Group B winner takes on See 1 of Group B in a Best of 3 games</li>
                 </ul>
               </div>
 
               <div className="border-l-4 border-white/30 pl-4">
                 <h3 className="text-white font-semibold mb-2">Tournament Format: Grand Finals</h3>
                 <ul className="space-y-2 text-sm">
-                  <li>• Semifinal winner vs Playoff winner in a Best of 5 games</li>
+                  <li>• Semifinal winners battle each other in a Best of 5 games for the grand finals</li>
                 </ul>
               </div>
 
@@ -183,19 +186,7 @@ export default function TournamentInfo() {
               </div>
               <div className="flex items-center gap-4 p-4 bg-black/20 rounded border border-white/10">
                 <div className="text-white font-bold">6:00 PM EST</div>
-                <div className="text-white">Tournament Begins - Winners Bracket Round 1</div>
-              </div>
-              <div className="flex items-center gap-4 p-4 bg-black/20 rounded border border-white/10">
-                <div className="text-white font-bold">7:00 PM EST</div>
-                <div className="text-white">Losers Bracket Begins</div>
-              </div>
-              <div className="flex items-center gap-4 p-4 bg-black/20 rounded border border-white/10">
-                <div className="text-white font-bold">8:30 PM EST</div>
-                <div className="text-white">Semi Finals (Both Brackets)</div>
-              </div>
-              <div className="flex items-center gap-4 p-4 bg-black/20 rounded border border-white/10">
-                <div className="text-white font-bold">9:30 PM EST</div>
-                <div className="text-white">Grand Finals & Prize Ceremony</div>
+                <div className="text-white">Tournament Begins - Group Stage</div>
               </div>
             </div>
           </div>

@@ -57,9 +57,9 @@ export default function RootLayout({
                   <Link href="/tournament-info" className="block text-gray-400 hover:text-white transition-colors">
                     Tournament Info
                   </Link>
-                  <Link href="/tournament-bracket" className="block text-gray-400 hover:text-white transition-colors">
+                  <a href="https://challonge.com/BasimZBCreatorCup" target="_blank" rel="noopener noreferrer" className="block text-gray-400 hover:text-white transition-colors">
                     Bracket
-                  </Link>
+                  </a>
                   <Link href="/draft" className="block text-gray-400 hover:text-white transition-colors">
                     Draft
                   </Link>
