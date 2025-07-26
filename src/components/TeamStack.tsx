@@ -17,7 +17,7 @@ interface Player {
 interface Team {
   id: number
   name: string
-  image: string
+  logo: string
   captain: Player
   players: Player[]
 }
@@ -42,7 +42,7 @@ export default function TeamStack({ team, onRemovePlayer }: TeamStackProps) {
     <div className="glass-card rounded-lg p-6 depth-2">
       <div className="text-center mb-6">
         <Image 
-          src={team.image} 
+          src={team.logo} 
           alt={team.name}
           width={80}
           height={80}
