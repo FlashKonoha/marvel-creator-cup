@@ -266,7 +266,7 @@
     },
     {
       "id": 4,
-      "name": "Team D",
+      "name": "Gamrss",
       "logo": "/players/placeholder.png",
       "captain": {
         "id": 7,
@@ -359,7 +359,7 @@
     },
     {
       "id": 5,
-      "name": "Team E",
+      "name": "Lucky Charms",
       "logo": "/players/placeholder.png",
       "captain": {
         "id": 10,
@@ -446,7 +446,7 @@
     },
     {
       "id": 6,
-      "name": "Team F",
+      "name": "Bombastic 6",
       "logo": "/players/placeholder.png",
       "captain": {
         "id": 21,
@@ -625,7 +625,7 @@
     },
     {
       "id": 8,
-      "name": "Team H",
+      "name": "Huge",
       "logo": "/players/placeholder.png",
       "captain": {
         "id": 25,
