@@ -18,7 +18,7 @@ interface Player {
 interface Team {
   id: number
   name: string
-  image: string
+  logo: string
   captain: Player
   players: Player[]
 }
@@ -209,7 +209,7 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center space-x-3">
                       <Image 
-                        src={team.image} 
+                        src={team.logo} 
                         alt={team.name}
                         width={48}
                         height={48}
@@ -389,7 +389,7 @@ export default function AdminDraft({ teams, players, onStateChange }: AdminDraft
                   <input
                     type="url"
                     name="teamImage"
-                    defaultValue={editingTeam.image}
+                    defaultValue={editingTeam.logo}
                     className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
                     required
                   />

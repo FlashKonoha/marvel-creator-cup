@@ -9,7 +9,7 @@ interface DraftState {
   teams: Array<{
     id: number
     name: string
-    image: string
+    logo: string
     captain: {
       id: number
       twitchName: string

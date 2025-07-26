@@ -125,7 +125,7 @@ interface Player {
 interface Team {
   id: number
   name: string
-  image: string
+  logo: string
   captain: Player
   players: Player[]
 } 
